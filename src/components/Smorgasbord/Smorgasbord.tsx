@@ -13,6 +13,11 @@ interface SmorgasbordProps {
   onElementRightClick: (uuid: string) => void;
 }
 
+// Touch devices have no right-click: holding the finger still opens the context overlay.
+const LONG_PRESS_MS = 500;
+// A pending long press is cancelled as soon as the finger moves this far (rotation starts).
+const DRAG_THRESHOLD_PX = 10;
+
 // Pick a readable text color (black or white) for a given fill color.
 const textColorFor = (fill: string): string => {
   const color = d3.rgb(fill);
@@ -33,6 +38,25 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   const [ globalRotation, setGlobalRotation ] = useState(0.0);
   const [ previousRotation, setPreviousRotation ] = useState(0.0);
   const [ dragStart, setDragStart ] = useState({x: null, y: null});
+
+  const longPressTimer = React.useRef<number | null>(null);
+  const longPressFired = React.useRef(false);
+
+  const cancelLongPress = () : void => {
+    if (longPressTimer.current !== null) {
+      window.clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
+  // Clear a pending long press if the component unmounts.
+  React.useEffect(() => {
+    return () => {
+      if (longPressTimer.current !== null) {
+        window.clearTimeout(longPressTimer.current);
+      }
+    };
+  }, []);
   
   // Construct an arc generator.
   const getArc = d3.arc<d3.HierarchyRectangularNode<Practice>>()
@@ -93,10 +117,25 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     setDragSubject(d);
     setDragStart({x: e.clientX, y: e.clientY});
     setPreviousRotation(currentRotation);
+
+    if (e.pointerType === "touch") {
+      cancelLongPress();
+      longPressTimer.current = window.setTimeout(() : void => {
+        longPressTimer.current = null;
+        longPressFired.current = true;
+        setDragSubject(null);
+        onElementRightClick(d.data.uuid);
+      }, LONG_PRESS_MS);
+    }
   }
 
   const updateDrag = (e) : void => {
     if (dragSubject) {
+      // Moving the finger cancels a pending long press.
+      if (Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) > DRAG_THRESHOLD_PX) {
+        cancelLongPress();
+      }
+
       const currentRotation = calculateRotationFor(e.clientX, e.clientY);
       const diff = currentRotation - previousRotation;
       setPreviousRotation(currentRotation);
@@ -105,6 +144,15 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const endDrag = (e, d: d3.HierarchyRectangularNode<Practice>) : void => {
+    cancelLongPress();
+
+    // The long press already opened the context overlay; don't also cycle the status.
+    if (longPressFired.current) {
+      longPressFired.current = false;
+      setDragSubject(null);
+      return;
+    }
+
     if (d && d.depth && e.button === 0 && e.clientX === dragStart.x && e.clientY === dragStart.y) {
       onElementClick(d.data.uuid);
     }
@@ -123,6 +171,11 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     // TODO should implement a different gesture for mobile
     onMouseMove={(e) : void => { updateDrag(e) }} 
     onPointerUp={(e) : void => { endDrag(e, null) }}
+    onPointerCancel={() : void => {
+      // The browser took over the gesture (e.g. scrolling): no click, no long press.
+      cancelLongPress();
+      setDragSubject(null);
+    }}
     onPointerLeave={(e) : void => { endDrag(e, null) }}>
     {nodes
       .map((d) : JSX.Element => (

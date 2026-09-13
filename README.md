@@ -8,7 +8,7 @@ Smorkinkboard is a kink-flavoured take on the [Relationship Anarchy Smorgasbord]
   - **Play areas** (e.g. `Bondage`, `Impact Play`, `Power Exchange`, `Toys`, `Edge Play`)
     - **Practices** (e.g. `Hand Spanking`, `E-Stim`, `Living Buffet`)
 
-Click a field to cycle its status, right-click a field to add details. Fields with added context get an asterisk (`*`) appended to their title. Statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
+Click a field to cycle its status, right-click a field to add details (on touch devices: long-press the field). Fields with added context get an asterisk (`*`) appended to their title. Statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
 
 ## Statuses
 
