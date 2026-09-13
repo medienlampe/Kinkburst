@@ -2,6 +2,9 @@
   "header": {
     "subtitle": "A fun way of manufacturing consent."
   },
+  "menu": {
+    "actions": "Actions"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Physical",
@@ -27,9 +30,21 @@
     "reset": "Reset"
   },
   "persons": {
+    "label": "This board is for",
     "placeholder": "Person name",
     "add": "Add person",
     "remove": "Remove person"
+  },
+  "statuses": {
+    "not_defined": "Not Defined",
+    "hard_limit": "Hard Limit",
+    "soft_limit": "Soft Limit",
+    "can": "Can",
+    "should": "Should",
+    "must": "Must"
+  },
+  "legend": {
+    "title": "Status legend"
   },
   "detail": {
     "title": "Practice details",

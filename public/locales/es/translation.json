@@ -2,6 +2,9 @@
   "header": {
     "subtitle": "Una forma divertida de fabricar consentimiento."
   },
+  "menu": {
+    "actions": "Acciones"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Físico",
@@ -27,9 +30,21 @@
     "reset": "Reiniciar"
   },
   "persons": {
+    "label": "Este tablero es para",
     "placeholder": "Nombre de la persona",
     "add": "Añadir persona",
     "remove": "Quitar persona"
+  },
+  "statuses": {
+    "not_defined": "Not Defined",
+    "hard_limit": "Hard Limit",
+    "soft_limit": "Soft Limit",
+    "can": "Can",
+    "should": "Should",
+    "must": "Must"
+  },
+  "legend": {
+    "title": "Leyenda de estados"
   },
   "detail": {
     "title": "Detalles de la práctica",

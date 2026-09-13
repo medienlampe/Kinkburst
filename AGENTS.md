@@ -69,12 +69,15 @@ and rebranded: where the original says **"flavour"**, Smorkinkboard says **"prac
 │   ├── practices.json        Smorkinkboard default practice tree (loaded by App.tsx)
 │   └── locales/              i18n translations (en, de, es, nl)
 └── src/
-    ├── App.tsx               app shell: state wiring, toolbar buttons, language switcher
+    ├── App.tsx               app shell: state wiring, page layout (header / board / FAQ / footer)
     ├── interfaces.tsx        Practice and Person domain types
     ├── constants.tsx         scale geometry + STATUSES / STATUS_BY_LABEL + BOARD_NAME
     ├── helpers.tsx           d3 hierarchy helpers, boardTitle, applyClick (status propagation)
     ├── i18n.tsx              i18next setup
     ├── components/
+    │   ├── AppHeader/        sticky header: brand + actions (inline on desktop, dropdown on mobile)
+    │   ├── Legend/           status legend under the board (swatch + label per status)
+    │   ├── icons.tsx         shared inline SVG stroke icons (no icon library dependency)
     │   ├── Smorgasbord/      the d3 sunburst/scale rendering (core of the app)
     │   ├── AddPracticeForm/  add-item form
     │   ├── RemovePracticeForm/ remove-item form
@@ -138,6 +141,12 @@ management (`PersonsBar`) shown in the board title. "Flavour" terminology has be
 Done: migrated off Create React App to Vite + Vitest + ESLint flat config (2026-07).
 Done: replaced unmaintained recoil with jotai (2026-07) — recoil 0.7.7 is incompatible with
 React 19 (it reads the removed `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED` export).
+Done: UI/UX rework (2026-09) — sticky header with responsive actions menu (inline buttons on
+desktop, dropdown panel on mobile; replaces the old floating button row), prominent people
+chips row, status legend under the board, and a dark plum theme built on CSS custom
+properties in `src/App.scss` (design tokens at the top of that file). Status labels are
+intentionally kept in English in all locales: they are the canonical terms of the markdown
+format.
 
 ## Notes for agents
 

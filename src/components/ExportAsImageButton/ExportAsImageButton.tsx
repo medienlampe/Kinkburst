@@ -1,6 +1,7 @@
 import { type JSX } from "react";
 import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
+import { ImageIcon } from "../icons";
 
 const ExportAsImageButton = () : JSX.Element => {
   const { t } = useTranslation();
@@ -73,7 +74,7 @@ const ExportAsImageButton = () : JSX.Element => {
   }
 
   const getSVGString = (svgNode) : string => {
-    svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
+    svgNode.setAttribute("xlink", "http://www.w3.org/2000/xlink");
     const cssStyleText = getCSSStyles(svgNode);
     appendCSS(cssStyleText, svgNode);
 
@@ -117,8 +118,9 @@ const ExportAsImageButton = () : JSX.Element => {
   }
 
   return (
-    <button className="button is-primary" onClick={exportAsImage}>
-      <strong>{t("button.download_image")}</strong>
+    <button className="button is-action" onClick={exportAsImage}>
+      <ImageIcon />
+      <span>{t("button.download_image")}</span>
     </button>
   );
 }

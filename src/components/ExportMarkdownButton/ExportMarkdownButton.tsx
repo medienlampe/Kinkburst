@@ -5,6 +5,7 @@ import { useAtomValue } from "jotai";
 import { practicesAtom } from "../../states/practices.atom";
 import { personsAtom } from "../../states/persons.atom";
 import { exportMarkdown } from "../../markdown/exporter";
+import { ExportIcon } from "../icons";
 
 const ExportMarkdownButton = () : JSX.Element => {
   const { t } = useTranslation();
@@ -17,8 +18,9 @@ const ExportMarkdownButton = () : JSX.Element => {
   }
 
   return (
-    <button className="button is-primary" onClick={exportCurrentBoard}>
-      <strong>{t("button.export")}</strong>
+    <button className="button is-action is-primary" onClick={exportCurrentBoard}>
+      <ExportIcon />
+      <span>{t("button.export")}</span>
     </button>
   );
 }

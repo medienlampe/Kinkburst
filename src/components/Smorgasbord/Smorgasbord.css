@@ -1,7 +1,11 @@
-svg {
-  max-width: 100%;
+#smorgasbordImage {
+  display: block;
+  margin: 0 auto;
+  /* Use the available width, but cap by viewport height so the whole board
+     fits on screen without scrolling on desktop. */
+  width: min(100%, 72vh);
+  max-width: 860px;
   height: auto;
-  height: intrinsic;
   /* the board handles its own gestures (rotate, long press) */
   touch-action: none;
   user-select: none;
@@ -10,14 +14,14 @@ svg {
   -webkit-touch-callout: none;
 }
 
-g:hover {
+#smorgasbordImage g {
   cursor: pointer;
 }
 
-g.board-root-node:hover {
+#smorgasbordImage g.board-root-node {
   cursor: default;
 }
 
-g text {
+#smorgasbordImage text {
   user-select: none;
 }

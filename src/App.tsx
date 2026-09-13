@@ -1,9 +1,10 @@
-import { Suspense, useCallback, useEffect, useState, type JSX } from "react";
+import { Suspense, useEffect, useState, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 
 import "./App.scss";
 
+import AppHeader from "./components/AppHeader/AppHeader";
 import Smorgasbord from "./components/Smorgasbord/Smorgasbord";
 import ExportMarkdownButton from "./components/ExportMarkdownButton/ExportMarkdownButton";
 import ImportMarkdownButton from "./components/ImportMarkdownButton/ImportMarkdownButton";
@@ -14,10 +15,11 @@ import EditModal from "./components/EditModal/EditModal";
 import ResetConfirmationModal from "./components/ResetConfirmationModal/ResetConfirmationModal";
 import PracticeDetailModal from "./components/PracticeDetailModal/PracticeDetailModal";
 import PersonsBar from "./components/PersonsBar/PersonsBar";
+import Legend from "./components/Legend/Legend";
 import { practicesAtom } from "./states/practices.atom";
 import { personsAtom, createDefaultPersons } from "./states/persons.atom";
 import type { Practice } from "./interfaces";
-import { applyClick, boardTitle } from "./helpers";
+import { applyClick } from "./helpers";
 import { BOARD_NAME } from "./constants";
 
 const App = () : JSX.Element => {
@@ -30,8 +32,6 @@ const App = () : JSX.Element => {
   const [editModalActive, setEditModalActive] = useState<boolean>(false);
   const [detailTargetUuid, setDetailTargetUuid] = useState<string | null>(null);
   const [detailDraft, setDetailDraft] = useState<string>("");
-
-  const [buttonsFloating, setButtonsFloating] = useState<boolean>(false);
 
   const changeLanguage = (lang) : void => {
     i18n.changeLanguage(lang);
@@ -85,23 +85,6 @@ const App = () : JSX.Element => {
     }
   }, [ persons ]);
 
-  const handleScroll = useCallback(() => {
-    const buttonPosition = document.getElementsByClassName("js-button-container-scrolltop")[0].getBoundingClientRect().top;
-    if (buttonPosition < 30 && !buttonsFloating) {
-      setButtonsFloating(true);
-    } else if (buttonPosition >= 30 && buttonsFloating) {
-      setButtonsFloating(false);
-    }
-  }, [ buttonsFloating ]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [ handleScroll ]);
-
   const resetBoard = () : void => {
     fetchDefaultPractices().then((fetched) => {
       setPractices(fetched);
@@ -141,31 +124,55 @@ const App = () : JSX.Element => {
 
   return (
     <Suspense fallback="loading">
-      <section className="section">
-        <div className="container content has-text-centered">
-          <h1 className="title">{boardTitle(persons)}</h1>
-          <h2 className="subtitle">{t("header.subtitle")}</h2>
-          <PersonsBar></PersonsBar>
-          <p>
-            <a href="#what-is-this">{t("faq.whats_this")}</a>
-          </p>
-        </div>
-      </section>
-      <section className="section">
-        <div className="container content">
-          <div className='js-button-container-scrolltop buttons-wrapper'>
-            <div className={ buttonsFloating
-              ? "buttons has-addons is-centered is-fixed"
-              : "buttons has-addons is-centered"}>
-              <ExportAsImageButton></ExportAsImageButton>
-              <ExportMarkdownButton></ExportMarkdownButton>
-              <ImportMarkdownButton></ImportMarkdownButton>
-              <EditButton onClick={toggleEditMode}></EditButton>
-              <ResetButton onClick={() : void => { setResetConfirmationModalActive(true); }}></ResetButton>
-            </div>
+      <AppHeader>
+        <ExportAsImageButton></ExportAsImageButton>
+        <ExportMarkdownButton></ExportMarkdownButton>
+        <ImportMarkdownButton></ImportMarkdownButton>
+        <EditButton onClick={toggleEditMode}></EditButton>
+        <ResetButton onClick={() : void => { setResetConfirmationModalActive(true); }}></ResetButton>
+      </AppHeader>
+
+      <main className="app-main">
+        <section className="board-section">
+          <div className="container board-container">
+            <PersonsBar></PersonsBar>
+            <Smorgasbord
+              onElementClick={handleElementClick}
+              onElementRightClick={handleElementRightClick}></Smorgasbord>
+            <Legend></Legend>
+            <p className="board-learn-more">
+              <a href="#what-is-this">{t("faq.whats_this")}</a>
+            </p>
           </div>
+        </section>
+
+        <section className="faq-section">
+          <div className="container faq-container">
+            <h2 id="what-is-this" className="faq-title">{t("faq.whats_this")}</h2>
+            <p dangerouslySetInnerHTML={{__html: t("faq.whats_this_content")}}></p>
+            <h2 className="faq-title">{t("faq.how_to_use")}</h2>
+            <p>{t("faq.how_to_use_content_1")}</p>
+            <p>{t("faq.how_to_use_content_2")}</p>
+            <h2 className="faq-title">{t("faq.safety")}</h2>
+            <p dangerouslySetInnerHTML={{__html: t("faq.safety_content")}}></p>
+          </div>
+        </section>
+      </main>
+
+      <footer className="app-footer">
+        <div className="container footer-inner">
+          <h3>{BOARD_NAME}</h3>
+          <p className="footer-languages">
+            {t("footer.languages")}&nbsp;
+            <button className="button-link" onClick={() : void => changeLanguage("en")}>{t("footer.languages_english")}</button>,&nbsp;
+            <button className="button-link" onClick={() : void => changeLanguage("es")}>{t("footer.languages_spanish")}</button>,&nbsp;
+            <button className="button-link" onClick={() : void => changeLanguage("de")}>{t("footer.languages_german")}</button>,&nbsp;
+            <button className="button-link" onClick={() : void => changeLanguage("nl")}>{t("footer.languages_dutch")}</button>.
+          </p>
+          <p dangerouslySetInnerHTML={{__html: t("footer.disclaimer")}}></p>
         </div>
-      </section>
+      </footer>
+
       <ResetConfirmationModal
         isActive={resetConfirmationModalActive}
         onReset={() : void => { resetBoard(); setResetConfirmationModalActive(false); }}
@@ -182,39 +189,6 @@ const App = () : JSX.Element => {
         onSave={saveNote}
         onCancel={() : void => { setDetailTargetUuid(null); }}
       ></PracticeDetailModal>
-      <section className="section">
-        <div className="container content has-text-centered">
-          <Smorgasbord
-            onElementClick={handleElementClick}
-            onElementRightClick={handleElementRightClick}></Smorgasbord>
-        </div>
-      </section>
-      <section className="section">
-        <div className="container">
-          <div className="content has-text-centered">
-            <h2 id="what-is-this" className="title is-4">{t("faq.whats_this")}</h2>
-            <p dangerouslySetInnerHTML={{__html: t("faq.whats_this_content")}}></p>
-            <h2 className="title is-4">{t("faq.how_to_use")}</h2>
-            <p>{t("faq.how_to_use_content_1")}</p>
-            <p>{t("faq.how_to_use_content_2")}</p>
-            <h2 className="title is-4">{t("faq.safety")}</h2>
-            <p dangerouslySetInnerHTML={{__html: t("faq.safety_content")}}></p>
-          </div>
-        </div>
-      </section>
-      <footer className="footer">
-        <div className="content">
-          <h3>{BOARD_NAME}</h3>
-          <p>
-            {t("footer.languages")}&nbsp;
-            <button className="button-link" onClick={() : void => changeLanguage("en")}>{t("footer.languages_english")}</button>,&nbsp;
-            <button className="button-link" onClick={() : void => changeLanguage("es")}>{t("footer.languages_spanish")}</button>,&nbsp;
-            <button className="button-link" onClick={() : void => changeLanguage("de")}>{t("footer.languages_german")}</button>,&nbsp;
-            <button className="button-link" onClick={() : void => changeLanguage("nl")}>{t("footer.languages_dutch")}</button>.
-          </p>
-          <p dangerouslySetInnerHTML={{__html: t("footer.disclaimer")}}></p>
-        </div>
-      </footer>
     </Suspense>
   );
 }

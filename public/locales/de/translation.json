@@ -2,6 +2,9 @@
   "header": {
     "subtitle": "Eine spielerische Art, Konsens herzustellen."
   },
+  "menu": {
+    "actions": "Aktionen"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Körperlich",
@@ -27,9 +30,21 @@
     "reset": "Zurücksetzen"
   },
   "persons": {
+    "label": "Dieses Board ist für",
     "placeholder": "Name der Person",
     "add": "Person hinzufügen",
     "remove": "Person entfernen"
+  },
+  "statuses": {
+    "not_defined": "Not Defined",
+    "hard_limit": "Hard Limit",
+    "soft_limit": "Soft Limit",
+    "can": "Can",
+    "should": "Should",
+    "must": "Must"
+  },
+  "legend": {
+    "title": "Statuslegende"
   },
   "detail": {
     "title": "Praktik-Details",

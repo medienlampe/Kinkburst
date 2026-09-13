@@ -1,91 +1,236 @@
-// Bulma styles + its responsive mixins (not re-exported by the package index in v1).
+// Smorkinkboard styles: Bulma base + a dark plum theme built around the board's
+// status colors. All new layout lives here; the sunburst keeps its own CSS in
+// components/Smorgasbord/Smorgasbord.css.
 @use "bulma/sass/index" as *;
-@use "bulma/sass/utilities/mixins" as *;
+
+// ---------------------------------------------------------------------------
+// Design tokens
+// ---------------------------------------------------------------------------
+:root {
+  // Surfaces (charcoal with a plum undertone that echoes the brand color).
+  --bg: #17131c;
+  --bg-raised: #201a28;
+  --surface: #262031;
+  --border: #382e47;
+
+  // Text.
+  --text: #f3eff8;
+  --text-muted: #b0a5c0;
+
+  // Accent (orchid — bright enough for AA contrast with dark text on top).
+  --accent: #e08cc6;
+  --accent-hover: #eb9fd1;
+  --on-accent: #211726;
+  --danger: #f08c8c;
+
+  // Shape & rhythm.
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --header-height: 64px;
+}
 
 html {
   scroll-behavior: smooth;
+  // Keep anchored headings clear of the sticky header.
+  scroll-padding-top: calc(var(--header-height) + 20px);
 }
 
 html,
-body,
-footer.footer {
-  background: #1F1F1F;
-  color: #fff;
-}
-.modal {
-  color: #000;
+body {
+  background-color: var(--bg);
+  color: var(--text);
 }
 
-.sunburst-clickable {
-  cursor: pointer;
+// Visible keyboard focus everywhere.
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-.button.is-primary {
-  background-color: #4a1942;
-  color: #fff;
-}
-.button.is-primary:hover {
-  background-color: #4a1942;
-  color: #aaa;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.button.is-primary[disabled] {
-  background-color: #fff;
-  border-color: #4a1942;
-  color: #333;
-}
-
-.buttons-wrapper {
-  height: 3em;
-}
-
-.persons-bar {
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 1em auto;
-}
-
-.persons-bar .person {
-  display: flex;
-  align-items: center;
-  gap: 0.25em;
-}
-
-.persons-bar .input {
-  max-width: 14em;
-}
-
-/* only float buttons on desktop */
-@include desktop {
-  .buttons.is-fixed {
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 50;
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  color: #fff;
+// ---------------------------------------------------------------------------
+// Bulma dark-theme overrides (modals, forms, headings)
+// ---------------------------------------------------------------------------
+.title,
+.subtitle {
+  color: var(--text);
 }
-.button-link {
-  background-color: transparent;
+
+.label {
+  color: var(--text);
+}
+
+hr {
+  background-color: var(--border);
   border: none;
-  color: white;
-  padding: 0;
-  text-decoration: underline;
 }
-.button-link:hover {
-  cursor: pointer;
+
+.input,
+.textarea,
+.select select {
+  background-color: var(--bg);
+  border-color: var(--border);
+  color: var(--text);
+  box-shadow: none;
 }
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  background-color: var(--bg);
+  border-color: var(--accent);
+  color: var(--text);
+  box-shadow: 0 0 0 3px rgba(224, 140, 198, 0.22);
+}
+
+.modal {
+  color: var(--text);
+}
+
+.modal-background {
+  background-color: rgba(10, 8, 14, 0.72);
+}
+
+.modal-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  max-width: 560px;
+  width: calc(100vw - 32px);
+}
+
+.modal-card-head,
+.modal-card-foot {
+  background-color: transparent;
+  border-color: var(--border);
+}
+
+.modal-card-title {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.modal-card-body {
+  background-color: transparent;
+  padding: 24px;
+}
+
+// Secondary modal buttons (e.g. "Close") match the toolbar's ghost style.
+.modal-card-foot .button:not(.is-primary) {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.modal-card-foot .button:not(.is-primary):hover,
+.modal-card-foot .button:not(.is-primary):focus {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.modal-card-head .delete,
+.modal-card-foot .delete {
+  color: var(--text-muted);
+}
+
+.modal-card-head .delete:hover,
+.modal-card-head .delete:focus {
+  color: var(--text);
+}
+
+// Primary buttons (modal actions + the toolbar's export button).
+.button.is-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.button.is-primary:hover,
+.button.is-primary:focus {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--on-accent);
+}
+
+.button.is-primary[disabled] {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Toolbar buttons (icon + label)
+// ---------------------------------------------------------------------------
+.button.is-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.button.is-action:hover,
+.button.is-action:focus {
+  background-color: rgba(224, 140, 198, 0.07);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button.is-action.is-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.button.is-action.is-primary:hover,
+.button.is-action.is-primary:focus {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--on-accent);
+}
+
+.button.is-action.is-danger {
+  color: var(--danger);
+}
+
+.button.is-action.is-danger:hover,
+.button.is-action.is-danger:focus {
+  background-color: rgba(240, 140, 140, 0.08);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+// The "added/removed" checkmark state used by the edit forms.
 .button.is-confirmation {
   color: transparent !important;
   pointer-events: none;
 }
+
 .button.is-confirmation:after {
   content: '\2713';
   display: inline-block;
@@ -99,5 +244,402 @@ footer.footer {
 }
 
 .button[disabled].is-confirmation:after {
-  color: #363636;
+  color: var(--text-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Sticky app header
+// ---------------------------------------------------------------------------
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(23, 19, 28, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: var(--header-height);
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 8px 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  flex-shrink: 0;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.brand-tagline {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-left: 1px solid var(--border);
+  padding-left: 12px;
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.app-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+// ---------------------------------------------------------------------------
+// People row (chips)
+// ---------------------------------------------------------------------------
+.persons-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.persons-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+.persons-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 5px 3px 16px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.person-chip:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(224, 140, 198, 0.18);
+}
+
+.person-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 7px 6px 7px 0;
+  min-width: 9em;
+  max-width: 14em;
+}
+
+.person-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.person-delete {
+  width: 22px;
+  height: 22px;
+  margin: 0 6px 0 2px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.person-delete:hover,
+.person-delete:focus {
+  color: var(--danger);
+  opacity: 1;
+}
+
+.person-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.person-add:hover,
+.person-add:focus {
+  background-color: rgba(224, 140, 198, 0.07);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+// ---------------------------------------------------------------------------
+// Board section (people + sunburst + legend)
+// ---------------------------------------------------------------------------
+.board-section {
+  padding: 36px 20px 12px;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+}
+
+.board-learn-more {
+  margin: 20px 0 0;
+  text-align: center;
+}
+
+.board-learn-more a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  padding-bottom: 2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.board-learn-more a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+// Status legend under the board.
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  max-width: 640px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  // Keeps the black "Not Defined" swatch visible on the dark background.
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+// ---------------------------------------------------------------------------
+// FAQ
+// ---------------------------------------------------------------------------
+.faq-section {
+  padding: 40px 20px 64px;
+}
+
+.faq-container {
+  max-width: 720px;
+  background-color: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px clamp(20px, 5vw, 48px) 40px;
+}
+
+.faq-title {
+  margin: 28px 0 10px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  scroll-margin-top: calc(var(--header-height) + 20px);
+}
+
+.faq-title:first-child {
+  margin-top: 0;
+}
+
+.faq-container p {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.faq-container a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(224, 140, 198, 0.4);
+  transition: border-color 0.15s ease;
+}
+
+.faq-container a:hover {
+  border-bottom-color: var(--accent);
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+.app-footer {
+  background-color: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 28px 20px calc(28px + env(safe-area-inset-bottom));
+}
+
+.footer-inner {
+  max-width: 720px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.footer-inner h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.footer-languages {
+  margin-bottom: 14px;
+}
+
+.footer-inner a {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.footer-inner a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button-link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(224, 140, 198, 0.5);
+}
+
+.button-link:hover {
+  border-bottom-style: solid;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive: below 768px the toolbar collapses into a dropdown panel
+// ---------------------------------------------------------------------------
+@media (max-width: 767.98px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    background-color: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .menu-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .app-actions {
+    display: none;
+    margin-left: 0;
+  }
+
+  // The same <nav>, repositioned as a panel under the header when open.
+  .app-actions.is-open {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    background-color: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.45);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .app-actions.is-open .button {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 1rem;
+    padding: 12px 14px;
+  }
+
+  .board-section {
+    padding-top: 28px;
+  }
+
+  .person-input {
+    min-width: 7em;
+    max-width: 10em;
+  }
+}
+
+// Below ~1024px the tagline would crowd the toolbar, so it hides.
+@media (max-width: 1023.98px) {
+  .brand-tagline {
+    display: none;
+  }
 }

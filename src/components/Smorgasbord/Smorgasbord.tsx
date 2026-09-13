@@ -83,8 +83,8 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const getColor = (d: d3.HierarchyRectangularNode<Practice>) : string => {
-    if (!d.depth) { // root node is not clickable & has a distinct colour
-      return "#1F1F1F";
+    if (!d.depth) { // root node is not clickable & blends into the page background
+      return "#17131c";
     }
     return STATUSES[d.data.value ?? 0].color;
   }
@@ -201,7 +201,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
             fill={textColorFor(getColor(d))}
             fillOpacity="1.0"
             dy="0.32em"
-            style={{fontFamily: "sans-serif", fontSize: "12px", textAnchor: "middle"}}>
+            style={{fontFamily: "sans-serif", fontSize: "13px", textAnchor: "middle"}}>
             { getLabel(d) }
           </text>
         </g>

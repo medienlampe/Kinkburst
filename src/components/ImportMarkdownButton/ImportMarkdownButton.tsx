@@ -4,6 +4,7 @@ import { useSetAtom } from "jotai";
 import { practicesAtom } from "../../states/practices.atom";
 import { personsAtom } from "../../states/persons.atom";
 import { importMarkdown } from "../../markdown/importer";
+import { ImportIcon } from "../icons";
 
 const ImportMarkdownButton = () : JSX.Element => {
   const { t } = useTranslation();
@@ -39,8 +40,9 @@ const ImportMarkdownButton = () : JSX.Element => {
   }
 
   return (
-    <button className="button is-primary" onClick={importNewBoard}>
-      <strong>{t("button.import")}</strong>
+    <button className="button is-action" onClick={importNewBoard}>
+      <ImportIcon />
+      <span>{t("button.import")}</span>
       <input
         type='file'
         ref={inputFile}

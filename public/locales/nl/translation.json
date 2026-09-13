@@ -2,6 +2,9 @@
   "header": {
     "subtitle": "Een speelse manier om toestemming te maken."
   },
+  "menu": {
+    "actions": "Acties"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Fysiek",
@@ -27,9 +30,21 @@
     "reset": "Resetten"
   },
   "persons": {
+    "label": "Dit board is voor",
     "placeholder": "Naam van de persoon",
     "add": "Persoon toevoegen",
     "remove": "Persoon verwijderen"
+  },
+  "statuses": {
+    "not_defined": "Not Defined",
+    "hard_limit": "Hard Limit",
+    "soft_limit": "Soft Limit",
+    "can": "Can",
+    "should": "Should",
+    "must": "Must"
+  },
+  "legend": {
+    "title": "Legenda van statussen"
   },
   "detail": {
     "title": "Praktijkdetails",
