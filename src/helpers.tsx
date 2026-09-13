@@ -30,12 +30,15 @@ export const boardTitle = (persons: Person[]): string => {
 
 // Applies a click on the field with the given uuid to the flat practice list
 // and returns the updated list. The clicked field cycles through all statuses
-// (0 → 1 → … → 5 → 0) and the new status propagates:
-// - Hard Limit (1) to all descendants,
-// - Soft Limit (2) to descendants that are currently positive (3/4/5),
-// - Can/Should/Must (3/4/5) to all practice ancestors (not the root, which is
-//   just the board title and carries no status),
-// - Not Defined (0) nowhere.
+// (0 → 1 → … → 5 → 0) and the new status propagates so that no field is ever
+// higher than one of its parents:
+// - Not Defined (0, the overflow case) resets all descendants to Not Defined,
+// - Hard Limit (1) sets all descendants to Hard Limit,
+// - Soft Limit (2) / Can / Should / Must (3/4/5) lower any descendant that
+//   exceeds the new value (e.g. a positive child of a newly soft-limited
+//   category),
+// - any defined status (1-5) raises every practice ancestor (not the root,
+//   which is just the board title and carries no status) that is lower than it.
 // Clicks on the root (the board title) or unknown nodes are ignored.
 export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
   if (!practices || practices.length === 0) {
@@ -66,16 +69,23 @@ export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
       return { ...practice, value: newValue };
     }
 
-    // Hard limit? Update everything below it.
-    if (newValue === 1 && descendantUuids.has(practice.uuid)) {
-      return { ...practice, value: newValue };
+    if (descendantUuids.has(practice.uuid)) {
+      // Not defined (overflow)? Reset everything below it.
+      if (newValue === 0) {
+        return { ...practice, value: newValue };
+      }
+      // Hard limit? Everything below it is a hard limit as well.
+      if (newValue === 1) {
+        return { ...practice, value: newValue };
+      }
+      // A field may never exceed its parents — clamp the child.
+      if ((practice.value ?? 0) > newValue) {
+        return { ...practice, value: newValue };
+      }
     }
-    // Soft limit? Update the children that are currently positive.
-    if (newValue === 2 && descendantUuids.has(practice.uuid) && (practice.value ?? 0) >= 3) {
-      return { ...practice, value: newValue };
-    }
-    // Positive status? Update the parents to that.
-    if (newValue >= 3 && ancestorUuids.has(practice.uuid)) {
+
+    // A field may never be higher than its parents — raise them.
+    if (newValue >= 1 && ancestorUuids.has(practice.uuid) && (practice.value ?? 0) < newValue) {
       return { ...practice, value: newValue };
     }
 

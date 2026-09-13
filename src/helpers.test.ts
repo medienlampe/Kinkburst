@@ -76,17 +76,17 @@ describe("applyClick", () => {
     }
   });
 
-  it("propagates Hard Limit to all descendants, but not upwards", () => {
+  it("propagates Hard Limit to all descendants and raises Not Defined ancestors", () => {
     let practices = tree(); // b=0, c=4, d=5, a=0
     practices = applyClick(practices, "b"); // b: 0 -> 1 (Hard Limit)
 
     expect(valueOf(practices, "b")).toBe(1);
-    expect(valueOf(practices, "c")).toBe(1);
-    expect(valueOf(practices, "d")).toBe(1);
-    expect(valueOf(practices, "a")).toBe(0); // unchanged
+    expect(valueOf(practices, "c")).toBe(1); // was positive (4) -> Hard Limit
+    expect(valueOf(practices, "d")).toBe(1); // was positive (5) -> Hard Limit
+    expect(valueOf(practices, "a")).toBe(1); // a hard-limit field may not sit under Not Defined
   });
 
-  it("propagates Soft Limit only to descendants that are currently positive", () => {
+  it("propagates Soft Limit to descendants that are currently positive and raises lower ancestors", () => {
     const practices = withValues({ b: 1, c: 4, d: 0 }); // Hard Limit, Should (positive), Not Defined
 
     const updated = applyClick(practices, "b"); // b: 1 -> 2 (Soft Limit)
@@ -94,6 +94,7 @@ describe("applyClick", () => {
     expect(valueOf(updated, "b")).toBe(2);
     expect(valueOf(updated, "c")).toBe(2); // was positive (4) -> Soft Limit
     expect(valueOf(updated, "d")).toBe(0); // was Not Defined -> unchanged
+    expect(valueOf(updated, "a")).toBe(2); // a soft-limit field may not sit under Hard Limit/Not Defined
   });
 
   it("propagates Can/Should/Must to all practice ancestors, but not to the root", () => {
@@ -105,13 +106,33 @@ describe("applyClick", () => {
     expect(valueOf(practices, "root")).toBe(0); // the board title carries no status
   });
 
-  it("propagates nothing when the clicked field lands on Not Defined", () => {
-    const atMust = withValues({ d: 5 });
+  it("resets all descendants when the clicked field overflows back to Not Defined", () => {
+    const atMust = withValues({ b: 5, c: 4, d: 5 }); // Must category with positive children
 
-    const updated = applyClick(atMust, "d"); // d: 5 -> 0 (Not Defined)
-    expect(valueOf(updated, "d")).toBe(0);
-    expect(valueOf(updated, "b")).toBe(0); // unchanged
+    const updated = applyClick(atMust, "b"); // b: 5 -> 0 (Not Defined)
+    expect(valueOf(updated, "b")).toBe(0);
+    expect(valueOf(updated, "c")).toBe(0); // reset together with the parent
+    expect(valueOf(updated, "d")).toBe(0); // reset together with the parent
     expect(valueOf(updated, "a")).toBe(0); // unchanged
+  });
+
+  it("does not lower ancestors when a child overflows back to Not Defined", () => {
+    const atMust = withValues({ a: 4, b: 5, c: 3 });
+
+    const updated = applyClick(atMust, "b"); // b: 5 -> 0 (Not Defined)
+    expect(valueOf(updated, "b")).toBe(0);
+    expect(valueOf(updated, "c")).toBe(0); // reset together with the parent
+    expect(valueOf(updated, "a")).toBe(4); // unchanged — other children may still justify it
+  });
+
+  it("raises parents when a child moves above them (Hard Limit cannot contain higher levels)", () => {
+    const hardLimited = withValues({ a: 1, b: 1, c: 1, d: 1 });
+
+    const updated = applyClick(hardLimited, "c"); // c: 1 -> 2 (Soft Limit)
+    expect(valueOf(updated, "c")).toBe(2);
+    expect(valueOf(updated, "b")).toBe(2); // raised to its child's level
+    expect(valueOf(updated, "a")).toBe(2); // raised transitively
+    expect(valueOf(updated, "d")).toBe(1); // sibling unchanged (still below the parent)
   });
 
   it("ignores clicks on the root and on unknown nodes", () => {
