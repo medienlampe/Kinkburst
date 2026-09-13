@@ -27,7 +27,8 @@
     "export": "Exportar",
     "import": "Importar",
     "edit": "Editar",
-    "reset": "Reiniciar"
+    "reset": "Reiniciar",
+    "fit": "Ajustar tablero"
   },
   "persons": {
     "label": "Este tablero es para",

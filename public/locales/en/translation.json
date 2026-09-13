@@ -27,7 +27,8 @@
     "export": "Export",
     "import": "Import",
     "edit": "Edit",
-    "reset": "Reset"
+    "reset": "Reset",
+    "fit": "Fit board"
   },
   "persons": {
     "label": "This board is for",

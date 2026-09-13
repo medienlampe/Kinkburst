@@ -27,7 +27,8 @@
     "export": "Exportieren",
     "import": "Importieren",
     "edit": "Bearbeiten",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "fit": "Board einpassen"
   },
   "persons": {
     "label": "Dieses Board ist für",

@@ -25,3 +25,30 @@
 #smorgasbordImage text {
   user-select: none;
 }
+
+.board-wrap {
+  position: relative;
+}
+
+/* Mobile "back to overview" button, shown while the board is zoomed in. */
+.board-fit-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.board-fit-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

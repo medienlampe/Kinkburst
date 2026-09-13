@@ -71,6 +71,15 @@ export const CloseIcon = ({ size = 16 } : IconProps) => (
   </svg>
 );
 
+export const FitIcon = ({ size = 16 } : IconProps) => (
+  <svg {...iconDefaults(size)}>
+    <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+    <path d="M16 3h3a2 2 0 0 1 2 2v3"></path>
+    <path d="M8 21H5a2 2 0 0 1-2-2v-3"></path>
+    <path d="M16 21h3a2 2 0 0 0 2-2v-3"></path>
+  </svg>
+);
+
 export const PlusIcon = ({ size = 16 } : IconProps) => (
   <svg {...iconDefaults(size)}>
     <line x1="12" y1="5" x2="12" y2="19"></line>
