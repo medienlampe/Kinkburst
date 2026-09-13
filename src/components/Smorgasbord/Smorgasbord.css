@@ -1,0 +1,17 @@
+svg {
+  max-width: 100%;
+  height: auto;
+  height: intrinsic;
+}
+
+g:hover {
+  cursor: pointer;
+}
+
+g.flavour-root-node:hover {
+  cursor: default;
+}
+
+g text {
+  user-select: none;
+}

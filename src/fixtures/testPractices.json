@@ -1,0 +1,26 @@
+[
+  {
+    "uuid": "ad586264-a7ff-4858-97b3-6a0cd25e3b02",
+    "parentUuid": "",
+    "key": "smorkinkboard",
+    "name": "Smorkinkboard"
+  },
+  {
+    "uuid": "78a43b83-0d79-4ca7-a301-3a3317f1fd6e",
+    "parentUuid": "ad586264-a7ff-4858-97b3-6a0cd25e3b02",
+    "key": "physical",
+    "name": "Physical"
+  },
+  {
+    "uuid": "906b7cc0-616b-4b53-ac78-2e66450db0f8",
+    "parentUuid": "78a43b83-0d79-4ca7-a301-3a3317f1fd6e",
+    "key": "impact_play",
+    "name": "Impact Play"
+  },
+  {
+    "uuid": "23353847-88f6-424e-b868-057884b46ff3",
+    "parentUuid": "906b7cc0-616b-4b53-ac78-2e66450db0f8",
+    "key": "hand_spanking",
+    "name": "Hand Spanking"
+  }
+]
