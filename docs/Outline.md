@@ -5,7 +5,7 @@ The practices fixtures are to be pre-defined but should be able to be edited in 
 Unchanged are the possibilities to change, export, import and reset as well as downloading as an image. Additionally, people names should be able to be added which then are shown in th title as well like "Smorkinkboard (for Person A, Person B and Person C)". Default is one person, but more can be added or removed as needed.
 
 ## Statuses
-The scale statuses are five-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 4 with the following meaning and color:
+The scale statuses are six-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 5 with the following meaning and color:
 0 - "Not Defined" (black) - Default state, no consent has been created about this yet.
 1 - "Hard Limit" (red) – A practice which must nut be part of the planned session or dynamic, hard limit.
 2 - "Soft Limit" (yellow) - A practice which can be done, but is not necessarily giving the participants something back. It might be applicable in some kind of "service" dimension but is generally to be avoided.  

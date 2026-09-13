@@ -48,13 +48,12 @@ Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-forma
   `(Can)`, `(Should)`, `(Must)`.
 - Free text below a header is stored as context for that item.
 
-The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`) — currently stubs.
+The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`).
 
 ## Repository structure
 
-The code base was copied from the original smorgasbord (same tech stack and interaction model).
-Original code still uses the term **"flavour"** where Smorkinkboard says **"practice"**; renaming
-is a planned follow-up, not yet done.
+The code base was copied from the original smorgasbord (same tech stack and interaction model)
+and rebranded: where the original says **"flavour"**, Smorkinkboard says **"practice"**.
 
 ```
 ├── AGENTS.md                 ← you are here
@@ -67,39 +66,37 @@ is a planned follow-up, not yet done.
 │   ├── Outline.md            product requirements (source of truth for behavior)
 │   └── markdown-format.md    export/import format spec (source of truth for the format)
 ├── public/
-│   ├── flavours.json         default fixture from the original (still used by base code)
-│   ├── practices.json        Smorkinkboard default practice tree (new, not yet wired in)
+│   ├── practices.json        Smorkinkboard default practice tree (loaded by App.tsx)
 │   └── locales/              i18n translations (en, de, es, nl)
 └── src/
     ├── App.tsx               app shell: state wiring, toolbar buttons, language switcher
-    ├── interfaces.tsx        Flavour (base), Practice and Person (new domain types)
-    ├── constants.tsx         scale geometry + STATUSES / STATUS_BY_LABEL
-    ├── helpers.tsx           d3 hierarchy helpers (base code)
+    ├── interfaces.tsx        Practice and Person domain types
+    ├── constants.tsx         scale geometry + STATUSES / STATUS_BY_LABEL + BOARD_NAME
+    ├── helpers.tsx           d3 hierarchy helpers, boardTitle, applyClick (status propagation)
     ├── i18n.tsx              i18next setup
     ├── components/
-    │   ├── Smorgasbord/      the d3 sunburst/scale rendering (base code, core of the app)
-    │   ├── AddFlavourForm/   add-item form (base)
-    │   ├── RemoveFlavourForm/ remove-item form (base)
-    │   ├── SelectFlavourControl/ status selection control (base)
-    │   ├── EditModal/        edit practices in the UI (base)
-    │   ├── ImportJsonButton/ import JSON (base — to be replaced/augmented by markdown import)
-    │   ├── ExportAsJsonButton/ export JSON (base — to be replaced/augmented by markdown export)
-    │   ├── ExportAsImageButton/ download as image (base, keep)
-    │   ├── ResetButton/ + ResetConfirmationModal/ reset (base, keep)
-    │   ├── EditButton/       opens the edit modal (base)
-    │   ├── PracticeDetailModal/  right-click overlay for context notes (stub)
-    │   └── PersonsBar/       add/remove people (stub)
+    │   ├── Smorgasbord/      the d3 sunburst/scale rendering (core of the app)
+    │   ├── AddPracticeForm/  add-item form
+    │   ├── RemovePracticeForm/ remove-item form
+    │   ├── SelectPracticeControl/ practice selection control (used by both forms)
+    │   ├── EditModal/        edit practices in the UI
+    │   ├── ExportMarkdownButton/ export the board as markdown
+    │   ├── ImportMarkdownButton/ import a board from markdown
+    │   ├── ExportAsImageButton/ download as image
+    │   ├── ResetButton/ + ResetConfirmationModal/ reset to defaults
+    │   ├── EditButton/       opens the edit modal
+    │   ├── PracticeDetailModal/  right-click overlay for context notes
+    │   └── PersonsBar/       add/remove people
     ├── states/               jotai atoms + derived atoms
-    │   ├── flavours.atom.ts             flat list of nodes (base)
-    │   ├── hierarchicalFlavours.atom.ts nested tree derived from the flat list
-    │   ├── hierarchicalNodes.atom.ts    d3 node hierarchy
-    │   └── persons.atom.ts              people the board is for (new, not yet wired in)
-    ├── markdown/             export/import conversion (stubs)
+    │   ├── practices.atom.ts            flat list of practice nodes
+    │   ├── hierarchicalPractices.atom.ts nested tree derived from the flat list
+    │   ├── hierarchicalNodes.atom.ts    d3 node hierarchy (layout weights live on the nodes)
+    │   └── persons.atom.ts              people the board is for
+    ├── markdown/             export/import conversion per docs/markdown-format.md
     │   ├── exporter.ts
     │   └── importer.ts
     └── fixtures/
-        ├── testFlavours.json  test fixture from the original
-        └── testPractices.json small practice tree for new tests
+        └── testPractices.json practice tree for tests (mirrors public/practices.json)
 ```
 
 ## Tech stack & conventions
@@ -115,7 +112,7 @@ is a planned follow-up, not yet done.
   No provider wrapper is needed (jotai's default store is global). New domain types:
   `Practice` and `Person` in `src/interfaces.tsx`.
 - Components live in one folder each: `src/components/<Name>/<Name>.tsx` (+ optional `.test.tsx`).
-- Persistence: `localStorage` (base code uses the key `"flavours"`).
+- Persistence: `localStorage` (keys `"practices"` and `"persons"`).
 - `tsconfig` has `isolatedModules: true` — use `import type` for type-only imports.
 
 ## Commands
@@ -129,20 +126,14 @@ npm run preview    # serve the production build locally
 npm run lint       # eslint over the repo (flat config)
 ```
 
-## Current status / follow-up tasks
+## Current status
 
-Scaffolding is done; the app currently runs the original smorgasbord behavior with Smorkinkboard
-branding. Remaining work (roughly in order):
-
-1. Wire `public/practices.json` + `Practice` type into the app (replace `flavours.json` loading).
-2. Implement the 0–5 status model: click cycling, colors from `STATUSES`, top-down/bottom-up
-   inheritance (adapt base code's two-state logic).
-3. Implement `src/markdown/` exporter/importer per `docs/markdown-format.md` + tests against the
-   example in that doc; add markdown export/import UI buttons (keep or drop JSON ones — decide).
-4. Right-click → `PracticeDetailModal` for context notes; asterisk (`*`) on titles with notes.
-5. `PersonsBar`: add/remove people; render the people list in the board title and in the h1 of
-   markdown export.
-6. Rename "flavour" terminology to "practice" across base code (mechanical, but touches many files).
+All planned work is done (2026-07): the app runs on `public/practices.json` and the `Practice`
+type, implements the 0–5 status model with click cycling and top-down/bottom-up inheritance
+(`applyClick` in `src/helpers.tsx`), markdown export/import per `docs/markdown-format.md`,
+right-click context notes (`PracticeDetailModal`, asterisk on titled fields), and people
+management (`PersonsBar`) shown in the board title. "Flavour" terminology has been renamed to
+"practice" across the code base; JSON export/import is gone (markdown only).
 
 Done: migrated off Create React App to Vite + Vitest + ESLint flat config (2026-07).
 Done: replaced unmaintained recoil with jotai (2026-07) — recoil 0.7.7 is incompatible with
@@ -151,6 +142,7 @@ React 19 (it reads the removed `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIR
 ## Notes for agents
 
 - `docs/Outline.md` is the product source of truth; where code and outline disagree, flag it.
-  Known ambiguity: "five-fold" statuses vs. six listed values — follow the six-value list.
+  (The outline's original "five-fold / 0 to 4" wording contradicted its own six-value list;
+  it has been corrected to six-fold / 0 to 5.)
 - Don't wire in stubs that throw `Not implemented yet` without implementing them first.
 - Keep the markdown format spec and its example in sync when changing either.

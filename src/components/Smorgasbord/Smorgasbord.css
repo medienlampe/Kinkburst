@@ -8,7 +8,7 @@ g:hover {
   cursor: pointer;
 }
 
-g.flavour-root-node:hover {
+g.board-root-node:hover {
   cursor: default;
 }
 

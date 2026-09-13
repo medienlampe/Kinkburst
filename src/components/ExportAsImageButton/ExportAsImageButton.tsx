@@ -6,11 +6,10 @@ const ExportAsImageButton = () : JSX.Element => {
   const { t } = useTranslation();
 
   const exportAsImage = () : void => {
-    // deep clone the image and process to hide disabled elements
+    // deep clone the image and process to hide not-defined elements
     const nodes = document.getElementById("smorgasbordImage").cloneNode(true) as any;
 
-    // TODO find these not by the property fill='#000' but by their explicit state in the flavour array.
-    nodes.querySelectorAll("path[fill='#000']").forEach(function(path) {
+    nodes.querySelectorAll("path[data-status='0']").forEach(function(path) {
       path.setAttribute("fill-opacity", "0");
       (path as Node).parentNode.querySelector("text").setAttribute("fill-opacity", "0");
     });
@@ -21,7 +20,7 @@ const ExportAsImageButton = () : JSX.Element => {
   }
   
   const save = (dataBlob) : void => {
-    saveAs(dataBlob, "sunburst-smorgasbord.png");
+    saveAs(dataBlob, "smorkinkboard.png");
   }
 
   const getCSSStyles = (parentElement) : string => {

@@ -2,6 +2,10 @@ export const diameter = 1152;
 export const radius = diameter / 2;
 export const padding = 1;
 
+// The brand name is not translated; it is part of the board title and of the
+// markdown export (see docs/markdown-format.md).
+export const BOARD_NAME = "Smorkinkboard";
+
 // Smorkinkboard statuses (see docs/Outline.md, "Statuses").
 // Note: the outline says "five-fold" but lists six values (0-5); the list is authoritative.
 export type StatusValue = 0 | 1 | 2 | 3 | 4 | 5;
@@ -24,3 +28,6 @@ export const STATUSES: Record<StatusValue, StatusDefinition> = {
 export const STATUS_BY_LABEL: Record<string, StatusValue> = Object.fromEntries(
   (Object.values(STATUSES) as StatusDefinition[]).map((s) => [s.label.toLowerCase(), s.value])
 ) as Record<string, StatusValue>;
+
+// The number of statuses; clicking a field cycles through all of them.
+export const STATUS_COUNT = 6;

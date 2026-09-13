@@ -3,29 +3,39 @@ import { useTranslation } from "react-i18next";
 
 import * as d3 from "d3";
 import "./Smorgasbord.css";
-import Flavour from "../../interfaces";
+import type { Practice } from "../../interfaces";
 import { hierarchicalNodesAtom } from "../../states/hierarchicalNodes.atom";
 import { useAtomValue } from "jotai";
-import { padding, diameter, radius } from "../../constants";
+import { padding, diameter, radius, STATUSES } from "../../constants";
 
 interface SmorgasbordProps {
-  onElementClick: (uuid: string) => void
+  onElementClick: (uuid: string) => void;
+  onElementRightClick: (uuid: string) => void;
 }
 
-const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
+// Pick a readable text color (black or white) for a given fill color.
+const textColorFor = (fill: string): string => {
+  const color = d3.rgb(fill);
+  if (!color) return "#fff";
+
+  const luminance = (0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b) / 255;
+  return luminance > 0.5 ? "#000" : "#fff";
+};
+
+const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps) : JSX.Element => {
   const { t } = useTranslation();
 
   const svgRef = React.useRef<SVGSVGElement>(null);
   
   const nodes = useAtomValue(hierarchicalNodesAtom);
   
-  const [ dragSubject, setDragSubject ] = useState<d3.HierarchyRectangularNode<Flavour>>(null);
+  const [ dragSubject, setDragSubject ] = useState<d3.HierarchyRectangularNode<Practice>>(null);
   const [ globalRotation, setGlobalRotation ] = useState(0.0);
   const [ previousRotation, setPreviousRotation ] = useState(0.0);
   const [ dragStart, setDragStart ] = useState({x: null, y: null});
   
   // Construct an arc generator.
-  const getArc = d3.arc<d3.HierarchyRectangularNode<Flavour>>()
+  const getArc = d3.arc<d3.HierarchyRectangularNode<Practice>>()
     .startAngle(d => d.x0)
     .endAngle(d => d.x1)
     .padAngle(d => Math.min((d.x1 - d.x0) / 2, 2 * padding / radius))
@@ -33,7 +43,7 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
     .innerRadius(d => d.y0)
     .outerRadius(d => d.y1 - padding);
 
-  const getTextTransform = (d: d3.HierarchyRectangularNode<Flavour>) : string => {
+  const getTextTransform = (d: d3.HierarchyRectangularNode<Practice>) : string => {
     if (!d.depth) return;
 
     const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
@@ -42,26 +52,27 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
     return `rotate(${x - 90}) translate(${y}, 0) rotate(${flip ? 0 : 180})`;
   }
 
-  const getGTransform = (d: d3.HierarchyRectangularNode<Flavour>) : string => {
+  const getGTransform = (d: d3.HierarchyRectangularNode<Practice>) : string => {
     if (!d.depth) return;
 
     return `rotate(${globalRotation})`;
   }
 
-  const getColor = (d: any) : string => {
+  const getColor = (d: d3.HierarchyRectangularNode<Practice>) : string => {
     if (!d.depth) { // root node is not clickable & has a distinct colour
       return "#1F1F1F";
-    } else if (d.data.state === "NO") {
-      return "#000";
-    } else if (d.data.state === "MAYBE") {
-      return d.color.darker(3).toString();
-    } else {
-      return d.color.darker(1).toString();
     }
+    return STATUSES[d.data.value ?? 0].color;
+  }
+
+  const getLabel = (d: d3.HierarchyRectangularNode<Practice>) : string => {
+    const label = d.data.key ? t("practices." + d.data.key) : d.data.name;
+    // Fields with context get an asterisk appended to their title.
+    return d.data.note && d.data.note.trim() !== "" ? `${label}*` : label;
   }
 
   const calculateRotationFor = (clickX, clickY) : number => {
-    const rootClientRect = document.getElementsByClassName("flavour-root-node")[0].getBoundingClientRect();
+    const rootClientRect = document.getElementsByClassName("board-root-node")[0].getBoundingClientRect();
     const rootCenterX = rootClientRect.left + ((rootClientRect.right - rootClientRect.left) / 2);
     const rootCenterY = rootClientRect.top + ((rootClientRect.bottom - rootClientRect.top) / 2);
 
@@ -74,7 +85,9 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
     return currentRotation;
   }
 
-  const startDrag = (e, d: d3.HierarchyRectangularNode<Flavour>) : void => {
+  const startDrag = (e, d: d3.HierarchyRectangularNode<Practice>) : void => {
+    if (e.button !== 0) return; // right-clicks open the context overlay instead
+
     const currentRotation = calculateRotationFor(e.clientX, e.clientY);
 
     setDragSubject(d);
@@ -91,8 +104,8 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
     }
   }
 
-  const endDrag = (e, d: d3.HierarchyRectangularNode<Flavour>) : void => {
-    if (d && d.depth && e.clientX === dragStart.x && e.clientY === dragStart.y) {
+  const endDrag = (e, d: d3.HierarchyRectangularNode<Practice>) : void => {
+    if (d && d.depth && e.button === 0 && e.clientX === dragStart.x && e.clientY === dragStart.y) {
       onElementClick(d.data.uuid);
     }
 
@@ -116,20 +129,27 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
         <g key={d.data.uuid}
           onPointerDown={(e) : void => { startDrag(e, d) }}
           onPointerUp={(e) : void => { endDrag(e, d) }}
-          className={d.parent === null ? "flavour-root-node" : ""}
+          onContextMenu={(e) : void => {
+            e.preventDefault();
+            if (d.depth) {
+              onElementRightClick(d.data.uuid);
+            }
+          }}
+          className={d.parent === null ? "board-root-node" : ""}
           transform={getGTransform(d)}>
           <path
             d={getArc(d)}
             fill={getColor(d)}
+            data-status={d.depth ? (d.data.value ?? 0) : undefined}
             fillOpacity="1.0">
           </path>
           <text
             transform={getTextTransform(d)}
-            fill="#fff"
+            fill={textColorFor(getColor(d))}
             fillOpacity="1.0"
             dy="0.32em"
             style={{fontFamily: "sans-serif", fontSize: "12px", textAnchor: "middle"}}>
-            { d.data.key ? t("flavours." + d.data.key) : d.data.name }
+            { getLabel(d) }
           </text>
         </g>
       ))}

@@ -39,6 +39,25 @@ footer.footer {
   height: 3em;
 }
 
+.persons-bar {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1em auto;
+}
+
+.persons-bar .person {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.persons-bar .input {
+  max-width: 14em;
+}
+
 /* only float buttons on desktop */
 @include desktop {
   .buttons.is-fixed {

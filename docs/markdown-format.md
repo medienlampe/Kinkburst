@@ -49,4 +49,5 @@ Liked by Person B.
 - The people list is parsed from the `h1` title: everything between `(for ` and `)`, split on `,` and ` and `.
 - Status names are matched case-insensitively; any header without a recognized status defaults to `Not Defined` (0).
 - Blank lines are ignored. Text blocks are trimmed of leading/trailing blank lines.
+- Nesting deeper than `h4` is preserved on round-trip: any header attaches to the most recent shallower header. Export caps at `h6`, the deepest markdown heading level.
 - Importing replaces the current board state entirely (same semantics as the original's JSON import).

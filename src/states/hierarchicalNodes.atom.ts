@@ -1,43 +1,28 @@
 import * as d3 from "d3";
 import { atom } from "jotai";
-import type Flavour from "../interfaces";
-import { flavoursAtom } from "./flavours.atom";
+import type { Practice } from "../interfaces";
+import { practicesAtom } from "./practices.atom";
 import { radius } from "../constants";
-import { findAllDescendants } from "../helpers";
 
-// Derived: the partition layout (angles, sizes and colors) of the sunburst.
+// Derived: the partition layout (angles and sizes) of the sunburst.
 export const hierarchicalNodesAtom = atom((read) => {
-  const flavours = read(flavoursAtom);
+  const practices = read(practicesAtom);
 
-  if (!flavours || flavours.length === 0) {
+  if (!practices || practices.length === 0) {
     return [];
   }
 
-  const flavoursWithValues = flavours.map(flavour => {
-    return {
-      ...flavour,
-      value: findAllDescendants(flavours, flavour.uuid).length === 0 ? 1000 : 0
-    }
-  });
-
-  const hierarchicalFlavours = d3.stratify<Flavour>()
+  const root = d3.stratify<Practice>()
     .id(d => d.uuid)
-    .parentId(d => d.parentUuid)(flavoursWithValues);
+    .parentId(d => d.parentUuid)(practices);
 
-  hierarchicalFlavours.sum(d => Math.max(0, d.value));
-  hierarchicalFlavours.sort((a, b) => d3.descending(a.value, b.value));
+  // Every leaf gets an equal layout weight so each practice takes the same
+  // amount of arc space. The weights live on the hierarchy nodes, so the
+  // status in data.value is left untouched for rendering.
+  root.sum(() => 1000);
+  root.sort((a, b) => d3.descending(a.value, b.value));
 
-  const partition = d3.partition<Flavour>().size([2 * Math.PI, radius])(hierarchicalFlavours);
-
-  hierarchicalFlavours.children.forEach((child: any, i: number) => {
-    child.index = i;
-  });
-
-  // construct the color scale and set on each node
-  const colorScale = d3.scaleSequential([0, hierarchicalFlavours.children.length], d3.interpolateRainbow).unknown("#1b1b1b");
-  hierarchicalFlavours.descendants().forEach((child: any) => {
-    child.color = d3.color(colorScale(child.ancestors().reverse()[1]?.index));
-  });
+  const partition = d3.partition<Practice>().size([2 * Math.PI, radius])(root);
 
   return partition.descendants();
 });
