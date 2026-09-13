@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 
 import * as d3 from "d3";
@@ -38,7 +38,7 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
 
     const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
     const y = (d.y0 + d.y1) / 2;
-    let flip = ((x + globalRotation + 360) % 360) < 180;
+    const flip = ((x + globalRotation + 360) % 360) < 180;
     return `rotate(${x - 90}) translate(${y}, 0) rotate(${flip ? 0 : 180})`;
   }
 
@@ -61,21 +61,21 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
   }
 
   const calculateRotationFor = (clickX, clickY) : number => {
-    let rootClientRect = document.getElementsByClassName("flavour-root-node")[0].getBoundingClientRect();
-    let rootCenterX = rootClientRect.left + ((rootClientRect.right - rootClientRect.left) / 2);
-    let rootCenterY = rootClientRect.top + ((rootClientRect.bottom - rootClientRect.top) / 2);
+    const rootClientRect = document.getElementsByClassName("flavour-root-node")[0].getBoundingClientRect();
+    const rootCenterX = rootClientRect.left + ((rootClientRect.right - rootClientRect.left) / 2);
+    const rootCenterY = rootClientRect.top + ((rootClientRect.bottom - rootClientRect.top) / 2);
 
-    let x = clickX - rootCenterX;
-    let y = clickY - rootCenterY;
+    const x = clickX - rootCenterX;
+    const y = clickY - rootCenterY;
 
-    let currentAngle = Math.atan2(y, x);
-    let currentRotation = (180 / Math.PI * currentAngle) + 90;
+    const currentAngle = Math.atan2(y, x);
+    const currentRotation = (180 / Math.PI * currentAngle) + 90;
 
     return currentRotation;
   }
 
   const startDrag = (e, d: d3.HierarchyRectangularNode<Flavour>) : void => {
-    let currentRotation = calculateRotationFor(e.clientX, e.clientY);
+    const currentRotation = calculateRotationFor(e.clientX, e.clientY);
 
     setDragSubject(d);
     setDragStart({x: e.clientX, y: e.clientY});
@@ -84,8 +84,8 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
 
   const updateDrag = (e) : void => {
     if (dragSubject) {
-      let currentRotation = calculateRotationFor(e.clientX, e.clientY);
-      let diff = currentRotation - previousRotation;
+      const currentRotation = calculateRotationFor(e.clientX, e.clientY);
+      const diff = currentRotation - previousRotation;
       setPreviousRotation(currentRotation);
       setGlobalRotation(globalRotation + diff);
     }

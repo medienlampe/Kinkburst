@@ -1,3 +1,4 @@
+import { type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 import AddFlavourForm from "../AddFlavourForm/AddFlavourForm";
 import RemoveFlavourForm from "../RemoveFlavourForm/RemoveFlavourForm";
@@ -19,18 +20,18 @@ const EditModal = ({ isActive, onClose } : EditModalProps) : JSX.Element => {
   const hierarchicalFlavours = useRecoilValue(hierarchicalFlavoursState);
   
   const addNewFlavour = (newFlavourName, parentUuidToAddFlavourTo) : void => {
-    let flavour = {
+    const flavour = {
       "uuid": uuidv4(),
       "parentUuid": parentUuidToAddFlavourTo,
       "name": newFlavourName,
       "state":"YES"
     }
 
-    let parentHierarchicalFlavour = hierarchicalFlavours.find(hf => hf.data.uuid === parentUuidToAddFlavourTo);
+    const parentHierarchicalFlavour = hierarchicalFlavours.find(hf => hf.data.uuid === parentUuidToAddFlavourTo);
     
     setFlavours([flavour, ...flavours.map((f) : Flavour => {
       // change the flavour to be selected when the newly added flavour is a child flavour of it
-      let hierarchicalFlavour = hierarchicalFlavours.find(hf => hf.data.uuid === f.uuid);
+      const hierarchicalFlavour = hierarchicalFlavours.find(hf => hf.data.uuid === f.uuid);
 
       if (parentHierarchicalFlavour.ancestors().map(af => af.data.uuid).includes(hierarchicalFlavour.data.uuid)) {
         return {
@@ -44,7 +45,7 @@ const EditModal = ({ isActive, onClose } : EditModalProps) : JSX.Element => {
   }
 
   const removeFlavourAndDescendents = (flavourUuid) : void => {
-    let flavourUuidsToRemove = [ flavourUuid, ...findAllDescendants(flavours, flavourUuid) ];
+    const flavourUuidsToRemove = [ flavourUuid, ...findAllDescendants(flavours, flavourUuid) ];
     setFlavours(flavours.filter(flavour => !flavourUuidsToRemove.includes(flavour.uuid)));
   }
 

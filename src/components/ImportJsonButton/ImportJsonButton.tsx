@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { useSetRecoilState } from "recoil";
 import flavoursState from "../../states/flavours.atom";
@@ -16,14 +16,14 @@ const ImportJsonButton = () : JSX.Element => {
   const handleFileSubmission = (event) : void => {
     event.stopPropagation();
     event.preventDefault();
-    var file = event.target.files[0];
-    var reader = new FileReader();
+    const file = event.target.files[0];
+    const reader = new FileReader();
     reader.onload = handleReaderOnLoad;
     reader.readAsText(file, "UTF-8");
   }
 
   const handleReaderOnLoad = (evt) : void => {
-    let json = JSON.parse(evt.target.result as any);
+    const json = JSON.parse(evt.target.result as any);
     setFlavours(json);
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 /**
  * Controls the people the board is for (default: one person). The names are shown in the

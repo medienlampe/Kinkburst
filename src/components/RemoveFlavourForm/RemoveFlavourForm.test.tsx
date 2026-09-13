@@ -26,7 +26,7 @@ it("renders the remove flavour form", async () => {
 });
 
 it("removes the selected flavour when the remove button is clicked", async () => {
-  const onRemove = jest.fn();
+  const onRemove = vi.fn();
 
   render(
     <I18nextProvider i18n={i18n}>
@@ -35,7 +35,7 @@ it("removes the selected flavour when the remove button is clicked", async () =>
         hierarchicalFlavours={hierarchicalFlavours} />
     </I18nextProvider>);
   
-  let uuid = flavours.find(flavour => flavour.key === "creativity").uuid;
+  const uuid = flavours.find(flavour => flavour.key === "creativity").uuid;
   fireEvent.change(screen.getByLabelText("Flavour to remove"), {
     target: { value: uuid }
   });

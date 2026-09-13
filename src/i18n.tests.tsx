@@ -1,24 +1,35 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import Backend from "i18next-fs-backend";
-import { lstatSync, readdirSync } from "fs";
+import { lstatSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 
+// Load every locale synchronously as inline resources. i18next v23+ no longer
+// supports synchronous init through a backend (initImmediate was removed), so
+// bundling the resources directly keeps translations available immediately.
+const localesDir = join(__dirname, "../public/locales");
+
+const languages = readdirSync(localesDir).filter((fileName) =>
+  lstatSync(join(localesDir, fileName)).isDirectory()
+);
+
+const resources: Record<string, Record<string, unknown>> = {};
+for (const lng of languages) {
+  resources[lng] = {};
+  for (const nsFile of readdirSync(join(localesDir, lng))) {
+    if (!nsFile.endsWith(".json")) continue;
+    const namespace = nsFile.slice(0, -".json".length);
+    resources[lng][namespace] = JSON.parse(
+      readFileSync(join(localesDir, lng, nsFile), "utf-8")
+    );
+  }
+}
+
 i18n
-  .use(Backend)
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    initImmediate: false,
     lng: "en",
-    preload: readdirSync(join(__dirname, "../public/locales")).filter((fileName) => {
-      const joinedPath = join(join(__dirname, "../public/locales"), fileName)
-      const isDirectory = lstatSync(joinedPath).isDirectory()
-      return isDirectory
-    }),
-    backend: {
-      loadPath: join(__dirname, "../public/locales/{{lng}}/{{ns}}.json")
-    },
+    resources,
     react: {
       useSuspense: false
     }

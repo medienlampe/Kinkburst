@@ -1,3 +1,4 @@
+import { type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import * as d3 from "d3";
 import Flavour from "../../interfaces";

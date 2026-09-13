@@ -4,8 +4,8 @@ import i18n from "../../i18n.tests";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 it("does not reset after cancelling", async () => {
-  const onReset = jest.fn();
-  const onCancel = jest.fn();
+  const onReset = vi.fn();
+  const onCancel = vi.fn();
 
   render(
     <I18nextProvider i18n={i18n}>
@@ -22,8 +22,8 @@ it("does not reset after cancelling", async () => {
 });
 
 it("resets after confirming", async () => {
-  const onReset = jest.fn();
-  const onCancel = jest.fn();
+  const onReset = vi.fn();
+  const onCancel = vi.fn();
 
   render(
     <I18nextProvider i18n={i18n}>

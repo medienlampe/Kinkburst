@@ -11,6 +11,6 @@ import { Person, Practice } from "../interfaces";
  *
  * TODO: implement per spec.
  */
-export const exportMarkdown = (practices: Practice[], persons: Person[]): string => {
+export const exportMarkdown = (_practices: Practice[], _persons: Person[]): string => {
   throw new Error("Not implemented yet");
 };

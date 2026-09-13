@@ -1,3 +1,4 @@
+import { type JSX } from "react";
 import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
@@ -8,7 +9,7 @@ const ExportAsJsonButton = () : JSX.Element => {
   const flavours = useRecoilValue(flavoursState);
 
   const exportCurrentFlavours = () : void => {
-    let dataBlob = new Blob([JSON.stringify(flavours)], {type: "application/json;charset=utf-8"});
+    const dataBlob = new Blob([JSON.stringify(flavours)], {type: "application/json;charset=utf-8"});
     saveAs(dataBlob, "sunburst-smorgasbord.json");
   }
 

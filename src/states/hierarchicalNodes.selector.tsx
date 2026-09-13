@@ -21,7 +21,7 @@ const hierarchicalNodesState = selector({
       }
     });
     
-    let hierarchicalFlavours = d3.stratify<Flavour>()
+    const hierarchicalFlavours = d3.stratify<Flavour>()
       .id(d => d.uuid)
       .parentId(d => d.parentUuid)(flavoursWithValues);
 
@@ -35,7 +35,7 @@ const hierarchicalNodesState = selector({
     });
 
     // construct the color scale and set on each node
-    let colorScale = d3.scaleSequential([0, hierarchicalFlavours.children.length], d3.interpolateRainbow).unknown("#1b1b1b");
+    const colorScale = d3.scaleSequential([0, hierarchicalFlavours.children.length], d3.interpolateRainbow).unknown("#1b1b1b");
     hierarchicalFlavours.descendants().forEach((child: any) => {
       child.color = d3.color(colorScale(child.ancestors().reverse()[1]?.index));
     });

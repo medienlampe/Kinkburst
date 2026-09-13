@@ -60,6 +60,9 @@ is a planned follow-up, not yet done.
 ├── AGENTS.md                 ← you are here
 ├── CLAUDE.md                 → links here
 ├── README.md                 user-facing docs
+├── index.html                Vite entry HTML (static assets stay in public/)
+├── vite.config.ts            Vite + Vitest config (dev server on port 3000)
+├── eslint.config.js          ESLint flat config
 ├── docs/
 │   ├── Outline.md            product requirements (source of truth for behavior)
 │   └── markdown-format.md    export/import format spec (source of truth for the format)
@@ -101,9 +104,12 @@ is a planned follow-up, not yet done.
 
 ## Tech stack & conventions
 
-- **React 18 + TypeScript**, Create React App (`react-scripts` 5), JSX via `react-jsx`.
-- **d3** (v7) for the sunburst rendering; **recoil** for state; **bulma** (scss) for styling;
-  **i18next** for translations.
+- **React 19 + TypeScript**, bundled with **Vite** (dev server + build), JSX via `react-jsx`.
+- Tests run on **Vitest** (jsdom environment, globals enabled, setup in `src/setupTests.ts`).
+- Linting uses the **ESLint flat config** (`eslint.config.js`) with `typescript-eslint` and
+  the React hooks plugin.
+- **d3** (v7) for the sunburst rendering; **recoil** for state; **bulma** (scss, v1 — imported
+  via `@use "bulma/sass/index"` in `src/App.scss`) for styling; **i18next** for translations.
 - State pattern: flat node list in an atom (`{ uuid, parentUuid, key?, name?, value?, note? }`,
   root has `parentUuid: ""`), nested tree derived via selectors. New domain types:
   `Practice` and `Person` in `src/interfaces.tsx`.
@@ -116,9 +122,10 @@ is a planned follow-up, not yet done.
 ```bash
 npm install        # install dependencies
 npm start          # dev server at http://localhost:3000
-npm test           # jest (add --watchAll=false for a single run, e.g. in CI)
-npm run build      # production build
-npm run lint       # eslint over src
+npm test           # vitest, single run (CI-friendly); npm run test:watch for watch mode
+npm run build      # type-check (tsc --noEmit) + production build to dist/
+npm run preview    # serve the production build locally
+npm run lint       # eslint over the repo (flat config)
 ```
 
 ## Current status / follow-up tasks
@@ -135,7 +142,8 @@ branding. Remaining work (roughly in order):
 5. `PersonsBar`: add/remove people; render the people list in the board title and in the h1 of
    markdown export.
 6. Rename "flavour" terminology to "practice" across base code (mechanical, but touches many files).
-7. Consider migrating off Create React App (Vite) — optional, only if desired.
+
+Done: migrated off Create React App to Vite + Vitest + ESLint flat config (2026-07).
 
 ## Notes for agents
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import Flavour from "../../interfaces";
 import * as d3 from "d3";
 import SelectFlavourControl from "../SelectFlavourControl/SelectFlavourControl";

@@ -1,3 +1,4 @@
+import { type JSX } from "react";
 import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
 
@@ -6,7 +7,7 @@ const ExportAsImageButton = () : JSX.Element => {
 
   const exportAsImage = () : void => {
     // deep clone the image and process to hide disabled elements
-    let nodes = document.getElementById("smorgasbordImage").cloneNode(true) as any;
+    const nodes = document.getElementById("smorgasbordImage").cloneNode(true) as any;
 
     // TODO find these not by the property fill='#000' but by their explicit state in the flavour array.
     nodes.querySelectorAll("path[fill='#000']").forEach(function(path) {
@@ -14,7 +15,7 @@ const ExportAsImageButton = () : JSX.Element => {
       (path as Node).parentNode.querySelector("text").setAttribute("fill-opacity", "0");
     });
 
-    let svgString = getSVGString(nodes);
+    const svgString = getSVGString(nodes);
 
     svgString2Image(svgString, 2 * 1152, 2 * 1152, save);
   }
@@ -24,7 +25,7 @@ const ExportAsImageButton = () : JSX.Element => {
   }
 
   const getCSSStyles = (parentElement) : string => {
-    let selectorTextArr = [];
+    const selectorTextArr = [];
 
     // Add Parent element Id and Classes to the list
     selectorTextArr.push("#" + parentElement.id);
@@ -33,13 +34,13 @@ const ExportAsImageButton = () : JSX.Element => {
         selectorTextArr.push("." + parentElement.classList[c]);
 
     // Add Children element Ids and Classes to the list
-    let nodes = parentElement.getElementsByTagName("*");
+    const nodes = parentElement.getElementsByTagName("*");
     for (let i = 0; i < nodes.length; i++) {
-      let id = nodes[i].id;
+      const id = nodes[i].id;
       if (!contains("#" + id, selectorTextArr))
         selectorTextArr.push("#" + id);
 
-      let classes = nodes[i].classList;
+      const classes = nodes[i].classList;
       for (let c = 0; c < classes.length; c++)
         if (!contains("." + classes[c], selectorTextArr))
           selectorTextArr.push("." + classes[c]);
@@ -48,7 +49,7 @@ const ExportAsImageButton = () : JSX.Element => {
     // Extract CSS Rules
     let extractedCSSText = "";
     for (let i = 0; i < document.styleSheets.length; i++) {
-      let s = document.styleSheets[i];
+      const s = document.styleSheets[i];
 
       try {
         if (!s.cssRules) continue;
@@ -57,7 +58,7 @@ const ExportAsImageButton = () : JSX.Element => {
         continue;
       }
 
-      var cssRules = s.cssRules as any;
+      const cssRules = s.cssRules as any;
       for (let r = 0; r < cssRules.length; r++) {
         if (contains(cssRules[r].selectorText, selectorTextArr))
           extractedCSSText += cssRules[r].cssText;
@@ -74,10 +75,10 @@ const ExportAsImageButton = () : JSX.Element => {
 
   const getSVGString = (svgNode) : string => {
     svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
-    let cssStyleText = getCSSStyles(svgNode);
+    const cssStyleText = getCSSStyles(svgNode);
     appendCSS(cssStyleText, svgNode);
 
-    let serializer = new XMLSerializer();
+    const serializer = new XMLSerializer();
     let svgString = serializer.serializeToString(svgNode);
     svgString = svgString.replace(/(\w+)?:?xlink=/g, "xmlns:xlink="); // Fix root xlink without namespace
     svgString = svgString.replace(/NS\d+:href/g, "xlink:href"); // Safari NS namespace fix
@@ -86,29 +87,29 @@ const ExportAsImageButton = () : JSX.Element => {
   }
 
   const appendCSS = (cssText, element) : void => {
-    let styleElement = document.createElement("style");
+    const styleElement = document.createElement("style");
     styleElement.setAttribute("type", "text/css");
     styleElement.innerHTML = cssText;
-    let refNode = element.hasChildNodes() ? element.children[0] : null;
+    const refNode = element.hasChildNodes() ? element.children[0] : null;
     element.insertBefore(styleElement, refNode);
   }
 
   const svgString2Image = (svgString, width, height, callback) : void => {
-    let imgsrc = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
+    const imgsrc = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
 
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
 
     canvas.width = width;
     canvas.height = height;
 
-    let image = new Image();
+    const image = new Image();
     image.onload = () : void => {
       context.clearRect(0, 0, width, height);
       context.drawImage(image, 0, 0, width, height);
 
       canvas.toBlob((blob: any) => {
-        let filesize = Math.round(blob.length / 1024) + " KB";
+        const filesize = Math.round(blob.length / 1024) + " KB";
         if (callback) callback(blob, filesize);
       });
     };

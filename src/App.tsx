@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -71,7 +71,7 @@ const App = () : JSX.Element => {
   }, [ flavours ])
 
   const handleScroll = useCallback(() => {
-    let buttonPosition = document.getElementsByClassName("js-button-container-scrolltop")[0].getBoundingClientRect().top;
+    const buttonPosition = document.getElementsByClassName("js-button-container-scrolltop")[0].getBoundingClientRect().top;
     if (buttonPosition < 30 && !buttonsFloating) {
       setButtonsFloating(true);
     } else if (buttonPosition >= 30 && buttonsFloating) {
@@ -99,16 +99,16 @@ const App = () : JSX.Element => {
 
   const handleElementClick = (uuid: string) : void => {
     // find the target flavour
-    let targetFlavour = flavours.find(flavour => flavour.uuid === uuid);
-    let targetHierarchicalFlavour = hierarchicalFlavours.find(hierarchicalFlavour => hierarchicalFlavour.data.uuid === targetFlavour.uuid);
+    const targetFlavour = flavours.find(flavour => flavour.uuid === uuid);
+    const targetHierarchicalFlavour = hierarchicalFlavours.find(hierarchicalFlavour => hierarchicalFlavour.data.uuid === targetFlavour.uuid);
 
     // ignore root click
     if (targetHierarchicalFlavour.ancestors().length === 1) {
       return;
     }
 
-    let oldState = targetFlavour.state;
-    let newState = oldState === "NO" ? "YES"
+    const oldState = targetFlavour.state;
+    const newState = oldState === "NO" ? "YES"
       : oldState === "YES" ? "MAYBE"
         : "NO";
     
@@ -120,7 +120,7 @@ const App = () : JSX.Element => {
             state: newState
           }
         } else {
-          let hierarchicalFlavour = hierarchicalFlavours.find(hierarchicalFlavour => hierarchicalFlavour.data.uuid === flavour.uuid);
+          const hierarchicalFlavour = hierarchicalFlavours.find(hierarchicalFlavour => hierarchicalFlavour.data.uuid === flavour.uuid);
           if (
             (
               newState === "NO" // 'NO'? Update all children to that

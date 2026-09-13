@@ -1,5 +1,6 @@
-@charset "utf-8";
-@import "../node_modules/bulma/bulma.sass";
+// Bulma styles + its responsive mixins (not re-exported by the package index in v1).
+@use "bulma/sass/index" as *;
+@use "bulma/sass/utilities/mixins" as *;
 
 html {
   scroll-behavior: smooth;

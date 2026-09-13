@@ -14,6 +14,6 @@ export interface ParsedBoard {
  *
  * TODO: implement per spec.
  */
-export const importMarkdown = (markdown: string): ParsedBoard => {
+export const importMarkdown = (_markdown: string): ParsedBoard => {
   throw new Error("Not implemented yet");
 };

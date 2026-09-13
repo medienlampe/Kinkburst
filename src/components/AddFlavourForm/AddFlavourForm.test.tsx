@@ -27,7 +27,7 @@ it("renders the add flavour form", async () => {
 });
 
 it("adds a new flavour when the add button is clicked", async () => {
-  const onAdd = jest.fn();
+  const onAdd = vi.fn();
 
   render(
     <I18nextProvider i18n={i18n}>
@@ -36,12 +36,12 @@ it("adds a new flavour when the add button is clicked", async () => {
         hierarchicalFlavours={hierarchicalFlavours} />
     </I18nextProvider>);
   
-  let parentUuid = flavours.find(flavour => flavour.key === "creativity").uuid;
+  const parentUuid = flavours.find(flavour => flavour.key === "creativity").uuid;
   fireEvent.change(screen.getByLabelText("Parent element"), {
     target: { value: parentUuid }
   });
 
-  userEvent.type(screen.getByLabelText("New flavour name"), "Projects");
+  await userEvent.type(screen.getByLabelText("New flavour name"), "Projects");
 
   fireEvent.click(screen.getByRole("button"));
 

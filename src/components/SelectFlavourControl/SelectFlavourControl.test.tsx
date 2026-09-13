@@ -36,14 +36,14 @@ it("sorts the flavours alphabetically", async () => {
         hierarchicalFlavours={hierarchicalFlavours} />
     </I18nextProvider>);
 
-  let options = screen.getAllByRole("option");
+  const options = screen.getAllByRole("option");
 
-  let collaborationOption = options.find(option => option.textContent === "Collaboration");
-  let labelsOption = options.find(option => option.textContent === "Labels");
+  const collaborationOption = options.find(option => option.textContent === "Collaboration");
+  const labelsOption = options.find(option => option.textContent === "Labels");
   expect(options.indexOf(collaborationOption)).toBeLessThan(options.indexOf(labelsOption));
 
-  let creativityOption = options.find(option => option.textContent === "Collaboration > Creativity");
-  let organizationOption = options.find(option => option.textContent === "Collaboration > Organization");
+  const creativityOption = options.find(option => option.textContent === "Collaboration > Creativity");
+  const organizationOption = options.find(option => option.textContent === "Collaboration > Organization");
   expect(options.indexOf(creativityOption)).toBeLessThan(options.indexOf(organizationOption));
 });
 

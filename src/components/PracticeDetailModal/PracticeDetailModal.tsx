@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 /**
  * Overlay opened on right-click of a practice field to view and edit its context note.
