@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import * as d3 from "d3";
 import "./Smorgasbord.css";
 import Flavour from "../../interfaces";
-import hierarchicalNodesState from "../../states/hierarchicalNodes.selector";
-import { useRecoilValue } from "recoil";
+import { hierarchicalNodesAtom } from "../../states/hierarchicalNodes.atom";
+import { useAtomValue } from "jotai";
 import { padding, diameter, radius } from "../../constants";
 
 interface SmorgasbordProps {
@@ -17,7 +17,7 @@ const Smorgasbord = ({ onElementClick } : SmorgasbordProps) : JSX.Element => {
 
   const svgRef = React.useRef<SVGSVGElement>(null);
   
-  const nodes = useRecoilValue(hierarchicalNodesState);
+  const nodes = useAtomValue(hierarchicalNodesAtom);
   
   const [ dragSubject, setDragSubject ] = useState<d3.HierarchyRectangularNode<Flavour>>(null);
   const [ globalRotation, setGlobalRotation ] = useState(0.0);

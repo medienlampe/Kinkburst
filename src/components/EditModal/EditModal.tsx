@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 import AddFlavourForm from "../AddFlavourForm/AddFlavourForm";
 import RemoveFlavourForm from "../RemoveFlavourForm/RemoveFlavourForm";
 import { useTranslation } from "react-i18next";
-import { useRecoilState, useRecoilValue } from "recoil";
-import flavoursState from "../../states/flavours.atom";
-import hierarchicalFlavoursState from "../../states/hierarchicalFlavours.selector";
+import { useAtom, useAtomValue } from "jotai";
+import { flavoursAtom } from "../../states/flavours.atom";
+import { hierarchicalFlavoursAtom } from "../../states/hierarchicalFlavours.atom";
 import Flavour from "../../interfaces";
 import { findAllDescendants } from "../../helpers";
 
@@ -16,8 +16,8 @@ interface EditModalProps {
 
 const EditModal = ({ isActive, onClose } : EditModalProps) : JSX.Element => {
   const { t } = useTranslation();
-  const [flavours, setFlavours] = useRecoilState(flavoursState);
-  const hierarchicalFlavours = useRecoilValue(hierarchicalFlavoursState);
+  const [flavours, setFlavours] = useAtom(flavoursAtom);
+  const hierarchicalFlavours = useAtomValue(hierarchicalFlavoursAtom);
   
   const addNewFlavour = (newFlavourName, parentUuidToAddFlavourTo) : void => {
     const flavour = {

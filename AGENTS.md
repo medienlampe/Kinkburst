@@ -89,11 +89,11 @@ is a planned follow-up, not yet done.
     │   ├── EditButton/       opens the edit modal (base)
     │   ├── PracticeDetailModal/  right-click overlay for context notes (stub)
     │   └── PersonsBar/       add/remove people (stub)
-    ├── states/               recoil atoms/selectors
-    │   ├── flavours.atom.tsx            flat list of nodes (base)
-    │   ├── hierarchicalFlavours.selector.tsx  nested tree derived from the flat list
-    │   ├── hierarchicalNodes.selector.tsx     d3 node hierarchy
-    │   └── persons.atom.tsx             people the board is for (new, not yet wired in)
+    ├── states/               jotai atoms + derived atoms
+    │   ├── flavours.atom.ts             flat list of nodes (base)
+    │   ├── hierarchicalFlavours.atom.ts nested tree derived from the flat list
+    │   ├── hierarchicalNodes.atom.ts    d3 node hierarchy
+    │   └── persons.atom.ts              people the board is for (new, not yet wired in)
     ├── markdown/             export/import conversion (stubs)
     │   ├── exporter.ts
     │   └── importer.ts
@@ -108,10 +108,11 @@ is a planned follow-up, not yet done.
 - Tests run on **Vitest** (jsdom environment, globals enabled, setup in `src/setupTests.ts`).
 - Linting uses the **ESLint flat config** (`eslint.config.js`) with `typescript-eslint` and
   the React hooks plugin.
-- **d3** (v7) for the sunburst rendering; **recoil** for state; **bulma** (scss, v1 — imported
+- **d3** (v7) for the sunburst rendering; **jotai** for state; **bulma** (scss, v1 — imported
   via `@use "bulma/sass/index"` in `src/App.scss`) for styling; **i18next** for translations.
 - State pattern: flat node list in an atom (`{ uuid, parentUuid, key?, name?, value?, note? }`,
-  root has `parentUuid: ""`), nested tree derived via selectors. New domain types:
+  root has `parentUuid: ""`), nested tree derived via derived atoms (`atom((read) => ...)`).
+  No provider wrapper is needed (jotai's default store is global). New domain types:
   `Practice` and `Person` in `src/interfaces.tsx`.
 - Components live in one folder each: `src/components/<Name>/<Name>.tsx` (+ optional `.test.tsx`).
 - Persistence: `localStorage` (base code uses the key `"flavours"`).
@@ -144,6 +145,8 @@ branding. Remaining work (roughly in order):
 6. Rename "flavour" terminology to "practice" across base code (mechanical, but touches many files).
 
 Done: migrated off Create React App to Vite + Vitest + ESLint flat config (2026-07).
+Done: replaced unmaintained recoil with jotai (2026-07) — recoil 0.7.7 is incompatible with
+React 19 (it reads the removed `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED` export).
 
 ## Notes for agents
 

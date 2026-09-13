@@ -1,6 +1,6 @@
 import { Suspense, useCallback, useEffect, useState, type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useAtom, useAtomValue } from "jotai";
 
 import "./App.scss";
 
@@ -13,14 +13,14 @@ import ResetButton from "./components/ResetButton/ResetButton";
 import EditButton from "./components/EditButton/EditButton";
 import EditModal from "./components/EditModal/EditModal";
 import ResetConfirmationModal from "./components/ResetConfirmationModal/ResetConfirmationModal";
-import flavoursState from "./states/flavours.atom";
-import hierarchicalFlavoursState from "./states/hierarchicalFlavours.selector";
+import { flavoursAtom } from "./states/flavours.atom";
+import { hierarchicalFlavoursAtom } from "./states/hierarchicalFlavours.atom";
 
 const App = () : JSX.Element => {
   const { t, i18n } = useTranslation();
 
-  const [flavours, setFlavours] = useRecoilState(flavoursState);
-  const hierarchicalFlavours = useRecoilValue(hierarchicalFlavoursState);
+  const [flavours, setFlavours] = useAtom(flavoursAtom);
+  const hierarchicalFlavours = useAtomValue(hierarchicalFlavoursAtom);
 
   const [resetConfirmationModalActive, setResetConfirmationModalActive] = useState<boolean>(false);
   const [editModalActive, setEditModalActive] = useState<boolean>(false);

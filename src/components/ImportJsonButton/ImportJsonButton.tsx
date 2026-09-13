@@ -1,11 +1,11 @@
 import { useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { useSetRecoilState } from "recoil";
-import flavoursState from "../../states/flavours.atom";
+import { useSetAtom } from "jotai";
+import { flavoursAtom } from "../../states/flavours.atom";
 
 const ImportJsonButton = () : JSX.Element => {
   const { t } = useTranslation();
-  const setFlavours = useSetRecoilState(flavoursState);
+  const setFlavours = useSetAtom(flavoursAtom);
 
   const inputFile = useRef(null);
 
