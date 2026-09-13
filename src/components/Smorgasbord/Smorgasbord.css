@@ -6,8 +6,9 @@
   width: min(100%, 72vh);
   max-width: 860px;
   height: auto;
-  /* the board handles its own gestures (rotate, long press) */
-  touch-action: none;
+  /* The board owns horizontal touches (rotate, long press); vertical swipes and
+     pinches fall through to the page so mobile scrolling still works. */
+  touch-action: pan-y pinch-zoom;
   user-select: none;
   -webkit-user-select: none;
   /* no iOS text callout / magnifier on long press */
@@ -30,25 +31,3 @@
   position: relative;
 }
 
-/* Mobile "back to overview" button, shown while the board is zoomed in. */
-.board-fit-button {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--bg-raised);
-  border: 1px solid var(--border);
-  color: var(--text);
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.board-fit-button:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}

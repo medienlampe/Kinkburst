@@ -88,7 +88,7 @@ describe("App", () => {
     try {
       fireEvent.pointerDown(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
       // Move beyond the drag threshold before the long press fires.
-      fireEvent.mouseMove(field, { clientX: 150, clientY: 120 });
+      fireEvent.pointerMove(field, { clientX: 150, clientY: 120 });
       act(() : void => { vi.advanceTimersByTime(500); });
 
       expect(detailModal()?.className).not.toContain("is-active");

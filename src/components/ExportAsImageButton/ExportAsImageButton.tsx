@@ -10,11 +10,6 @@ const ExportAsImageButton = () : JSX.Element => {
     // deep clone the image and process to hide not-defined elements
     const nodes = document.getElementById("smorgasbordImage").cloneNode(true) as any;
 
-    // Drop the mobile zoom transform so the export always shows the full board.
-    nodes.querySelectorAll(".board-zoom-layer").forEach(function(layer) {
-      layer.removeAttribute("style");
-    });
-
     nodes.querySelectorAll("path[data-status='0']").forEach(function(path) {
       path.setAttribute("fill-opacity", "0");
       (path as Node).parentNode.querySelector("text").setAttribute("fill-opacity", "0");

@@ -148,13 +148,11 @@ properties in `src/App.scss` (design tokens at the top of that file). Status lab
 intentionally kept in English in all locales: they are the canonical terms of the markdown
 format.
 
-Mobile detail view (2026-09): on screens ≤ 768px the board supports a zoomed-in state —
-double-tap a slice to zoom in centered on it (labels render at 17px instead of 13px),
-double-tap empty space or press the floating fit button to return to the overview. Single
-taps are delayed by the double-tap window (300ms) on mobile only. The zoom is applied via a
-CSS transform on a dedicated `.board-zoom-layer` group (the image export strips it), and is
-kept in state but only applied on mobile, so rotating back to a phone restores the last
-detail view.
+Touch gestures (2026-09): the SVG uses `touch-action: pan-y pinch-zoom`, so vertical
+swipes scroll the page while horizontal drags rotate the wheel (`onPointerMove`, tracked
+per pointer id); long press opens the context overlay. Taps fire instantly on every
+device; zooming is left to the browser's native pinch zoom (an in-app double-tap zoom
+existed briefly but was removed).
 
 ## Notes for agents
 
