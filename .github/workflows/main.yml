@@ -1,4 +1,4 @@
-name: Test, Build & Deploy static content to Pages
+name: Test, Build & Deploy to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -37,7 +37,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Run tests
-        run: npm test -- --watchAll=false
+        run: npm test
       - name: Build
         run: npm run build
       - name: Setup Pages
