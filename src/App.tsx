@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState, type JSX } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 
 import "./App.scss";
@@ -149,12 +149,12 @@ const App = () : JSX.Element => {
         <section className="faq-section">
           <div className="container faq-container">
             <h2 id="what-is-this" className="faq-title">{t("faq.whats_this")}</h2>
-            <p dangerouslySetInnerHTML={{__html: t("faq.whats_this_content")}}></p>
+            <p><Trans i18nKey="faq.whats_this_content"></Trans></p>
             <h2 className="faq-title">{t("faq.how_to_use")}</h2>
             <p>{t("faq.how_to_use_content_1")}</p>
             <p>{t("faq.how_to_use_content_2")}</p>
             <h2 className="faq-title">{t("faq.safety")}</h2>
-            <p dangerouslySetInnerHTML={{__html: t("faq.safety_content")}}></p>
+            <p><Trans i18nKey="faq.safety_content"></Trans></p>
           </div>
         </section>
       </main>
@@ -169,7 +169,7 @@ const App = () : JSX.Element => {
             <button className="button-link" onClick={() : void => changeLanguage("de")}>{t("footer.languages_german")}</button>,&nbsp;
             <button className="button-link" onClick={() : void => changeLanguage("nl")}>{t("footer.languages_dutch")}</button>.
           </p>
-          <p dangerouslySetInnerHTML={{__html: t("footer.disclaimer")}}></p>
+          <p><Trans i18nKey="footer.disclaimer"></Trans></p>
         </div>
       </footer>
 

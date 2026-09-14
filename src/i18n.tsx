@@ -19,6 +19,13 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: "en",
+    backend: {
+      // Relative path so the files are resolved against the page's own
+      // folder (public/locales) instead of the domain root. Needed for
+      // deployments under a subpath, e.g. GitHub Pages:
+      // https://medienlampe.github.io/Smorkinkboard/locales/en.json
+      loadPath: "locales/{{lng}}/{{ns}}.json",
+    },
   });
 
 

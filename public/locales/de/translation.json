@@ -37,18 +37,18 @@
     "remove": "Person entfernen"
   },
   "statuses": {
-    "not_defined": "Not Defined",
+    "not_defined": "Unbesprochen",
     "hard_limit": "Hard Limit",
     "soft_limit": "Soft Limit",
-    "can": "Can",
-    "should": "Should",
-    "must": "Must"
+    "can": "Kann",
+    "should": "Schön",
+    "must": "Muss"
   },
   "legend": {
-    "title": "Statuslegende"
+    "title": "Legende"
   },
   "detail": {
-    "title": "Praktik-Details",
+    "title": "Details",
     "note_label": "Kontext / Notizen",
     "save": "Speichern",
     "cancel": "Abbrechen"
@@ -74,7 +74,7 @@
     "error": "Die Datei konnte nicht als Smorkinkboard-Markdown-Export gelesen werden."
   },
   "footer": {
-    "disclaimer": "Inspiriert vom <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; gebaut mit <a href=\"https://d3js.org/\">D3</a>, basiert auf deren <a href=\"https://observablehq.com/@d3/sunburst\">Sunburst-Diagramm</a>.<br />Keine Cookies, kein Tracking, keine Daten gesammelt. Local Storage sorgt dafür, dass du nicht jedes Mal von vorne anfangen musst.",
+    "disclaimer": "Inspiriert vom <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; gebaut mit <a href=\"https://d3js.org/\">D3</a>, basiert auf deren <a href=\"https://observablehq.com/@d3/sunburst\">Sunburst-Diagramm</a>.<br />Keine Cookies, kein Tracking, keine Daten gesammelt. Lokale Daten auf deinem Rechner in deinem Browser sorgen dafür, dass du nicht jedes Mal von vorne anfangen musst.",
     "languages": "Verfügbar in",
     "languages_english": "Englisch",
     "languages_spanish": "Spanisch",
@@ -83,11 +83,11 @@
   },
   "faq": {
     "whats_this": "Was ist das?",
-    "whats_this_content": "Dies ist ein Werkzeug, um zu besprechen und zu erkunden, welche Praktiken in eurer Dynamik willkommen sind. Inspiriert vom <a href=\"//www.multiamory.com/podcast/339-the-smorgasbord-of-relationships\">Relationship Anarchy Smorgasbord</a>, ursprünglich entwickelt von Lyrica Lawrence und Heather Orr (2016) — hier in einer kinkigen Variante für Konsens.",
+    "whats_this_content": "Dies ist ein Werkzeug, um zu besprechen und zu erkunden, welche BDSM-Praktiken in eurer Dynamik willkommen sind.",
     "how_to_use": "Wie nutze ich es?",
-    "how_to_use_content_1": "Oben auf der Seite setzt du die Personen, für die das Board gedacht ist. Dann klickst du auf ein Feld: Jeder Klick schaltet eine Praktik von Not Defined über Hard Limit, Soft Limit, Can und Should zu Must — und aktualisiert entsprechend Eltern und Kinder. Rechtsklick auf ein Feld öffnet Kontext-Notizen.",
-    "how_to_use_content_2": "Wie genau du das Werkzeug nutzt, liegt bei dir — am besten funktioniert es, wenn ihr es gemeinsam ausfüllt. Klickt entweder zusammen durch, oder füllt es unabhängig aus und teilt eure Ergebnisse. Es geht um das Gespräch.",
+    "how_to_use_content_1": "Oben auf der Seite setzt du die Personen, für die das Board gedacht ist. Dann klickst du auf ein Feld: Jeder Klick schaltet eine Praktik von Unbesprochen über Hard Limit, Soft Limit, Kann und Schön zu Muss — und aktualisiert entsprechend alle Zweige des Baums. Rechtsklick auf ein Feld öffnet die Möglichkeit Notizen zu hinterlegen.",
+    "how_to_use_content_2": "Wie genau du das Werkzeug nutzt, liegt bei dir — am besten funktioniert es, wenn ihr es gemeinsam ausfüllt. Klickt entweder zusammen durch oder füllt es unabhängig aus und teilt eure Ergebnisse. Es geht um das Gespräch.",
     "safety": "Ist das sicher?",
-    "safety_content": "Smorkinkboard ist ein Werkzeug für Konsens, kein Skript: Es zeigt, welche Praktiken für die Personen in einer Dynamik willkommen sind und welche nicht. Es funktioniert nur, wenn ihr es gemeinsam ausfüllt, nachdem ihr wirklich darüber geredet habt — und regelmäßig darauf zurückkommt, denn Limits und Favoriten ändern sich im Laufe der Zeit. Im Zweifel: nachfragen."
+    "safety_content": "Smorkinkboard ist ein Werkzeug: Es zeigt, welche Praktiken für die Personen in einer Dynamik willkommen sind und welche nicht. Es funktioniert nur, wenn ihr es gemeinsam ausfüllt, nachdem ihr wirklich darüber geredet habt — und regelmäßig darauf zurückkommt, denn Limits und Favoriten ändern sich im Laufe der Zeit."
   }
 }
