@@ -2,7 +2,9 @@
 
 A fun way of manufacturing consent.
 
-Smorkinkboard is a kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/). It shows which practices are welcome for the people in your dynamic, organized as a tree:
+Smorkinkboard is a kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/), created by [Pepijn Schoen](https://github.com/duizendnegen) (thank you for creating the original project and allowing me to do this!). 
+
+It shows which practices are welcome for the people in your dynamic, organized as a tree:
 
 - **Categories** (e.g. `Physical`, `Psychological`, `Social`)
   - **Play areas** (e.g. `Bondage`, `Impact Play`, `Power Exchange`, `Toys`, `Edge Play`)
@@ -61,4 +63,4 @@ We're open for pull requests — best discuss your suggestion first by opening a
 See [AGENTS.md](AGENTS.md) for the project structure and conventions (used by both humans and AI coding agents).
 
 ## Commercial Use
-If you want to use this project commercially, please get in contact with [https://github.com/duizendnegen](Pepijn, the original creator) and me first. Thank you.
+If you want to use this project commercially, please get in contact with [Pepijn, the original creator](https://github.com/duizendnegen) and me first. Thank you.
