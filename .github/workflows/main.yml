@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-name: Test, build & deploy
-=======
-name: Test & build
->>>>>>> main
+name: Test & Build
 
 on:
   push:
@@ -12,38 +8,6 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
-<<<<<<< HEAD
-    environment: production
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm test
-      - name: Build
-        run: npm run build
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
-      - name: Deploy
-        run: aws s3 sync ./build ${{ secrets.AWS_S3_BUCKET }}
-      - name: Invalidate CloudFront Cache
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
-          PATHS: "/ /index.html /flavours.json /locales/*"
-          AWS_REGION: "eu-central-1"
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-=======
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -57,4 +21,3 @@ jobs:
         run: npm test -- --watchAll=false
       - name: Build
         run: npm run build
->>>>>>> main
