@@ -1,30 +1,54 @@
 import { v4 as uuidv4 } from "uuid";
 import type { Person, Practice } from "../interfaces";
-import { BOARD_NAME, STATUS_BY_LABEL, type StatusValue } from "../constants";
+import i18n from "../i18n";
+import { BOARD_NAME, SUPPORTED_LANGUAGES, type StatusValue } from "../constants";
+import { parseStatusLabel } from "./statusLabels";
 
 export interface ParsedBoard {
   practices: Practice[],
   persons: Person[],
 }
 
+// The value of an i18n key in every supported language (from the locale files).
+const localized = (key: string): string[] => {
+  return SUPPORTED_LANGUAGES.map(lng => i18n.t(key, { lng }));
+};
+
+// Strips the trailing " - <language>" suffix the exporter appends to the h1
+// title (e.g. " - Deutsch"), so it does not leak into the people list.
+const stripLanguageSuffix = (title: string): string => {
+  const lower = title.toLowerCase();
+  for (const name of localized("board.language")) {
+    const suffix = ` - ${name}`.toLowerCase();
+    if (lower.endsWith(suffix)) {
+      return title.slice(0, title.length - suffix.length);
+    }
+  }
+  return title;
+};
+
 // Splits a people list like "Person A, Person B and Person C" into names.
+// The conjunction is localized: "and", "und", "y", "en" (see "board.and").
 const splitPeopleList = (list: string): string[] => {
+  const conjunctions = localized("board.and").join("|");
   return list
-    .split(/\s*,\s*|\s+and\s+/)
+    .split(new RegExp(`\\s*,\\s*|\\s+(?:${conjunctions})\\s+`))
     .map(name => name.trim())
     .filter(name => name.length > 0);
 };
 
 // Parses the people from a board title like "Smorkinkboard (for Person A, Person B and Person C)".
-// Without a recognizable "(for ...)" parenthetical this falls back to a single unnamed person.
+// The preposition is localized: "for", "für", "para", "voor" (see "board.for").
+// Without a recognizable parenthetical this falls back to a single unnamed person.
 const parsePersonsFromTitle = (title: string): Person[] => {
-  const match = title.match(/\(for\s+(.+)\)$/);
+  const prepositions = localized("board.for").join("|");
+  const match = title.match(new RegExp(`\\((${prepositions})\\s+(.+)\\)$`));
 
   if (!match) {
     return [{ id: uuidv4(), name: "" }];
   }
 
-  const names = splitPeopleList(match[1]);
+  const names = splitPeopleList(match[2]);
   if (names.length === 0) {
     return [{ id: uuidv4(), name: "" }];
   }
@@ -43,7 +67,8 @@ const parseHeader = (text: string): { name: string, value: StatusValue } => {
   }
 
   const name = match[1].trim();
-  const value = STATUS_BY_LABEL[match[2].trim().toLowerCase()] ?? 0;
+  // Status labels are accepted in every supported language (case-insensitive).
+  const value = parseStatusLabel(match[2]);
   return { name, value };
 };
 
@@ -51,8 +76,10 @@ const parseHeader = (text: string): { name: string, value: StatusValue } => {
  * Parses a Smorkinkboard markdown document into the internal data format.
  *
  * Format spec: docs/markdown-format.md
- * - h1 title (with people list in brackets), h2/h3/h4 hierarchy, "(Status)" suffixes, notes below headers
- * - Unknown/missing statuses default to "Not Defined" (0)
+ * - h1 title (with people list in brackets and an optional " - <language>" suffix),
+ *   h2/h3/h4 hierarchy, "(Status)" suffixes, notes below headers
+ * - Status labels and the people preposition/conjunction are accepted in every
+ *   supported language (en/de/es/nl); unknown/missing statuses default to "Not Defined" (0)
  * - Importing replaces the current board state entirely (same semantics as the original's JSON import)
  *
  * Headers are assigned to parents with a level stack, so any header depth
@@ -97,7 +124,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
     if (level === 1) {
       // The h1 is the board title; ignore any further h1 lines.
       if (stack.length === 0) {
-        title = text;
+        title = stripLanguageSuffix(text);
         const root: Practice = { uuid: uuidv4(), parentUuid: "", name: text };
         practices.push(root);
         stack.push(root);

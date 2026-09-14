@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { exportMarkdown } from "./exporter";
 import { importMarkdown } from "./importer";
+import i18n from "../i18n";
 import type { Practice } from "../interfaces";
 
 // The example from docs/markdown-format.md (source of truth for the format).
@@ -119,14 +120,19 @@ describe("importMarkdown", () => {
 describe("exportMarkdown", () => {
   it("round-trips the example from docs/markdown-format.md", () => {
     const board = importMarkdown(docExample);
-    expect(exportMarkdown(board.practices, board.persons)).toBe(docExample);
+    // The exporter appends the language of the document to the h1 title.
+    const expected = docExample.replace(
+      "# Smorkinkboard (for Person A, Person B and Person C)",
+      "# Smorkinkboard (for Person A, Person B and Person C) - English",
+    );
+    expect(exportMarkdown(board.practices, board.persons)).toBe(expected);
   });
 
   it("omits the people parenthetical with fewer than two named persons", () => {
     const board = importMarkdown("# Smorkinkboard (for Person A and Person B)\n\n## Physical (Must)\n");
 
     const exported = exportMarkdown(board.practices, [{ id: "1", name: "Person A" }]);
-    expect(exported.startsWith("# Smorkinkboard\n")).toBe(true);
+    expect(exported.startsWith("# Smorkinkboard - English\n")).toBe(true);
   });
 
   it("exports multi-line notes verbatim and round-trips them", () => {
@@ -137,5 +143,57 @@ describe("exportMarkdown", () => {
 
     const reimported = importMarkdown(exportMarkdown(board.practices, board.persons));
     expect(byName(reimported.practices).get("Physical")?.note).toBe("Line one.\nLine two.");
+  });
+});
+
+describe("localized export/import", () => {
+  const board = importMarkdown(docExample);
+
+  afterEach(() : void => {
+    void i18n.changeLanguage("en");
+  });
+
+  it("exports in the active language and re-imports its own output", async () => {
+    await i18n.changeLanguage("de");
+
+    const exported = exportMarkdown(board.practices, board.persons);
+    expect(exported).toContain("# Smorkinkboard (für Person A, Person B und Person C) - Deutsch");
+    expect(exported).toContain("## Physical (Muss)");
+    expect(exported).toContain("### Bondage (Kann)");
+
+    const reimported = importMarkdown(exported);
+    expect(reimported.persons.map(person => person.name)).toEqual(["Person A", "Person B", "Person C"]);
+    expect(byName(reimported.practices).get("Physical")?.value).toBe(5);
+    expect(byName(reimported.practices).get("Bondage")?.value).toBe(3);
+  });
+
+  it("imports status labels in every supported language", () => {
+    const cases: Array<[string, number]> = [
+      // en
+      ["(Not Defined)", 0], ["(Hard Limit)", 1], ["(Soft Limit)", 2],
+      ["(Can)", 3], ["(Should)", 4], ["(Must)", 5],
+      // de
+      ["(Unbesprochen)", 0], ["(Kann)", 3], ["(Schön)", 4], ["(Muss)", 5],
+      // es
+      ["(No definido)", 0], ["(Puede)", 3], ["(Deseable)", 4], ["(Imprescindible)", 5],
+      // nl
+      ["(Niet besproken)", 0], ["(Kan)", 3], ["(Leuk)", 4], ["(Moet)", 5],
+    ];
+
+    for (const [label, expected] of cases) {
+      const parsed = importMarkdown(`# Smorkinkboard\n\n## Physical ${label}\n`);
+      expect(byName(parsed.practices).get("Physical")?.value, label).toBe(expected);
+    }
+  });
+
+  it("imports localized people lists and strips the language suffix", () => {
+    const german = importMarkdown("# Smorkinkboard (für Sven und Abba) - Deutsch\n");
+    expect(german.persons.map(person => person.name)).toEqual(["Sven", "Abba"]);
+
+    const spanish = importMarkdown("# Smorkinkboard (para Ana y Bruno) - Español\n");
+    expect(spanish.persons.map(person => person.name)).toEqual(["Ana", "Bruno"]);
+
+    const dutch = importMarkdown("# Smorkinkboard (voor Ann en Bob) - Nederlands\n");
+    expect(dutch.persons.map(person => person.name)).toEqual(["Ann", "Bob"]);
   });
 });

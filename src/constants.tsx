@@ -29,5 +29,19 @@ export const STATUS_BY_LABEL: Record<string, StatusValue> = Object.fromEntries(
   (Object.values(STATUSES) as StatusDefinition[]).map((s) => [s.label.toLowerCase(), s.value])
 ) as Record<string, StatusValue>;
 
+// All languages shipped in public/locales. Exports write the active UI
+// language; imports accept labels from all of them (see docs/markdown-format.md).
+export const SUPPORTED_LANGUAGES = ["en", "de", "es", "nl"] as const;
+
+// i18n key per status value; the labels themselves live in the locale files.
+export const STATUS_I18N_KEYS: Record<StatusValue, string> = {
+  0: "statuses.not_defined",
+  1: "statuses.hard_limit",
+  2: "statuses.soft_limit",
+  3: "statuses.can",
+  4: "statuses.should",
+  5: "statuses.must",
+};
+
 // The number of statuses; clicking a field cycles through all of them.
 export const STATUS_COUNT = 6;

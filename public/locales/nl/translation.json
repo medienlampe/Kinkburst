@@ -5,6 +5,11 @@
   "menu": {
     "actions": "Acties"
   },
+  "board": {
+    "for": "voor",
+    "and": "en",
+    "language": "Nederlands"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Fysiek",

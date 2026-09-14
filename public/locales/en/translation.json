@@ -5,6 +5,11 @@
   "menu": {
     "actions": "Actions"
   },
+  "board": {
+    "for": "for",
+    "and": "and",
+    "language": "English"
+  },
   "practices": {
     "smorkinkboard": "Smorkinkboard",
     "physical": "Physical",

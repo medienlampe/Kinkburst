@@ -1,14 +1,17 @@
 import type { Person, Practice } from "../interfaces";
-import { STATUSES } from "../constants";
+import i18n from "../i18n";
 import { boardTitle } from "../helpers";
+import { statusLabel } from "./statusLabels";
 
 /**
  * Serializes the internal data format into a Smorkinkboard markdown document.
  *
  * Format spec: docs/markdown-format.md
- * - Exactly one h1 with the board title (including the people list)
+ * - Exactly one h1 with the board title (including the people list), followed by
+ *   a " - <language>" suffix naming the language of the document (e.g. " - Deutsch")
  * - h2 top categories, h3 play areas, h4 practices
- * - Status in brackets after each header name, e.g. "## Physical (Must)"
+ * - Status in brackets after each header name, written in the active UI language,
+ *   e.g. "## Physical (Must)" or "## Körperlich (Muss)"
  * - Context notes as text below the header; items with a note get "*" appended to their title in the UI
  *
  * The tree is walked depth-first so the output is always in document order,
@@ -33,15 +36,19 @@ export const exportMarkdown = (practices: Practice[], persons: Person[]): string
     return "";
   }
 
-  const lines: string[] = [`# ${boardTitle(persons)}`];
+  // The document is written in the active UI language; the suffix records it
+  // so the importer knows which labels to expect (see docs/markdown-format.md).
+  const lng = i18n.language;
+  const lines: string[] = [
+    `# ${boardTitle(persons, lng)} - ${i18n.t("board.language", { lng })}`,
+  ];
 
   const walk = (node: Practice, level: number): void => {
     const children = childrenByParent.get(node.uuid) ?? [];
     for (const child of children) {
       const headerLevel = Math.min(level + 1, 6);
-      const statusLabel = STATUSES[child.value ?? 0].label;
       lines.push("");
-      lines.push(`${"#".repeat(headerLevel)} ${child.name ?? ""} (${statusLabel})`);
+      lines.push(`${"#".repeat(headerLevel)} ${child.name ?? ""} (${statusLabel(child.value ?? 0)})`);
       const note = child.note?.trim();
       if (note) {
         lines.push(note);

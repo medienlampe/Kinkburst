@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import type { Person, Practice } from "./interfaces";
 import { BOARD_NAME, STATUS_COUNT, type StatusValue } from "./constants";
+import i18n from "./i18n";
 
 export const findAllDescendants = (practices: Practice[], practiceUuid: string): string[] => {
   const children = practices
@@ -14,8 +15,11 @@ export const findAllDescendants = (practices: Practice[], practiceUuid: string):
 
 // The board title, e.g. "Smorkinkboard (for Person A, Person B and Person C)".
 // With fewer than two named persons the parenthetical is omitted (see
-// docs/markdown-format.md, rule 1).
-export const boardTitle = (persons: Person[]): string => {
+// docs/markdown-format.md, rule 1). The preposition and conjunction are
+// localized via the locale files ("board.for", "board.and"); `lng` pins a
+// specific language (used by the markdown exporter), defaulting to the
+// active UI language.
+export const boardTitle = (persons: Person[], lng?: string): string => {
   const names = persons
     .map(person => person.name.trim())
     .filter(name => name.length > 0);
@@ -24,8 +28,9 @@ export const boardTitle = (persons: Person[]): string => {
     return BOARD_NAME;
   }
 
-  const list = names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
-  return `${BOARD_NAME} (for ${list})`;
+  const t = (key: string): string => i18n.t(key, lng ? { lng } : undefined);
+  const list = names.slice(0, -1).join(", ") + " " + t("board.and") + " " + names[names.length - 1];
+  return `${BOARD_NAME} (${t("board.for")} ${list})`;
 }
 
 // Applies a click on the field with the given uuid to the flat practice list

@@ -3,6 +3,8 @@ import { initReactI18next } from "react-i18next";
 
 import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
+
+import { SUPPORTED_LANGUAGES } from "./constants";
 // don"t want to use this?
 // have a look at the Quick start guide 
 // for passing in lng and translations on init
@@ -19,6 +21,11 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: "en",
+    // Preload every locale so markdown export/import can read the labels of
+    // any supported language, not just the active one.
+    supportedLngs: [...SUPPORTED_LANGUAGES],
+    preload: [...SUPPORTED_LANGUAGES],
+    load: "languageOnly",
     backend: {
       // Relative path so the files are resolved against the page's own
       // folder (public/locales) instead of the domain root. Needed for

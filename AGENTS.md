@@ -42,13 +42,15 @@ authoritative. Definitions live in `src/constants.tsx` (`STATUSES`, `STATUS_BY_L
 
 Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-format.md)):
 
-- Exactly one `h1` with the board title (including the people list in brackets).
+- Exactly one `h1` with the board title (including the people list in brackets). The exporter
+  appends the document language as a suffix, e.g. `# Smorkinkboard (für Sven und Abba) - Deutsch`.
 - `h2` top categories, `h3` play areas, `h4` practices.
-- Status in brackets after each header name: `(Not Defined)`, `(Hard Limit)`, `(Soft Limit)`,
-  `(Can)`, `(Should)`, `(Must)`.
+- Status in brackets after each header name, written in the active UI language on export; import
+  accepts the labels of all supported languages (en/de/es/nl), e.g. `(Must)` / `(Muss)` / `(Moet)`.
 - Free text below a header is stored as context for that item.
 
-The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`).
+The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`, `statusLabels.ts`). All
+labels come from the locale files via i18next — never hardcode translated strings in the code.
 
 ## Repository structure
 
@@ -144,10 +146,11 @@ React 19 (it reads the removed `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIR
 Done: UI/UX rework (2026-09) — sticky header with responsive actions menu (inline buttons on
 desktop, dropdown panel on mobile; replaces the old floating button row), prominent people
 chips row, status legend under the board, and a dark plum theme built on CSS custom
-properties in `src/App.scss` (design tokens at the top of that file). Status *display* labels
-(legend, FAQ text) are translated per locale via `statuses.*` keys — but export/import always
-uses the canonical English labels from `src/constants.tsx`, so keep those two in sync when a
-label changes.
+properties in `src/App.scss` (design tokens at the top of that file). Status labels are
+translated per locale (`statuses.*` keys) and markdown export/import is fully multilingual:
+export writes the active UI language (plus a ` - <language>` title suffix), import accepts every
+supported language. The English labels in `src/constants.tsx` remain canonical for colors and
+fallbacks; when a label changes, update the locale files (import/export read those).
 
 Touch gestures (2026-09): the SVG uses `touch-action: pan-y pinch-zoom`, so vertical
 swipes scroll the page while horizontal drags rotate the wheel (`onPointerMove`, tracked
