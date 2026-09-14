@@ -144,9 +144,10 @@ React 19 (it reads the removed `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIR
 Done: UI/UX rework (2026-09) — sticky header with responsive actions menu (inline buttons on
 desktop, dropdown panel on mobile; replaces the old floating button row), prominent people
 chips row, status legend under the board, and a dark plum theme built on CSS custom
-properties in `src/App.scss` (design tokens at the top of that file). Status labels are
-intentionally kept in English in all locales: they are the canonical terms of the markdown
-format.
+properties in `src/App.scss` (design tokens at the top of that file). Status *display* labels
+(legend, FAQ text) are translated per locale via `statuses.*` keys — but export/import always
+uses the canonical English labels from `src/constants.tsx`, so keep those two in sync when a
+label changes.
 
 Touch gestures (2026-09): the SVG uses `touch-action: pan-y pinch-zoom`, so vertical
 swipes scroll the page while horizontal drags rotate the wheel (`onPointerMove`, tracked

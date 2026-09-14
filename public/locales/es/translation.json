@@ -37,15 +37,15 @@
     "remove": "Quitar persona"
   },
   "statuses": {
-    "not_defined": "Not Defined",
+    "not_defined": "No definido",
     "hard_limit": "Hard Limit",
     "soft_limit": "Soft Limit",
-    "can": "Can",
-    "should": "Should",
-    "must": "Must"
+    "can": "Puede",
+    "should": "Deseable",
+    "must": "Imprescindible"
   },
   "legend": {
-    "title": "Leyenda de estados"
+    "title": "Leyenda"
   },
   "detail": {
     "title": "Detalles de la práctica",
@@ -74,7 +74,7 @@
     "error": "No se pudo leer ese archivo como exportación markdown de Smorkinkboard."
   },
   "footer": {
-    "disclaimer": "Inspirado en el <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; construido con <a href=\"https://d3js.org/\">D3</a>, basado en su <a href=\"https://observablehq.com/@d3/sunburst\">diagrama Sunburst</a>.<br />Sin cookies, sin rastreo, sin datos recopilados. Se usa almacenamiento local para que no tengas que empezar de cero cada vez que cargas la web.",
+    "disclaimer": "Inspirado en el <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; construido con <a href=\"https://d3js.org/\">D3</a>, basado en su <a href=\"https://observablehq.com/@d3/sunburst\">diagrama Sunburst</a>.<br />Sin cookies, sin rastreo, sin datos recopilados. Los datos locales en tu equipo en tu navegador aseguran que no tengas que empezar de cero cada vez que cargas la web.",
     "languages": "Disponible en",
     "languages_english": "Inglés",
     "languages_spanish": "Español",
@@ -83,11 +83,11 @@
   },
   "faq": {
     "whats_this": "¿Qué es esto?",
-    "whats_this_content": "Es una herramienta para discutir y explorar qué prácticas son bienvenidas en vuestra dinámica. Está inspirada en el <a href=\"//www.multiamory.com/podcast/339-the-smorgasbord-of-relationships\">Relationship Anarchy Smorgasbord</a>, desarrollado originalmente por Lyrica Lawrence y Heather Orr en 2016 — aquí, con un giro kink para el consentimiento.",
+    "whats_this_content": "Es una herramienta para discutir y explorar qué prácticas BDSM son bienvenidas en vuestra dinámica.",
     "how_to_use": "¿Cómo lo uso?",
-    "how_to_use_content_1": "Definid arriba las personas para las que es este tablero. Luego haced clic en un panel: cada clic hace avanzar una práctica de Not Defined a Hard Limit, Soft Limit, Can y Should hasta Must — y actualiza a sus padres e hijos en consecuencia. Un clic derecho añade contexto o notas.",
+    "how_to_use_content_1": "Definid arriba las personas para las que es este tablero. Luego haced clic en un panel: cada clic hace avanzar una práctica de No definido a Hard Limit, Soft Limit, Puede y Deseable hasta Imprescindible — y actualiza todas las ramas del árbol en consecuencia. Un clic derecho abre la opción de añadir notas.",
     "how_to_use_content_2": "Cómo usáis esta herramienta os corresponde a vosotros, pero funciona mejor si la llenáis juntas. Podéis hacer clic juntas o cada una de forma independiente y compartir los resultados. Lo importante es tener una conversación.",
     "safety": "¿Es esto seguro?",
-    "safety_content": "Smorkinkboard es una herramienta de consentimiento, no un guion: muestra qué prácticas son bienvenidas para las personas de una dinámica y cuáles no. Solo funciona si lo llenan juntas después de haber hablado de verdad — y si vuelven a revisarlo, porque los límites y los favoritos cambian con el tiempo. En caso de duda, preguntad."
+    "safety_content": "Smorkinkboard es una herramienta: muestra qué prácticas son bienvenidas para las personas de una dinámica y cuáles no. Solo funciona si lo llenan juntas después de haber hablado de verdad — y si vuelven a revisarlo, porque los límites y los favoritos cambian con el tiempo."
   }
 }

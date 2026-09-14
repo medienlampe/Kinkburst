@@ -37,15 +37,15 @@
     "remove": "Persoon verwijderen"
   },
   "statuses": {
-    "not_defined": "Not Defined",
+    "not_defined": "Niet besproken",
     "hard_limit": "Hard Limit",
     "soft_limit": "Soft Limit",
-    "can": "Can",
-    "should": "Should",
-    "must": "Must"
+    "can": "Kan",
+    "should": "Leuk",
+    "must": "Moet"
   },
   "legend": {
-    "title": "Legenda van statussen"
+    "title": "Legenda"
   },
   "detail": {
     "title": "Praktijkdetails",
@@ -74,7 +74,7 @@
     "error": "Kon het bestand niet lezen als Smorkinkboard-markdown-export."
   },
   "footer": {
-    "disclaimer": "Geïnspireerd door het <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; gebouwd met <a href=\"https://d3js.org/\">D3</a>, op basis van hun <a href=\"https://observablehq.com/@d3/sunburst\">Sunburst-diagram</a>.<br />Geen cookies, geen tracking, geen gegevens verzameld. Local storage zorgt ervoor dat je niet elke keer opnieuw moet beginnen.",
+    "disclaimer": "Geïnspireerd door het <a href=\"https://github.com/duizendnegen/sunburst-smorgasbord\">Relationship Anarchy Smorgasbord</a>; gebouwd met <a href=\"https://d3js.org/\">D3</a>, op basis van hun <a href=\"https://observablehq.com/@d3/sunburst\">Sunburst-diagram</a>.<br />Geen cookies, geen tracking, geen gegevens verzameld. Lokale gegevens op je apparaat in je browser zorgen ervoor dat je niet elke keer opnieuw moet beginnen.",
     "languages": "Beschikbaar in",
     "languages_english": "Engels",
     "languages_spanish": "Spaans",
@@ -83,11 +83,11 @@
   },
   "faq": {
     "whats_this": "Wat is dit?",
-    "whats_this_content": "Dit is een hulpmiddel om te bespreken en te verkennen welke praktijken welkom zijn in jullie dynamiek. Geïnspireerd door het <a href=\"//www.multiamory.com/podcast/339-the-smorgasbord-of-relationships\">Relationship Anarchy Smorgasbord</a>, oorspronkelijk ontwikkeld door Lyrica Lawrence en Heather Orr in 2016 — hier met een kink-tint voor toestemming.",
+    "whats_this_content": "Dit is een hulpmiddel om te bespreken en te verkennen welke BDSM-praktijken welkom zijn in jullie dynamiek.",
     "how_to_use": "Hoe gebruik ik het?",
-    "how_to_use_content_1": "Zet bovenaan de pagina de personen waar dit board voor is. Klik daarna op een veld: elke klik schakelt een praktijk van Not Defined via Hard Limit, Soft Limit, Can en Should naar Must — en werkt ouders en kinderen dienovereenkomstig bij. Rechtsklik op een veld om context of notities toe te voegen.",
+    "how_to_use_content_1": "Zet bovenaan de pagina de personen waar dit board voor is. Klik daarna op een veld: elke klik schakelt een praktijk van Niet besproken via Hard Limit, Soft Limit, Kan en Leuk naar Moet — en werkt bijgevolg alle takken van de boom bij. Rechtsklik op een veld om notities toe te voegen.",
     "how_to_use_content_2": "Hoe jullie het precies gebruiken is aan jullie, maar het werkt het beste als jullie het samen invullen. Klikken samen doorheen, of gebruik het onafhankelijk en deel de resultaten met elkaar. Het gaat om het gesprek.",
     "safety": "Is dit veilig?",
-    "safety_content": "Smorkinkboard is een hulpmiddel voor toestemming, geen script: het toont welke praktijken welkom zijn voor de mensen in een dynamiek en welke niet. Het werkt alleen als jullie het samen invullen na écht met elkaar te hebben gesproken — en regelmatig terugkomen, want grenzen en favorieten veranderen met de tijd. Bij twijfel: vragen."
+    "safety_content": "Smorkinkboard is een hulpmiddel: het toont welke praktijken welkom zijn voor de mensen in een dynamiek en welke niet. Het werkt alleen als jullie het samen invullen na écht met elkaar te hebben gesproken — en regelmatig terugkomen, want grenzen en favorieten veranderen met de tijd."
   }
 }
