@@ -59,3 +59,6 @@ Tests can be run using `npm test`.
 
 We're open for pull requests — best discuss your suggestion first by opening an issue.
 See [AGENTS.md](AGENTS.md) for the project structure and conventions (used by both humans and AI coding agents).
+
+## Commercial Use
+If you want to use this project commercially, please get in contact with [https://github.com/duizendnegen](Pepijn, the original creator) and me first. Thank you.
