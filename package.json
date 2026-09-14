@@ -1,6 +1,7 @@
 {
-  "name": "smorkinkboard",
+  "name": "Smorkinkboard",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "description": "A fun way of manufacturing consent: a kink smorgasbord to discuss which practices are welcome.",
