@@ -1,53 +1,53 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import AddFlavourForm from "./AddFlavourForm";
+import AddPracticeForm from "./AddPracticeForm";
 import * as d3 from "d3";
 import { I18nextProvider } from "react-i18next";
-import flavours from "./../../fixtures/testFlavours.json";
-import Flavour from "../../interfaces";
+import testPractices from "./../../fixtures/testPractices.json";
+import type { Practice } from "../../interfaces";
 import i18n from "../../i18n.tests";
 import userEvent from "@testing-library/user-event";
 
-let hierarchicalFlavours = null;
+let hierarchicalPractices = null;
 
 beforeEach(() => {
-  hierarchicalFlavours = d3.stratify<Flavour>()
+  hierarchicalPractices = d3.stratify<Practice>()
     .id(d => d.uuid)
-    .parentId(d => d.parentUuid)(flavours);
+    .parentId(d => d.parentUuid)(testPractices);
 });
 
-it("renders the add flavour form", async () => {
+it("renders the add practice form", async () => {
   render(
     <I18nextProvider i18n={i18n}>
-      <AddFlavourForm
+      <AddPracticeForm
         onAdd={() : void => {}}
-        hierarchicalFlavours={hierarchicalFlavours} />
+        hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
   expect(screen.getByRole("button")).toHaveTextContent("Add as child");
 });
 
-it("adds a new flavour when the add button is clicked", async () => {
-  const onAdd = jest.fn();
+it("adds a new practice when the add button is clicked", async () => {
+  const onAdd = vi.fn();
 
   render(
     <I18nextProvider i18n={i18n}>
-      <AddFlavourForm
+      <AddPracticeForm
         onAdd={onAdd}
-        hierarchicalFlavours={hierarchicalFlavours} />
+        hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
-  
-  let parentUuid = flavours.find(flavour => flavour.key === "creativity").uuid;
+
+  const parentUuid = testPractices.find(practice => practice.key === "impact_play").uuid;
   fireEvent.change(screen.getByLabelText("Parent element"), {
     target: { value: parentUuid }
   });
 
-  userEvent.type(screen.getByLabelText("New flavour name"), "Projects");
+  await userEvent.type(screen.getByLabelText("Name of the new practice"), "Edge Play");
 
   fireEvent.click(screen.getByRole("button"));
 
   expect(onAdd).toHaveBeenCalledTimes(1);
   expect(onAdd).toHaveBeenCalledWith(
-    "Projects",
+    "Edge Play",
     parentUuid
   );
 });

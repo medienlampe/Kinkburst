@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: Test, build & deploy
+=======
+name: Test & build
+>>>>>>> main
 
 on:
   push:
@@ -8,6 +12,7 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
+<<<<<<< HEAD
     environment: production
     steps:
       - name: Checkout
@@ -38,3 +43,18 @@ jobs:
           AWS_REGION: "eu-central-1"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+=======
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js 26.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 26.x
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test -- --watchAll=false
+      - name: Build
+        run: npm run build
+>>>>>>> main

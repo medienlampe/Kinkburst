@@ -4,7 +4,7 @@ import i18n from "../../i18n.tests";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 it("resets the flavours", async () => {
-  const onClick = jest.fn();
+  const onClick = vi.fn();
   render(
     <I18nextProvider i18n={i18n}>
       <ResetButton

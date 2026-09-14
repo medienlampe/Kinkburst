@@ -1,0 +1,92 @@
+[
+  {
+    "uuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "parentUuid": "",
+    "key": "smorkinkboard",
+    "name": "Smorkinkboard"
+  },
+  {
+    "uuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "key": "physical",
+    "name": "Physical"
+  },
+  {
+    "uuid": "a8186e7b-24ef-4780-85c6-48038a9c46cb",
+    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "key": "psychological",
+    "name": "Psychological"
+  },
+  {
+    "uuid": "31d9c068-4c89-490f-abfb-cbc8ca5a3f38",
+    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "key": "social",
+    "name": "Social"
+  },
+  {
+    "uuid": "5183581e-2068-446f-a1cb-df53757ae953",
+    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "key": "impact_play",
+    "name": "Impact Play"
+  },
+  {
+    "uuid": "b7912f44-253a-48d9-b404-6be090f97364",
+    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "key": "bondage",
+    "name": "Bondage"
+  },
+  {
+    "uuid": "9534215a-5ad4-42dc-b2bd-7f4bd1653ae9",
+    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "key": "power_exchange",
+    "name": "Power Exchange"
+  },
+  {
+    "uuid": "b7656f93-29f5-484a-bf66-09bb731db1ee",
+    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "key": "toys",
+    "name": "Toys"
+  },
+  {
+    "uuid": "99ebae32-0354-49f5-a436-06235c573ee2",
+    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
+    "key": "edge_play",
+    "name": "Edge Play"
+  },
+  {
+    "uuid": "885af6fc-560f-45c0-8bc0-87be39ed4c6f",
+    "parentUuid": "5183581e-2068-446f-a1cb-df53757ae953",
+    "key": "hand_spanking",
+    "name": "Hand Spanking"
+  },
+  {
+    "uuid": "9b671bd5-cc28-4560-abb8-f81644bac1b1",
+    "parentUuid": "5183581e-2068-446f-a1cb-df53757ae953",
+    "key": "flogging",
+    "name": "Flogging"
+  },
+  {
+    "uuid": "5b777464-2c54-47a4-bd60-edcaa4ca640e",
+    "parentUuid": "b7656f93-29f5-484a-bf66-09bb731db1ee",
+    "key": "e_stim",
+    "name": "E-Stim"
+  },
+  {
+    "uuid": "3050b340-170d-417d-9835-ab3b44441c8b",
+    "parentUuid": "99ebae32-0354-49f5-a436-06235c573ee2",
+    "key": "living_buffet",
+    "name": "Living Buffet"
+  },
+  {
+    "uuid": "e19055a6-9271-4077-aa31-8277cc87a2cf",
+    "parentUuid": "a8186e7b-24ef-4780-85c6-48038a9c46cb",
+    "key": "degradation",
+    "name": "Degradation"
+  },
+  {
+    "uuid": "23944502-3b61-45c3-8577-72ede9d41524",
+    "parentUuid": "31d9c068-4c89-490f-abfb-cbc8ca5a3f38",
+    "key": "public",
+    "name": "Public"
+  }
+]

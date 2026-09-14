@@ -1,17 +1,33 @@
-svg {
-  max-width: 100%;
+#smorgasbordImage {
+  display: block;
+  margin: 0 auto;
+  /* Use the available width, but cap by viewport height so the whole board
+     fits on screen without scrolling on desktop. */
+  width: min(100%, 72vh);
+  max-width: 860px;
   height: auto;
-  height: intrinsic;
+  /* The board owns horizontal touches (rotate, long press); vertical swipes and
+     pinches fall through to the page so mobile scrolling still works. */
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  /* no iOS text callout / magnifier on long press */
+  -webkit-touch-callout: none;
 }
 
-g:hover {
+#smorgasbordImage g {
   cursor: pointer;
 }
 
-g.flavour-root-node:hover {
+#smorgasbordImage g.board-root-node {
   cursor: default;
 }
 
-g text {
+#smorgasbordImage text {
   user-select: none;
 }
+
+.board-wrap {
+  position: relative;
+}
+
