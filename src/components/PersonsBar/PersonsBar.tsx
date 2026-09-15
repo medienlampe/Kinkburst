@@ -1,5 +1,4 @@
 import { type JSX } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 import { personsAtom } from "../../states/persons.atom";
@@ -17,7 +16,7 @@ const PersonsBar = () : JSX.Element => {
   }
 
   const addPerson = () : void => {
-    setPersons([...persons, { id: uuidv4(), name: "" }]);
+    setPersons([...persons, { id: crypto.randomUUID(), name: "" }]);
   }
 
   const removePerson = (id: string) : void => {

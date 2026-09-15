@@ -186,7 +186,10 @@ in the ESLint config. Persisted state from `localStorage` is validated before us
 storage falls back to the defaults instead of crashing on load. CI now runs lint and
 `npm audit --omit=dev` in both workflows, and `branches.yml` uses the same pinned
 action versions as `main.yml`. Removed dead CRA leftovers (`reportWebVitals`,
-`web-vitals`, `generate-react-cli.json`).
+`web-vitals`, `generate-react-cli.json`). Dropped the unmaintained `uuid` and
+`file-saver` packages: ids now come from native `crypto.randomUUID()`, and file
+exports (markdown / image) go through `src/download.ts` (`downloadBlob`: object URL
++ temporary anchor, URL revoked on the next tick).
 
 ## Notes for agents
 

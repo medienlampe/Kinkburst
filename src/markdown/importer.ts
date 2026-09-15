@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import type { Person, Practice } from "../interfaces";
 import i18n from "../i18n";
 import { BOARD_NAME, SUPPORTED_LANGUAGES, type StatusValue } from "../constants";
@@ -45,15 +44,15 @@ const parsePersonsFromTitle = (title: string): Person[] => {
   const match = title.match(new RegExp(`\\((${prepositions})\\s+(.+)\\)$`));
 
   if (!match) {
-    return [{ id: uuidv4(), name: "" }];
+    return [{ id: crypto.randomUUID(), name: "" }];
   }
 
   const names = splitPeopleList(match[2]);
   if (names.length === 0) {
-    return [{ id: uuidv4(), name: "" }];
+    return [{ id: crypto.randomUUID(), name: "" }];
   }
 
-  return names.map(name => ({ id: uuidv4(), name }));
+  return names.map(name => ({ id: crypto.randomUUID(), name }));
 };
 
 // Splits a header line like "Physical (Must)" into its name and status.
@@ -125,7 +124,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
       // The h1 is the board title; ignore any further h1 lines.
       if (stack.length === 0) {
         title = stripLanguageSuffix(text);
-        const root: Practice = { uuid: uuidv4(), parentUuid: "", name: text };
+        const root: Practice = { uuid: crypto.randomUUID(), parentUuid: "", name: text };
         practices.push(root);
         stack.push(root);
       }
@@ -134,7 +133,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
 
     // Without an h1, synthesize a root so the tree stays connected.
     if (stack.length === 0) {
-      const root: Practice = { uuid: uuidv4(), parentUuid: "", name: BOARD_NAME };
+      const root: Practice = { uuid: crypto.randomUUID(), parentUuid: "", name: BOARD_NAME };
       practices.push(root);
       stack.push(root);
     }
@@ -147,7 +146,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
 
     const { name, value } = parseHeader(text);
     const practice: Practice = {
-      uuid: uuidv4(),
+      uuid: crypto.randomUUID(),
       parentUuid: stack[stack.length - 1].uuid,
       name,
       value,

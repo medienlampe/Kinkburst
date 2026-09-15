@@ -1,5 +1,4 @@
 import { type JSX } from "react";
-import { v4 as uuidv4 } from "uuid";
 import AddPracticeForm from "../AddPracticeForm/AddPracticeForm";
 import RemovePracticeForm from "../RemovePracticeForm/RemovePracticeForm";
 import { useTranslation } from "react-i18next";
@@ -23,7 +22,7 @@ const EditModal = ({ isActive, onClose } : EditModalProps) : JSX.Element => {
   // is not yet consent, so nothing propagates.
   const addNewPractice = (newPracticeName: string, parentUuidToAddPracticeTo: string) : void => {
     const practice: Practice = {
-      "uuid": uuidv4(),
+      "uuid": crypto.randomUUID(),
       "parentUuid": parentUuidToAddPracticeTo,
       "name": newPracticeName,
       "value": 0

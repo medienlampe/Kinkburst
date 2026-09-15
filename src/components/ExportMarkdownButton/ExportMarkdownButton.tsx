@@ -1,10 +1,10 @@
 import { type JSX } from "react";
-import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
 import { useAtomValue } from "jotai";
 import { practicesAtom } from "../../states/practices.atom";
 import { personsAtom } from "../../states/persons.atom";
 import { exportMarkdown } from "../../markdown/exporter";
+import { downloadBlob } from "../../download";
 import { ExportIcon } from "../icons";
 
 const ExportMarkdownButton = () : JSX.Element => {
@@ -14,7 +14,7 @@ const ExportMarkdownButton = () : JSX.Element => {
 
   const exportCurrentBoard = () : void => {
     const dataBlob = new Blob([exportMarkdown(practices, persons)], {type: "text/markdown;charset=utf-8"});
-    saveAs(dataBlob, "smorkinkboard.md");
+    downloadBlob(dataBlob, "smorkinkboard.md");
   }
 
   return (

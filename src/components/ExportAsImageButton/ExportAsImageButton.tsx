@@ -1,6 +1,6 @@
 import { type JSX } from "react";
-import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
+import { downloadBlob } from "../../download";
 import { ImageIcon } from "../icons";
 import { diameter } from "../../constants";
 
@@ -127,7 +127,7 @@ const ExportAsImageButton = () : JSX.Element => {
 
     const svgString = getSVGString(nodes);
 
-    svgString2Image(svgString, 2 * diameter, 2 * diameter, blob => saveAs(blob, "smorkinkboard.png"));
+    svgString2Image(svgString, 2 * diameter, 2 * diameter, blob => downloadBlob(blob, "smorkinkboard.png"));
   }
 
   return (
