@@ -26,6 +26,8 @@ describe("App", () => {
       "https://github.com/duizendnegen/sunburst-smorgasbord",
       "https://d3js.org/",
       "https://observablehq.com/@d3/sunburst",
+      "https://github.com/medienlampe/Smorkinkboard",
+      "https://whip-leipzig.de/impressum.html"
     ]);
 
     // The sunburst renders one <g> per node once the (mocked) fixture load resolves.

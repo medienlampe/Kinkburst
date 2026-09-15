@@ -149,6 +149,7 @@
   },
   "footer": {
     "disclaimer": "<0>Inspired by the Relationship Anarchy Smorgasbord</0>; built with <1>D3</1>, based on their <2>Sunburst diagram</2>.<br />No cookies, no tracking, no data collected. Local data stored on your machine in your browser makes sure you don't have to start over every time you load the website.",
+    "imprint": "Imprint",
     "languages": "Available in",
     "languages_english": "English",
     "languages_spanish": "Spanish",

@@ -184,6 +184,10 @@ const App = () : JSX.Element => {
               ]}
             />
           </p>
+          <p>
+            <a key="github" href="https://github.com/medienlampe/Smorkinkboard" target="_blank" rel="noopener noreferrer">Github</a>&nbsp;|&nbsp;
+            <a key="imprint" href="https://whip-leipzig.de/impressum.html" target="_blank" rel="noopener noreferrer"><Trans i18nKey="footer.imprint" /></a>
+          </p>
         </div>
       </footer>
 
