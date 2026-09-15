@@ -21,8 +21,8 @@ import PersonsBar from "./components/PersonsBar/PersonsBar";
 import Legend from "./components/Legend/Legend";
 import { practicesAtom } from "./states/practices.atom";
 import { personsAtom, createDefaultPersons } from "./states/persons.atom";
-import type { Practice } from "./interfaces";
-import { applyClick } from "./helpers";
+import type { Person, Practice } from "./interfaces";
+import { applyClick, parseStoredPersons, parseStoredPractices } from "./helpers";
 import { BOARD_NAME } from "./constants";
 
 const App = () : JSX.Element => {
@@ -36,7 +36,7 @@ const App = () : JSX.Element => {
   const [detailTargetUuid, setDetailTargetUuid] = useState<string | null>(null);
   const [detailDraft, setDetailDraft] = useState<string>("");
 
-  const changeLanguage = (lang) : void => {
+  const changeLanguage = (lang: string) : void => {
     i18n.changeLanguage(lang);
   };
 
@@ -47,12 +47,14 @@ const App = () : JSX.Element => {
   }
 
   useEffect(() => {
-    let storedPractices;
-    let storedPersons;
+    // Stored state is validated before use; corrupted data falls back to the
+    // defaults instead of crashing the app on load.
+    let storedPractices: Practice[] | undefined;
+    let storedPersons: Person[] | undefined;
 
     if (localStorage) {
-      storedPractices = JSON.parse(localStorage.getItem("practices"));
-      storedPersons = JSON.parse(localStorage.getItem("persons"));
+      storedPractices = parseStoredPractices(localStorage.getItem("practices"));
+      storedPersons = parseStoredPersons(localStorage.getItem("persons"));
     }
 
     if (storedPractices) {

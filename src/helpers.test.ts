@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyClick, boardTitle, findAllDescendants } from "./helpers";
+import { applyClick, boardTitle, findAllDescendants, parseStoredPersons, parseStoredPractices } from "./helpers";
 import type { StatusValue } from "./constants";
 import type { Person, Practice } from "./interfaces";
 
@@ -140,5 +140,66 @@ describe("applyClick", () => {
 
     expect(applyClick(practices, "root")).toEqual(practices);
     expect(applyClick(practices, "does-not-exist")).toEqual(practices);
+  });
+});
+
+describe("parseStoredPractices", () => {
+  const serialized = JSON.stringify(tree());
+
+  it("returns undefined for missing data", () => {
+    expect(parseStoredPractices(null)).toBeUndefined();
+    expect(parseStoredPractices("")).toBeUndefined();
+  });
+
+  it("returns undefined for invalid JSON", () => {
+    expect(parseStoredPractices("{not json")).toBeUndefined();
+  });
+
+  it("returns the list for a well-formed tree", () => {
+    expect(parseStoredPractices(serialized)).toEqual(tree());
+  });
+
+  it("rejects non-array or empty data", () => {
+    expect(parseStoredPractices(JSON.stringify({ uuid: "root" }))).toBeUndefined();
+    expect(parseStoredPractices("[]")).toBeUndefined();
+  });
+
+  it("rejects nodes without string uuid/parentUuid", () => {
+    const broken = tree().map(p => p.uuid === "a" ? { ...p, uuid: 42 } : p);
+    expect(parseStoredPractices(JSON.stringify(broken))).toBeUndefined();
+  });
+
+  it("rejects duplicate uuids", () => {
+    const duplicated = [...tree(), makePractice("c", "b")];
+    expect(parseStoredPractices(JSON.stringify(duplicated))).toBeUndefined();
+  });
+
+  it("rejects trees without exactly one root or with orphaned parents", () => {
+    const noRoot = tree().filter(p => p.uuid !== "root");
+    expect(parseStoredPractices(JSON.stringify(noRoot))).toBeUndefined();
+
+    const twoRoots = [...tree(), makePractice("other-root", "")];
+    expect(parseStoredPractices(JSON.stringify(twoRoots))).toBeUndefined();
+
+    const orphaned = tree().map(p => p.uuid === "a" ? { ...p, parentUuid: "missing" } : p);
+    expect(parseStoredPractices(JSON.stringify(orphaned))).toBeUndefined();
+  });
+});
+
+describe("parseStoredPersons", () => {
+  it("returns undefined for missing or invalid data", () => {
+    expect(parseStoredPersons(null)).toBeUndefined();
+    expect(parseStoredPersons("{not json")).toBeUndefined();
+    expect(parseStoredPersons("[]")).toBeUndefined();
+  });
+
+  it("returns the list for well-formed persons", () => {
+    const persons = [{ id: "p1", name: "Person A" }, { id: "p2", name: "" }];
+    expect(parseStoredPersons(JSON.stringify(persons))).toEqual(persons);
+  });
+
+  it("rejects entries without string id/name", () => {
+    expect(parseStoredPersons(JSON.stringify([{ id: "p1" }]))).toBeUndefined();
+    expect(parseStoredPersons(JSON.stringify(["Person A"]))).toBeUndefined();
   });
 });

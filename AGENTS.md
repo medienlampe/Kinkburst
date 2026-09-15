@@ -178,6 +178,16 @@ per pointer id); long press opens the context overlay. Taps fire instantly on ev
 device; zooming is left to the browser's native pinch zoom (an in-app double-tap zoom
 existed briefly but was removed).
 
+Security & quality review (2026-10): enabled TypeScript `strict` mode and typed the
+previously untyped code (`Smorgasbord` pointer handlers, `ExportAsImageButton`, form
+props now accept a nullable hierarchy); re-enabled `@typescript-eslint/no-explicit-any`
+in the ESLint config. Persisted state from `localStorage` is validated before use
+(`parseStoredPractices` / `parseStoredPersons` in `src/helpers.tsx`) so corrupted
+storage falls back to the defaults instead of crashing on load. CI now runs lint and
+`npm audit --omit=dev` in both workflows, and `branches.yml` uses the same pinned
+action versions as `main.yml`. Removed dead CRA leftovers (`reportWebVitals`,
+`web-vitals`, `generate-react-cli.json`).
+
 ## Notes for agents
 
 - `docs/Outline.md` is the product source of truth; where code and outline disagree, flag it.

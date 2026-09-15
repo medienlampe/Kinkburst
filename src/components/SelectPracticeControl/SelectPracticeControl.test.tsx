@@ -6,7 +6,7 @@ import type { Practice } from "../../interfaces";
 import i18n from "../../i18n.tests";
 import SelectPracticeControl from "./SelectPracticeControl";
 
-let hierarchicalPractices = null;
+let hierarchicalPractices: d3.HierarchyNode<Practice>[] = [];
 
 beforeEach(() => {
   hierarchicalPractices = d3.stratify<Practice>()
@@ -39,17 +39,17 @@ it("sorts the practices alphabetically", async () => {
   const options = screen.getAllByRole("option");
 
   // Top-level categories sort alphabetically.
-  const physicalOption = options.find(option => option.textContent === "Physical");
-  const psychologicalOption = options.find(option => option.textContent === "Psychological");
+  const physicalOption = options.find(option => option.textContent === "Physical")!;
+  const psychologicalOption = options.find(option => option.textContent === "Psychological")!;
   expect(options.indexOf(physicalOption)).toBeLessThan(options.indexOf(psychologicalOption));
 
   // Play areas sort alphabetically within their category path.
-  const bondageOption = options.find(option => option.textContent === "Physical > Bondage");
-  const impactPlayOption = options.find(option => option.textContent === "Physical > Impact Play");
+  const bondageOption = options.find(option => option.textContent === "Physical > Bondage")!;
+  const impactPlayOption = options.find(option => option.textContent === "Physical > Impact Play")!;
   expect(options.indexOf(bondageOption)).toBeLessThan(options.indexOf(impactPlayOption));
 
-  const handOption = options.find(option => option.textContent === "Physical > Impact Play > Hand");
-  const toyOption = options.find(option => option.textContent === "Physical > Impact Play > Toy");
+  const handOption = options.find(option => option.textContent === "Physical > Impact Play > Hand")!;
+  const toyOption = options.find(option => option.textContent === "Physical > Impact Play > Toy")!;
   expect(options.indexOf(handOption)).toBeLessThan(options.indexOf(toyOption));
 });
 

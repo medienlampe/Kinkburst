@@ -10,7 +10,7 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "useDefineForClassFields": true,
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "isolatedModules": true,
     "resolveJsonModule": true,

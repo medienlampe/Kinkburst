@@ -6,7 +6,7 @@ import testPractices from "./../../fixtures/testPractices.json";
 import type { Practice } from "../../interfaces";
 import i18n from "../../i18n.tests";
 
-let hierarchicalPractices = null;
+let hierarchicalPractices: d3.HierarchyNode<Practice> | null = null;
 
 beforeEach(() => {
   hierarchicalPractices = d3.stratify<Practice>()
@@ -35,7 +35,7 @@ it("removes the selected practice when the remove button is clicked", async () =
         hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
-  const uuid = testPractices.find(practice => practice.key === "physical_impact_play").uuid;
+  const uuid = testPractices.find(practice => practice.key === "physical_impact_play")!.uuid;
   fireEvent.change(screen.getByLabelText(/practice to remove/i), {
     target: { value: uuid }
   });

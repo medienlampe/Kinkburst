@@ -1,4 +1,4 @@
-import { useRef, type JSX } from "react";
+import { useRef, type ChangeEvent, type JSX } from "react";
 import { useTranslation } from "react-i18next";
 import { useSetAtom } from "jotai";
 import { practicesAtom } from "../../states/practices.atom";
@@ -17,10 +17,10 @@ const ImportMarkdownButton = () : JSX.Element => {
     inputFile.current?.click();
   }
 
-  const handleFileSubmission = (event) : void => {
+  const handleFileSubmission = (event: ChangeEvent<HTMLInputElement>) : void => {
     event.stopPropagation();
     event.preventDefault();
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
@@ -28,9 +28,9 @@ const ImportMarkdownButton = () : JSX.Element => {
     reader.readAsText(file, "UTF-8");
   }
 
-  const handleReaderOnLoad = (evt) : void => {
+  const handleReaderOnLoad = (evt: ProgressEvent<FileReader>) : void => {
     try {
-      const board = importMarkdown(evt.target.result as string);
+      const board = importMarkdown(evt.target?.result as string);
       setPractices(board.practices);
       setPersons(board.persons);
     } catch (error) {

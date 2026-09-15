@@ -7,7 +7,7 @@ import type { Practice } from "../../interfaces";
 import i18n from "../../i18n.tests";
 import userEvent from "@testing-library/user-event";
 
-let hierarchicalPractices = null;
+let hierarchicalPractices: d3.HierarchyNode<Practice> | null = null;
 
 beforeEach(() => {
   hierarchicalPractices = d3.stratify<Practice>()
@@ -36,7 +36,7 @@ it("adds a new practice when the add button is clicked", async () => {
         hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
-  const parentUuid = testPractices.find(practice => practice.key === "physical_impact_play").uuid;
+  const parentUuid = testPractices.find(practice => practice.key === "physical_impact_play")!.uuid;
   fireEvent.change(screen.getByLabelText("Parent element"), {
     target: { value: parentUuid }
   });

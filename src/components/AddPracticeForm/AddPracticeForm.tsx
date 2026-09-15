@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 interface AddPracticeFormProps {
   onAdd: (name: string, parentUuid: string) => void;
-  hierarchicalPractices: d3.HierarchyNode<Practice>;
+  hierarchicalPractices: d3.HierarchyNode<Practice> | null;
 }
 
 const AddPracticeForm = ({ onAdd, hierarchicalPractices } : AddPracticeFormProps) : JSX.Element => {

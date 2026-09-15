@@ -14,14 +14,14 @@ const SelectPracticeControl = ({ onChange, value, hierarchicalPractices } : Sele
 
   const getLabelForPractice = (practice: d3.HierarchyNode<Practice>) : string => {
     if (!practice.parent) {
-      return practice.data.key ? t(`practices.${practice.data.key}`) : practice.data.name;
+      return practice.data.key ? t(`practices.${practice.data.key}`) : (practice.data.name ?? "");
     }
 
     return practice
       .ancestors()
       .reverse()
       .slice(1)
-      .map((ancestor) => ancestor.data.key ? t(`practices.${ancestor.data.key}`) : ancestor.data.name).join(" > ");
+      .map((ancestor) => ancestor.data.key ? t(`practices.${ancestor.data.key}`) : (ancestor.data.name ?? "")).join(" > ");
   }
 
   return (

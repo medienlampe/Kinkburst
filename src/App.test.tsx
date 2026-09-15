@@ -49,7 +49,7 @@ describe("App", () => {
 
   // The detail modal stays in the DOM when closed; the `open` attribute marks it as open.
   const detailModal = () : Element | null => {
-    return document.querySelector("#practice-note")?.closest(".modal");
+    return document.querySelector("#practice-note")?.closest(".modal") ?? null;
   };
 
   it("opens the context overlay on right-click (desktop)", async () => {
@@ -58,7 +58,7 @@ describe("App", () => {
     const field = document.querySelector("path[data-status]");
     expect(field).not.toBeNull();
 
-    fireEvent.contextMenu(field, { button: 2 });
+    fireEvent.contextMenu(field!, { button: 2 });
 
     expect(detailModal()?.hasAttribute("open")).toBe(true);
   });
@@ -68,11 +68,11 @@ describe("App", () => {
 
     const field = document.querySelector("path[data-status]");
     expect(field).not.toBeNull();
-    const statusBefore = field.getAttribute("data-status");
+    const statusBefore = field!.getAttribute("data-status");
 
     vi.useFakeTimers();
     try {
-      fireEvent.pointerDown(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
+      fireEvent.pointerDown(field!, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
       act(() : void => { vi.advanceTimersByTime(500); });
 
       expect(detailModal()?.hasAttribute("open")).toBe(true);
@@ -80,7 +80,7 @@ describe("App", () => {
       expect(screen.getByRole("heading", { level: 4, name: "Physical" })).toBeInTheDocument();
 
       // Releasing the finger must not also cycle the status.
-      fireEvent.pointerUp(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
+      fireEvent.pointerUp(field!, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
       expect(document.querySelector("path[data-status]")?.getAttribute("data-status")).toBe(statusBefore);
     } finally {
       vi.useRealTimers();
@@ -95,9 +95,9 @@ describe("App", () => {
 
     vi.useFakeTimers();
     try {
-      fireEvent.pointerDown(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
+      fireEvent.pointerDown(field!, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
       // Move beyond the drag threshold before the long press fires.
-      fireEvent.pointerMove(field, { clientX: 150, clientY: 120 });
+      fireEvent.pointerMove(field!, { clientX: 150, clientY: 120 });
       act(() : void => { vi.advanceTimersByTime(500); });
 
       expect(detailModal()?.hasAttribute("open")).toBe(false);

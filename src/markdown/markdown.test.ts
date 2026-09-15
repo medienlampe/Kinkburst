@@ -32,7 +32,7 @@ Liked by Person B.
 `;
 
 const byName = (practices: Practice[]): Map<string, Practice> => {
-  return new Map(practices.map(practice => [practice.name, practice]));
+  return new Map(practices.map((practice): [string, Practice] => [practice.name ?? "", practice]));
 };
 
 describe("importMarkdown", () => {

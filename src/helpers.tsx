@@ -46,6 +46,72 @@ export const boardTitle = (persons: Person[], lng?: string): string => {
 // - any defined status (1-5) raises every practice ancestor (not the root,
 //   which is just the board title and carries no status) that is lower than it.
 // Clicks on the root (the board title) or unknown nodes are ignored.
+// Safely parses the board state persisted in localStorage. Returns undefined
+// for missing or corrupted data (invalid JSON, wrong shape, broken tree) so
+// the app falls back to the default dataset instead of crashing on load.
+export const parseStoredPractices = (raw: string | null): Practice[] | undefined => {
+  if (!raw) {
+    return undefined;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    return undefined;
+  }
+
+  const nodes = parsed as Partial<Practice>[];
+  if (!nodes.every(node => typeof node.uuid === "string" && typeof node.parentUuid === "string")) {
+    return undefined;
+  }
+
+  // The tree must be well-formed: unique uuids, exactly one root (parentUuid
+  // ""), and every other node's parent must exist — otherwise d3.stratify
+  // throws during rendering.
+  const uuids = new Set(nodes.map(node => node.uuid));
+  if (uuids.size !== nodes.length) {
+    return undefined;
+  }
+
+  const roots = nodes.filter(node => node.parentUuid === "");
+  if (roots.length !== 1 || !nodes.every(node => node.parentUuid === "" || uuids.has(node.parentUuid))) {
+    return undefined;
+  }
+
+  return nodes as Practice[];
+};
+
+// Safely parses the persons persisted in localStorage; returns undefined for
+// missing or corrupted data so the app falls back to the default person.
+export const parseStoredPersons = (raw: string | null): Person[] | undefined => {
+  if (!raw) {
+    return undefined;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    return undefined;
+  }
+
+  const people = parsed as Partial<Person>[];
+  if (!people.every(person => typeof person.id === "string" && typeof person.name === "string")) {
+    return undefined;
+  }
+
+  return people as Person[];
+};
+
 export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
   if (!practices || practices.length === 0) {
     return practices;

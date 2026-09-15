@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18n, { type Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { lstatSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
@@ -12,7 +12,7 @@ const languages = readdirSync(localesDir).filter((fileName) =>
   lstatSync(join(localesDir, fileName)).isDirectory()
 );
 
-const resources: Record<string, Record<string, unknown>> = {};
+const resources: Resource = {};
 for (const lng of languages) {
   resources[lng] = {};
   for (const nsFile of readdirSync(join(localesDir, lng))) {

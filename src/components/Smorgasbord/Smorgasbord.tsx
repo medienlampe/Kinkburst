@@ -34,10 +34,10 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   
   const nodes = useAtomValue(hierarchicalNodesAtom);
   
-  const [ dragSubject, setDragSubject ] = useState<d3.HierarchyRectangularNode<Practice>>(null);
+  const [ dragSubject, setDragSubject ] = useState<d3.HierarchyRectangularNode<Practice> | null>(null);
   const [ globalRotation, setGlobalRotation ] = useState(0.0);
   const [ previousRotation, setPreviousRotation ] = useState(0.0);
-  const [ dragStart, setDragStart ] = useState({x: null, y: null});
+  const [ dragStart, setDragStart ] = useState<{ x: number | null, y: number | null }>({x: null, y: null});
 
   const longPressTimer = React.useRef<number | null>(null);
   const longPressFired = React.useRef(false);
@@ -70,7 +70,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     .innerRadius(d => d.y0)
     .outerRadius(d => d.y1 - padding);
 
-  const getTextTransform = (d: d3.HierarchyRectangularNode<Practice>) : string => {
+  const getTextTransform = (d: d3.HierarchyRectangularNode<Practice>) : string | undefined => {
     if (!d.depth) return;
 
     const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
@@ -87,13 +87,16 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const getLabel = (d: d3.HierarchyRectangularNode<Practice>) : string => {
-    const label = d.data.key ? t("practices." + d.data.key) : d.data.name;
+    const label = d.data.key ? t("practices." + d.data.key) : (d.data.name ?? "");
     // Fields with context get an asterisk appended to their title.
     return d.data.note && d.data.note.trim() !== "" ? `${label}*` : label;
   }
 
-  const calculateRotationFor = (clickX, clickY) : number => {
-    const rootClientRect = document.getElementsByClassName("board-root-node")[0].getBoundingClientRect();
+  const calculateRotationFor = (clickX: number, clickY: number) : number | null => {
+    const rootNode = document.getElementsByClassName("board-root-node")[0];
+    if (!rootNode) return null;
+
+    const rootClientRect = rootNode.getBoundingClientRect();
     const rootCenterX = rootClientRect.left + ((rootClientRect.right - rootClientRect.left) / 2);
     const rootCenterY = rootClientRect.top + ((rootClientRect.bottom - rootClientRect.top) / 2);
 
@@ -106,11 +109,12 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     return currentRotation;
   }
 
-  const startDrag = (e, d: d3.HierarchyRectangularNode<Practice>) : void => {
+  const startDrag = (e: React.PointerEvent<SVGElement>, d: d3.HierarchyRectangularNode<Practice>) : void => {
     if (e.button !== 0) return; // right-clicks open the context overlay instead
     if (activePointerId.current !== null) return; // another pointer is already dragging
 
     const currentRotation = calculateRotationFor(e.clientX, e.clientY);
+    if (currentRotation === null) return;
 
     activePointerId.current = e.pointerId;
     setDragSubject(d);
@@ -128,21 +132,24 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     }
   }
 
-  const updateDrag = (e) : void => {
+  const updateDrag = (e: React.PointerEvent<SVGElement>) : void => {
     if (dragSubject && e.pointerId === activePointerId.current) {
       // Moving the finger cancels a pending long press.
-      if (Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) > DRAG_THRESHOLD_PX) {
+      if (dragStart.x !== null && dragStart.y !== null
+        && Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) > DRAG_THRESHOLD_PX) {
         cancelLongPress();
       }
 
       const currentRotation = calculateRotationFor(e.clientX, e.clientY);
+      if (currentRotation === null) return;
+
       const diff = currentRotation - previousRotation;
       setPreviousRotation(currentRotation);
       setGlobalRotation(globalRotation + diff);
     }
   }
 
-  const endDrag = (e, d: d3.HierarchyRectangularNode<Practice>) : void => {
+  const endDrag = (e: React.PointerEvent<SVGElement>, d: d3.HierarchyRectangularNode<Practice> | null) : void => {
     if (activePointerId.current !== e.pointerId) return; // not the pointer we track
     activePointerId.current = null;
     cancelLongPress();
@@ -195,7 +202,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
             }}
             className={d.parent === null ? "board-root-node" : ""}>
             <path
-              d={getArc(d)}
+              d={getArc(d) ?? undefined}
               fill={getColor(d)}
               data-status={d.depth ? (d.data.value ?? 0) : undefined}
               fillOpacity="1.0">

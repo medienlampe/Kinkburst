@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 interface RemovePracticeFormProps {
   onRemove: (uuid: string) => void;
-  hierarchicalPractices: d3.HierarchyNode<Practice>;
+  hierarchicalPractices: d3.HierarchyNode<Practice> | null;
 }
 
 const RemovePracticeForm = ({ onRemove, hierarchicalPractices } : RemovePracticeFormProps) : JSX.Element => {
