@@ -9,9 +9,10 @@ import { statusLabel } from "./statusLabels";
  * Format spec: docs/markdown-format.md
  * - Exactly one h1 with the board title (including the people list), followed by
  *   a " - <language>" suffix naming the language of the document (e.g. " - Deutsch")
- * - h2 top categories, h3 play areas, h4 practices
- * - Status in brackets after each header name, written in the active UI language,
- *   e.g. "## Physical (Must)" or "## Körperlich (Muss)"
+ * - One heading level per tree level (h2 = first level under the title), capped at h6
+ * - Header names and statuses are written in the active UI language: default-dataset nodes
+ *   carry an i18n key and are translated like every other label, e.g. "## Physical (Must)"
+ *   or "## Physisch (Muss)"; user-added and imported nodes export their stored name
  * - Context notes as text below the header; items with a note get "*" appended to their title in the UI
  *
  * The tree is walked depth-first so the output is always in document order,
@@ -47,8 +48,11 @@ export const exportMarkdown = (practices: Practice[], persons: Person[]): string
     const children = childrenByParent.get(node.uuid) ?? [];
     for (const child of children) {
       const headerLevel = Math.min(level + 1, 6);
+      // Default-dataset nodes carry an i18n key; translate them into the active
+      // UI language. User-added and imported nodes fall back to their name.
+      const label = child.key ? i18n.t(`practices.${child.key}`) : (child.name ?? "");
       lines.push("");
-      lines.push(`${"#".repeat(headerLevel)} ${child.name ?? ""} (${statusLabel(child.value ?? 0)})`);
+      lines.push(`${"#".repeat(headerLevel)} ${label} (${statusLabel(child.value ?? 0)})`);
       const note = child.note?.trim();
       if (note) {
         lines.push(note);

@@ -6,11 +6,11 @@ Guidance for AI coding agents (and humans) working on this repository.
 
 **Smorkinkboard** is a fun way of manufacturing consent: a kink-flavoured take on the
 [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/).
-It shows which practices are welcome for the people in a dynamic, organized as a tree:
-
-- **Categories** (h2 level, e.g. `Physical`, `Psychological`, `Social`)
-  - **Play areas** (h3 level, e.g. `Bondage`, `Impact Play`, `Power Exchange`, `Toys`, `Edge Play`)
-    - **Practices** (h4 level, e.g. `Hand Spanking`, `E-Stim`, `Living Buffet`)
+It shows which practices are welcome for the people in a dynamic, organized as a tree of
+arbitrary depth — top-level **categories** (e.g. `Physical`, `Psychological`, `Social`), their
+**play areas** (e.g. `Bondage`, `Impact Play`, `Toys`), and nested **practices**
+(e.g. `Whip`, `Living Buffet`). The default dataset (`public/practices.json`) nests five levels
+deep; the importer/exporter round-trip any header depth (capped at `h6` on export).
 
 The full product requirements live in [docs/Outline.md](docs/Outline.md). Key behaviors:
 
@@ -44,7 +44,8 @@ Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-forma
 
 - Exactly one `h1` with the board title (including the people list in brackets). The exporter
   appends the document language as a suffix, e.g. `# Smorkinkboard (für Sven und Abba) - Deutsch`.
-- `h2` top categories, `h3` play areas, `h4` practices.
+- One heading level per tree level: `h2` is the first level under the title, each deeper node
+  goes one heading level down (up to `h6`).
 - Status in brackets after each header name, written in the active UI language on export; import
   accepts the labels of all supported languages (en/de/es/nl), e.g. `(Must)` / `(Muss)` / `(Moet)`.
 - Free text below a header is stored as context for that item.
@@ -68,7 +69,8 @@ and rebranded: where the original says **"flavour"**, Smorkinkboard says **"prac
 │   ├── Outline.md            product requirements (source of truth for behavior)
 │   └── markdown-format.md    export/import format spec (source of truth for the format)
 ├── public/
-│   ├── practices.json        Smorkinkboard default practice tree (loaded by App.tsx)
+│   ├── practices.json        Smorkinkboard default practice tree (loaded by App.tsx;
+│   │                         node names resolve via i18n keys — see below)
 │   └── locales/              i18n translations (en, de, es, nl)
 └── src/
     ├── App.tsx               app shell: state wiring, page layout (header / board / FAQ / footer)
@@ -151,6 +153,16 @@ translated per locale (`statuses.*` keys) and markdown export/import is fully mu
 export writes the active UI language (plus a ` - <language>` title suffix), import accepts every
 supported language. The English labels in `src/constants.tsx` remain canonical for colors and
 fallbacks; when a label changes, update the locale files (import/export read those).
+
+Default dataset (2026-09): `public/practices.json` ships an extended tree (Aftercare, Impact
+Play incl. toy types, Bondage, Electrical, Temperature Play, Touch, Toys, Sex, Edge Play,
+Objectification, Psychological, Emotional, Social) nesting up to five levels deep. Practice
+names are translated in the locale files: each node's `key` is a flat, underscore-joined path
+(e.g. `physical_impact_play_toy_whip`) pointing at `practices.<key>` under the `practices`
+section of every locale file — keep `public/practices.json`, `src/fixtures/testPractices.json`
+and all four locales in sync when adding or renaming nodes. Keys must not contain dots
+(i18next resolves dotted keys hierarchically, so a parent key could not be a prefix of its
+children's keys).
 
 Touch gestures (2026-09): the SVG uses `touch-action: pan-y pinch-zoom`, so vertical
 swipes scroll the page while horizontal drags rotate the wheel (`onPointerMove`, tracked

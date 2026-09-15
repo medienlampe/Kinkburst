@@ -48,9 +48,9 @@ it("sorts the practices alphabetically", async () => {
   const impactPlayOption = options.find(option => option.textContent === "Physical > Impact Play");
   expect(options.indexOf(bondageOption)).toBeLessThan(options.indexOf(impactPlayOption));
 
-  const floggingOption = options.find(option => option.textContent === "Physical > Impact Play > Flogging");
-  const handSpankingOption = options.find(option => option.textContent === "Physical > Impact Play > Hand Spanking");
-  expect(options.indexOf(floggingOption)).toBeLessThan(options.indexOf(handSpankingOption));
+  const handOption = options.find(option => option.textContent === "Physical > Impact Play > Hand");
+  const toyOption = options.find(option => option.textContent === "Physical > Impact Play > Toy");
+  expect(options.indexOf(handOption)).toBeLessThan(options.indexOf(toyOption));
 });
 
 it("renders the practice names nested hierarchically", async () => {
@@ -62,6 +62,6 @@ it("renders the practice names nested hierarchically", async () => {
         hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
-  expect(screen.getByRole("option", { name: "Physical > Impact Play > Hand Spanking" })).toBeInTheDocument();
-  expect(screen.getByRole("option", { name: "Social > Public" })).toBeInTheDocument();
+  expect(screen.getByRole("option", { name: "Physical > Impact Play > Toy > Whip" })).toBeInTheDocument();
+  expect(screen.getByRole("option", { name: "Social > Public Play" })).toBeInTheDocument();
 });

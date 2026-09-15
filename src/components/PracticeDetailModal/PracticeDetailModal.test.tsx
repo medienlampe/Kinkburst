@@ -13,7 +13,7 @@ const Harness = ({ onSave, onCancel }: { onSave: (note: string) => void, onCance
   return (
     <PracticeDetailModal
       isActive
-      practiceName="Hand Spanking"
+      practiceName="Whip"
       note={note}
       onNoteChange={setNote}
       onSave={onSave}
@@ -33,7 +33,7 @@ describe("PracticeDetailModal", () => {
   it("shows the practice name and its current note", () => {
     renderModal(() : void => {}, () : void => {});
 
-    expect(screen.getByText("Hand Spanking")).toBeInTheDocument();
+    expect(screen.getByText("Whip")).toBeInTheDocument();
     expect(screen.getByLabelText("Context / notes")).toHaveValue("existing context");
   });
 

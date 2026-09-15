@@ -36,7 +36,7 @@ it("adds a new practice when the add button is clicked", async () => {
         hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
-  const parentUuid = testPractices.find(practice => practice.key === "impact_play").uuid;
+  const parentUuid = testPractices.find(practice => practice.key === "physical_impact_play").uuid;
   fireEvent.change(screen.getByLabelText("Parent element"), {
     target: { value: parentUuid }
   });

@@ -35,7 +35,7 @@ it("removes the selected practice when the remove button is clicked", async () =
         hierarchicalPractices={hierarchicalPractices} />
     </I18nextProvider>);
 
-  const uuid = testPractices.find(practice => practice.key === "impact_play").uuid;
+  const uuid = testPractices.find(practice => practice.key === "physical_impact_play").uuid;
   fireEvent.change(screen.getByLabelText(/practice to remove/i), {
     target: { value: uuid }
   });

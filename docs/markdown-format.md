@@ -9,9 +9,11 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
    With a single person, the parenthetical may be omitted. 
    The exporter appends the language of the document as a suffix, e.g. 
    `# Smorkinkboard (für Sven und Abba) - Deutsch` — the importer strips it again.
-2. **Top categories** are `h2` (`##`) — e.g. `Physical`, `Psychological`, `Social`.
-3. **Sub-categories / play areas** are `h3` (`###`) — e.g. `Bondage`, `Impact Play`, `Power Exchange`.
-4. **Practices** are `h4` (`####`) — e.g. `Hand Spanking`, `E-Stim`.
+2. The tree is encoded as heading levels: the first level under the title is `h2` (`##`)
+   — e.g. top categories like `Physical`, `Psychological`, `Social` — and every further level
+   of nesting goes one heading deeper (`h3`, `h4`, ...). The default dataset nests to `h5`
+   (e.g. `Physical` → `Impact Play` → `Toy` → `Whip`); any depth up to `h6` round-trips.
+   A node without children is simply a header with no deeper headings below it.
 5. Next to each header, in brackets `()`, is the status of that item, written out as defined in [the statuses section](../README.md#statuses).
    The exporter writes the label in the **active UI language**; the importer accepts the labels of
    **all supported languages** (case-insensitive):
@@ -26,8 +28,9 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
    | 5     | Must         | Muss           | Imprescindible   | Moet             |
  
    The English labels are the canonical terms; the others are read from the locale files (`public/locales`).
+   Item names follow the same rule for default-dataset nodes (which carry translation keys);
+   user-added and imported items export their stored name verbatim.
 6. Free text below a header (up to the next header) is stored as **context** for that item. In the UI, items with context get an asterisk (`*`) appended to their title.
-7. A play area without practices may be listed as `h3` without any `h4` children.
 
 ## Example
 
@@ -66,5 +69,5 @@ Liked by Person B.
   recognized status defaults to `Not Defined` (0).
 - A trailing ` - <language>` suffix on the `h1` title (e.g. ` - Deutsch`) is stripped before parsing.
 - Blank lines are ignored. Text blocks are trimmed of leading/trailing blank lines.
-- Nesting deeper than `h4` is preserved on round-trip: any header attaches to the most recent shallower header. Export caps at `h6`, the deepest markdown heading level.
+- Any header depth round-trips: each header attaches to the most recent shallower header. Export caps at `h6`, the deepest markdown heading level.
 - Importing replaces the current board state entirely (same semantics as the original's JSON import).

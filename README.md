@@ -4,11 +4,11 @@ A fun way of manufacturing consent.
 
 Smorkinkboard is a kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/), created by [Pepijn Schoen](https://github.com/duizendnegen) (thank you for creating the original project and allowing me to do this!). 
 
-It shows which practices are welcome for the people in your dynamic, organized as a tree:
-
-- **Categories** (e.g. `Physical`, `Psychological`, `Social`)
-  - **Play areas** (e.g. `Bondage`, `Impact Play`, `Power Exchange`, `Toys`, `Edge Play`)
-    - **Practices** (e.g. `Hand Spanking`, `E-Stim`, `Living Buffet`)
+It shows which practices are welcome for the people in your dynamic, organized as a tree of
+arbitrary depth — top-level **categories** (e.g. `Physical`, `Psychological`, `Social`), their
+**play areas** (e.g. `Bondage`, `Impact Play`, `Toys`), and nested **practices**
+(e.g. `Whip`, `Living Buffet`). The default dataset nests five levels deep; you can add or
+remove items at any depth in the UI.
 
 Click a field to cycle its status, right-click a field to add details (on touch devices: long-press the field). Fields with added context get an asterisk (`*`) appended to their title. Statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
 
@@ -31,7 +31,7 @@ The title reflects who the board is for, e.g. `Smorkinkboard (for Person A, Pers
 
 ## Export / Import
 
-Different from the original smorgasbord, Smorkinkboard exchanges data in a **human-readable markdown format** instead of JSON. Headers mark the hierarchy (`#` title, `##` category, `###` play area, `####` practice), the status in brackets marks the value, and free text below a header is stored as context:
+Different from the original smorgasbord, Smorkinkboard exchanges data in a **human-readable markdown format** instead of JSON. Headers mark the hierarchy — one heading level per tree level (`#` title, then one level deeper per branch, up to `######`) — the status in brackets marks the value, and free text below a header is stored as context:
 
 ```markdown
 # Smorkinkboard (for Person A, Person B and Person C)

@@ -1,92 +1,512 @@
 [
   {
-    "uuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "uuid": "bb36f7b9-3ed9-4110-855d-4852f969b68d",
     "parentUuid": "",
     "key": "smorkinkboard",
     "name": "Smorkinkboard"
   },
   {
-    "uuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "uuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "parentUuid": "bb36f7b9-3ed9-4110-855d-4852f969b68d",
     "key": "physical",
     "name": "Physical"
   },
   {
-    "uuid": "a8186e7b-24ef-4780-85c6-48038a9c46cb",
-    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "uuid": "28d7e97b-26dd-4c57-a19f-0feb840edb3e",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_aftercare",
+    "name": "Aftercare"
+  },
+  {
+    "uuid": "88788384-9e23-40c8-9d3e-f61c73c5512b",
+    "parentUuid": "28d7e97b-26dd-4c57-a19f-0feb840edb3e",
+    "key": "physical_aftercare_cuddling",
+    "name": "Cuddling"
+  },
+  {
+    "uuid": "cf58e31a-0cfe-414a-9948-72496ec3ee87",
+    "parentUuid": "28d7e97b-26dd-4c57-a19f-0feb840edb3e",
+    "key": "physical_aftercare_water_and_food",
+    "name": "Water & Food"
+  },
+  {
+    "uuid": "abc6dd21-1b28-43e1-96cf-01255d2add97",
+    "parentUuid": "28d7e97b-26dd-4c57-a19f-0feb840edb3e",
+    "key": "physical_aftercare_debriefing",
+    "name": "Debriefing"
+  },
+  {
+    "uuid": "dcb97e4d-5a99-423c-b60e-c998d7114d62",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_impact_play",
+    "name": "Impact Play"
+  },
+  {
+    "uuid": "76f1bfcb-ce2d-4a4e-8207-12cef8708175",
+    "parentUuid": "dcb97e4d-5a99-423c-b60e-c998d7114d62",
+    "key": "physical_impact_play_hand",
+    "name": "Hand"
+  },
+  {
+    "uuid": "a4eb48ad-8b17-4184-9d86-c2232499f920",
+    "parentUuid": "dcb97e4d-5a99-423c-b60e-c998d7114d62",
+    "key": "physical_impact_play_toy",
+    "name": "Toy"
+  },
+  {
+    "uuid": "13e2ce10-b104-43b2-b5c3-9581d3766471",
+    "parentUuid": "a4eb48ad-8b17-4184-9d86-c2232499f920",
+    "key": "physical_impact_play_toy_whip",
+    "name": "Whip"
+  },
+  {
+    "uuid": "65ad8332-d003-4aae-92d6-a236c14e1774",
+    "parentUuid": "a4eb48ad-8b17-4184-9d86-c2232499f920",
+    "key": "physical_impact_play_toy_flogger",
+    "name": "Flogger"
+  },
+  {
+    "uuid": "fded6390-8db3-40b0-a223-18e01765dbfe",
+    "parentUuid": "a4eb48ad-8b17-4184-9d86-c2232499f920",
+    "key": "physical_impact_play_toy_paddle",
+    "name": "Paddle"
+  },
+  {
+    "uuid": "69c16ff0-ccc5-4b5d-97ef-3e6025c20a03",
+    "parentUuid": "a4eb48ad-8b17-4184-9d86-c2232499f920",
+    "key": "physical_impact_play_toy_cane",
+    "name": "Cane"
+  },
+  {
+    "uuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_bondage",
+    "name": "Bondage"
+  },
+  {
+    "uuid": "252e1d4e-5a85-4c37-9899-2afd1ce05456",
+    "parentUuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "key": "physical_bondage_rope",
+    "name": "Rope"
+  },
+  {
+    "uuid": "5de86974-9655-4578-ad99-5c5402e0e5bc",
+    "parentUuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "key": "physical_bondage_cuffs",
+    "name": "Cuffs"
+  },
+  {
+    "uuid": "57f4f056-437c-436a-bf1b-1d3ed0301f96",
+    "parentUuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "key": "physical_bondage_tape",
+    "name": "Tape"
+  },
+  {
+    "uuid": "c5e3eb46-56ae-42fc-ae78-254eb5cf3d52",
+    "parentUuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "key": "physical_bondage_blindfold",
+    "name": "Blindfold"
+  },
+  {
+    "uuid": "c719fbca-b402-4a8e-8fbe-92e6b553a95a",
+    "parentUuid": "edd6c23a-d190-48c7-aeb7-ca180888ad21",
+    "key": "physical_bondage_collar_and_leash",
+    "name": "Collar & Leash"
+  },
+  {
+    "uuid": "3e021340-cfb1-46dc-9031-4dc5a7c7b0aa",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_electrical",
+    "name": "Electrical"
+  },
+  {
+    "uuid": "72e723c2-e56c-4ed3-9a5e-727a9f464b79",
+    "parentUuid": "3e021340-cfb1-46dc-9031-4dc5a7c7b0aa",
+    "key": "physical_electrical_pain",
+    "name": "Pain"
+  },
+  {
+    "uuid": "d66b31a6-c39d-41e7-a213-7e1e4654e2cf",
+    "parentUuid": "3e021340-cfb1-46dc-9031-4dc5a7c7b0aa",
+    "key": "physical_electrical_sensation",
+    "name": "Sensation"
+  },
+  {
+    "uuid": "64dab9a0-8911-4c07-81b4-d2540251f6f3",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_temperature_play",
+    "name": "Temperature Play"
+  },
+  {
+    "uuid": "cba0145e-2a7f-4260-a47e-556a0f3564bf",
+    "parentUuid": "64dab9a0-8911-4c07-81b4-d2540251f6f3",
+    "key": "physical_temperature_play_heat",
+    "name": "Heat"
+  },
+  {
+    "uuid": "1c9d0888-9c66-46e8-914f-c7e7926612d8",
+    "parentUuid": "64dab9a0-8911-4c07-81b4-d2540251f6f3",
+    "key": "physical_temperature_play_cold",
+    "name": "Cold"
+  },
+  {
+    "uuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_touch",
+    "name": "Touch"
+  },
+  {
+    "uuid": "e66f465a-7d38-49f5-85a4-66221a2bfd11",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_pinch",
+    "name": "Pinch"
+  },
+  {
+    "uuid": "b2067706-b735-4e42-b4b9-f118891e0411",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_scratching",
+    "name": "Scratching"
+  },
+  {
+    "uuid": "6d991014-e5f2-439d-be39-9141e830d3fe",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_biting",
+    "name": "Biting"
+  },
+  {
+    "uuid": "413064b0-ee5d-4db3-ba9a-fe18f190cbc7",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_stroking_and_cuddling",
+    "name": "Stroking & Cuddling"
+  },
+  {
+    "uuid": "bcf29cf1-8240-4e3c-b721-1e574979025c",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_kissing",
+    "name": "Kissing"
+  },
+  {
+    "uuid": "e04b5ebe-5b32-4f2f-955e-86e86a4e199b",
+    "parentUuid": "297aca1a-3b8c-4fd5-ad4b-57e628593273",
+    "key": "physical_touch_massage",
+    "name": "Massage"
+  },
+  {
+    "uuid": "5035f73e-c6c9-48cc-b50f-b7269258e916",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_toys",
+    "name": "Toys"
+  },
+  {
+    "uuid": "19718c0d-3ddc-4255-b421-fc9b1a0d9c8f",
+    "parentUuid": "5035f73e-c6c9-48cc-b50f-b7269258e916",
+    "key": "physical_toys_vibration",
+    "name": "Vibration"
+  },
+  {
+    "uuid": "f880f260-9c99-473e-bf73-8bffdaa8647e",
+    "parentUuid": "5035f73e-c6c9-48cc-b50f-b7269258e916",
+    "key": "physical_toys_clamps",
+    "name": "Clamps"
+  },
+  {
+    "uuid": "551f9ffe-23f2-4f77-98c9-5bc805f8aafe",
+    "parentUuid": "5035f73e-c6c9-48cc-b50f-b7269258e916",
+    "key": "physical_toys_probes",
+    "name": "Probes"
+  },
+  {
+    "uuid": "29644764-a955-4076-9ab7-918c02661c96",
+    "parentUuid": "5035f73e-c6c9-48cc-b50f-b7269258e916",
+    "key": "physical_toys_balls",
+    "name": "Balls"
+  },
+  {
+    "uuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_sex",
+    "name": "Sex"
+  },
+  {
+    "uuid": "b0410189-d2f8-4d82-990c-058da979d2f0",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_masturbation",
+    "name": "Masturbation"
+  },
+  {
+    "uuid": "b1bf3ed2-2ea4-4ab8-b657-d8004c3df54c",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_penetration",
+    "name": "Penetration"
+  },
+  {
+    "uuid": "fc0cc0a8-de78-4023-9e60-58b9c59c733a",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_toy",
+    "name": "Toy"
+  },
+  {
+    "uuid": "12f23f28-b1f8-424f-a002-0811c6d4f665",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_hand",
+    "name": "Hand"
+  },
+  {
+    "uuid": "65597f79-8725-475c-81f0-55941aa1da9c",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_oral",
+    "name": "Oral"
+  },
+  {
+    "uuid": "291641c8-c221-4eca-a2f9-50372eb1f590",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_vaginal",
+    "name": "Vaginal"
+  },
+  {
+    "uuid": "25f4701c-599f-4529-9648-cf22c8e36fde",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_anal",
+    "name": "Anal"
+  },
+  {
+    "uuid": "78d090f3-09d8-4ff0-906a-a8ab0c48c4ef",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_orgasm",
+    "name": "Orgasm"
+  },
+  {
+    "uuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "parentUuid": "6e81d8be-6a34-4e35-b61f-bf62888aaa53",
+    "key": "physical_sex_bodily_fluids",
+    "name": "Bodily Fluids"
+  },
+  {
+    "uuid": "7ab249f6-2f43-45b7-910c-cac3f0423d8a",
+    "parentUuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "key": "physical_sex_bodily_fluids_cum",
+    "name": "Cum"
+  },
+  {
+    "uuid": "f43462c8-c740-48e1-b9b4-16ce8e62126d",
+    "parentUuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "key": "physical_sex_bodily_fluids_sweat",
+    "name": "Sweat"
+  },
+  {
+    "uuid": "c71adff4-fd12-4939-900b-e785657dce8d",
+    "parentUuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "key": "physical_sex_bodily_fluids_spit",
+    "name": "Spit"
+  },
+  {
+    "uuid": "9761abcf-c3ea-4036-8938-f43ba29a7a1c",
+    "parentUuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "key": "physical_sex_bodily_fluids_blood",
+    "name": "Blood"
+  },
+  {
+    "uuid": "1882ab93-e36e-4123-b924-af812aceabb9",
+    "parentUuid": "9b3238ac-e980-487c-a768-3d0df495474a",
+    "key": "physical_sex_bodily_fluids_other",
+    "name": "Other"
+  },
+  {
+    "uuid": "e8a231af-c843-4c51-997e-d5d63a52d449",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_edge_play",
+    "name": "Edge Play"
+  },
+  {
+    "uuid": "56091e6e-d5d1-41c8-a5d6-5ba89ae22ac4",
+    "parentUuid": "e8a231af-c843-4c51-997e-d5d63a52d449",
+    "key": "physical_edge_play_breathplay",
+    "name": "Breathplay"
+  },
+  {
+    "uuid": "6418a25b-3cab-4d87-85ba-2ddb43f111bb",
+    "parentUuid": "e8a231af-c843-4c51-997e-d5d63a52d449",
+    "key": "physical_edge_play_sensory_deprivation",
+    "name": "Sensory Deprivation"
+  },
+  {
+    "uuid": "4add80cc-cf6b-4d66-b9f1-eec0a55835c3",
+    "parentUuid": "e8a231af-c843-4c51-997e-d5d63a52d449",
+    "key": "physical_edge_play_blood_play",
+    "name": "Blood Play"
+  },
+  {
+    "uuid": "378c92f4-ab11-4bc5-b12d-f968d38c34cc",
+    "parentUuid": "e8a231af-c843-4c51-997e-d5d63a52d449",
+    "key": "physical_edge_play_other",
+    "name": "Other"
+  },
+  {
+    "uuid": "2cad943b-26cd-4a4e-92e4-422cbd95f770",
+    "parentUuid": "132dc4e2-f707-4aa6-9319-2c22f320d4ca",
+    "key": "physical_objectification",
+    "name": "Objectification"
+  },
+  {
+    "uuid": "a79e8c2f-10b4-49e6-a567-145e306607f1",
+    "parentUuid": "2cad943b-26cd-4a4e-92e4-422cbd95f770",
+    "key": "physical_objectification_living_buffet",
+    "name": "Living Buffet"
+  },
+  {
+    "uuid": "2197e603-4b0f-4b5c-b6ad-321651f2c01d",
+    "parentUuid": "2cad943b-26cd-4a4e-92e4-422cbd95f770",
+    "key": "physical_objectification_living_furniture",
+    "name": "Living Furniture"
+  },
+  {
+    "uuid": "2a4ce9f5-62fd-44a9-8514-2b73a054050b",
+    "parentUuid": "2cad943b-26cd-4a4e-92e4-422cbd95f770",
+    "key": "physical_objectification_pet_play",
+    "name": "Pet Play"
+  },
+  {
+    "uuid": "5ff6955d-4315-445d-8997-6056b52236d3",
+    "parentUuid": "2a4ce9f5-62fd-44a9-8514-2b73a054050b",
+    "key": "physical_objectification_pet_play_puppy_play",
+    "name": "Puppy Play"
+  },
+  {
+    "uuid": "d278d40b-40e7-4120-94e2-a030aa8fea06",
+    "parentUuid": "2a4ce9f5-62fd-44a9-8514-2b73a054050b",
+    "key": "physical_objectification_pet_play_other",
+    "name": "Other"
+  },
+  {
+    "uuid": "48ac41b3-14fb-498f-84e1-ee929de469e0",
+    "parentUuid": "bb36f7b9-3ed9-4110-855d-4852f969b68d",
     "key": "psychological",
     "name": "Psychological"
   },
   {
-    "uuid": "31d9c068-4c89-490f-abfb-cbc8ca5a3f38",
-    "parentUuid": "953eef2f-7e22-45f8-99ca-84571cf304f8",
+    "uuid": "187166b3-8c2c-4cff-9794-badeebedf4aa",
+    "parentUuid": "48ac41b3-14fb-498f-84e1-ee929de469e0",
+    "key": "psychological_verbal_degradation",
+    "name": "Verbal Degradation"
+  },
+  {
+    "uuid": "842b1d70-0121-4777-9b4b-935aad4908aa",
+    "parentUuid": "48ac41b3-14fb-498f-84e1-ee929de469e0",
+    "key": "psychological_power_exchange",
+    "name": "Power Exchange"
+  },
+  {
+    "uuid": "a5149ec7-cd6d-4fea-ae91-bf4fb1724275",
+    "parentUuid": "842b1d70-0121-4777-9b4b-935aad4908aa",
+    "key": "psychological_power_exchange_dominance",
+    "name": "Dominance"
+  },
+  {
+    "uuid": "85b565ec-9fc1-417d-8706-fe9375d5de32",
+    "parentUuid": "842b1d70-0121-4777-9b4b-935aad4908aa",
+    "key": "psychological_power_exchange_submission",
+    "name": "Submission"
+  },
+  {
+    "uuid": "612092a7-b007-46a1-ba8e-ce41a79850b6",
+    "parentUuid": "842b1d70-0121-4777-9b4b-935aad4908aa",
+    "key": "psychological_power_exchange_switch",
+    "name": "Switch"
+  },
+  {
+    "uuid": "dcc75966-0625-4c37-a624-0c20e943a7af",
+    "parentUuid": "48ac41b3-14fb-498f-84e1-ee929de469e0",
+    "key": "psychological_mind_play",
+    "name": "Mind Play"
+  },
+  {
+    "uuid": "bc257cff-c3e0-4d5a-83e5-cb44f257ee70",
+    "parentUuid": "dcc75966-0625-4c37-a624-0c20e943a7af",
+    "key": "psychological_mind_play_hypnosis",
+    "name": "Hypnosis"
+  },
+  {
+    "uuid": "2b8318aa-8de7-4680-8600-686ca63683bf",
+    "parentUuid": "dcc75966-0625-4c37-a624-0c20e943a7af",
+    "key": "psychological_mind_play_suggestion",
+    "name": "Suggestion"
+  },
+  {
+    "uuid": "54a0adf3-b478-4341-aa56-d2ca61d16d7f",
+    "parentUuid": "dcc75966-0625-4c37-a624-0c20e943a7af",
+    "key": "psychological_mind_play_dynamic_24_7",
+    "name": "24/7 Dynamic"
+  },
+  {
+    "uuid": "6f65a7d7-54b2-431a-925c-db25bfcf52a2",
+    "parentUuid": "48ac41b3-14fb-498f-84e1-ee929de469e0",
+    "key": "psychological_tunnel_play",
+    "name": "Tunnel Play"
+  },
+  {
+    "uuid": "f801dbff-2ee7-4c3d-bb38-6fbd065f71bd",
+    "parentUuid": "bb36f7b9-3ed9-4110-855d-4852f969b68d",
+    "key": "emotional",
+    "name": "Emotional"
+  },
+  {
+    "uuid": "3e032950-4939-4380-be84-c634b0292076",
+    "parentUuid": "f801dbff-2ee7-4c3d-bb38-6fbd065f71bd",
+    "key": "emotional_romantic",
+    "name": "Romantic"
+  },
+  {
+    "uuid": "3abb8025-09a3-47f2-b0d6-48d017807343",
+    "parentUuid": "f801dbff-2ee7-4c3d-bb38-6fbd065f71bd",
+    "key": "emotional_affection",
+    "name": "Affection"
+  },
+  {
+    "uuid": "f2e3f5dd-c911-4691-9c12-ad989b3ab907",
+    "parentUuid": "bb36f7b9-3ed9-4110-855d-4852f969b68d",
     "key": "social",
     "name": "Social"
   },
   {
-    "uuid": "5183581e-2068-446f-a1cb-df53757ae953",
-    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "key": "impact_play",
-    "name": "Impact Play"
+    "uuid": "e54b3ae5-41ee-4911-b749-bfce775b6f94",
+    "parentUuid": "f2e3f5dd-c911-4691-9c12-ad989b3ab907",
+    "key": "social_public_play",
+    "name": "Public Play"
   },
   {
-    "uuid": "b7912f44-253a-48d9-b404-6be090f97364",
-    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "key": "bondage",
-    "name": "Bondage"
+    "uuid": "66357690-98c2-4741-8052-777345ea745c",
+    "parentUuid": "e54b3ae5-41ee-4911-b749-bfce775b6f94",
+    "key": "social_public_play_public_humiliation",
+    "name": "Public Humiliation"
   },
   {
-    "uuid": "9534215a-5ad4-42dc-b2bd-7f4bd1653ae9",
-    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "key": "power_exchange",
-    "name": "Power Exchange"
+    "uuid": "bb6e3166-71bd-4e41-a42a-03cfdfba4349",
+    "parentUuid": "e54b3ae5-41ee-4911-b749-bfce775b6f94",
+    "key": "social_public_play_covert_play",
+    "name": "Covert Play"
   },
   {
-    "uuid": "b7656f93-29f5-484a-bf66-09bb731db1ee",
-    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "key": "toys",
-    "name": "Toys"
+    "uuid": "9cc19d9f-4581-43b2-8a2c-386662f7077e",
+    "parentUuid": "f2e3f5dd-c911-4691-9c12-ad989b3ab907",
+    "key": "social_events",
+    "name": "Events"
   },
   {
-    "uuid": "99ebae32-0354-49f5-a436-06235c573ee2",
-    "parentUuid": "b50e9765-ad85-4086-bfe9-b70b285aefa9",
-    "key": "edge_play",
-    "name": "Edge Play"
+    "uuid": "f598949e-427f-4d90-a500-9573382c552d",
+    "parentUuid": "9cc19d9f-4581-43b2-8a2c-386662f7077e",
+    "key": "social_events_kink_event_party",
+    "name": "Kink Event / Party"
   },
   {
-    "uuid": "885af6fc-560f-45c0-8bc0-87be39ed4c6f",
-    "parentUuid": "5183581e-2068-446f-a1cb-df53757ae953",
-    "key": "hand_spanking",
-    "name": "Hand Spanking"
+    "uuid": "3e181c11-44fd-4cf8-98aa-898c0b978167",
+    "parentUuid": "9cc19d9f-4581-43b2-8a2c-386662f7077e",
+    "key": "social_events_orgy_multi",
+    "name": "Orgy / Multi"
   },
   {
-    "uuid": "9b671bd5-cc28-4560-abb8-f81644bac1b1",
-    "parentUuid": "5183581e-2068-446f-a1cb-df53757ae953",
-    "key": "flogging",
-    "name": "Flogging"
-  },
-  {
-    "uuid": "5b777464-2c54-47a4-bd60-edcaa4ca640e",
-    "parentUuid": "b7656f93-29f5-484a-bf66-09bb731db1ee",
-    "key": "e_stim",
-    "name": "E-Stim"
-  },
-  {
-    "uuid": "3050b340-170d-417d-9835-ab3b44441c8b",
-    "parentUuid": "99ebae32-0354-49f5-a436-06235c573ee2",
-    "key": "living_buffet",
-    "name": "Living Buffet"
-  },
-  {
-    "uuid": "e19055a6-9271-4077-aa31-8277cc87a2cf",
-    "parentUuid": "a8186e7b-24ef-4780-85c6-48038a9c46cb",
-    "key": "degradation",
-    "name": "Degradation"
-  },
-  {
-    "uuid": "23944502-3b61-45c3-8577-72ede9d41524",
-    "parentUuid": "31d9c068-4c89-490f-abfb-cbc8ca5a3f38",
-    "key": "public",
-    "name": "Public"
+    "uuid": "0162b296-8a79-4553-90d3-32fe3322e42f",
+    "parentUuid": "f2e3f5dd-c911-4691-9c12-ad989b3ab907",
+    "key": "social_private",
+    "name": "Private"
   }
 ]
