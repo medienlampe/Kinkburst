@@ -19,6 +19,15 @@ describe("App", () => {
     expect(heading).toBeInTheDocument();
     expect(heading.textContent).toMatch(/smorkinkboard/i);
 
+    // The footer disclaimer renders its attribution links as real anchors
+    // (the locale strings use Trans component placeholders, not raw HTML).
+    const footerLinks = document.querySelectorAll(".app-footer a");
+    expect(Array.from(footerLinks).map((a) => a.getAttribute("href"))).toEqual([
+      "https://github.com/duizendnegen/sunburst-smorgasbord",
+      "https://d3js.org/",
+      "https://observablehq.com/@d3/sunburst",
+    ]);
+
     // The sunburst renders one <g> per node once the (mocked) fixture load resolves.
     await waitFor(() => {
       expect(document.querySelectorAll("#smorgasbordImage g").length).toBeGreaterThan(0);

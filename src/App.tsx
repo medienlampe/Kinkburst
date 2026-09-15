@@ -169,7 +169,16 @@ const App = () : JSX.Element => {
             <button className="button-link" onClick={() : void => changeLanguage("de")}>{t("footer.languages_german")}</button>,&nbsp;
             <button className="button-link" onClick={() : void => changeLanguage("nl")}>{t("footer.languages_dutch")}</button>.
           </p>
-          <p><Trans i18nKey="footer.disclaimer"></Trans></p>
+          <p>
+            <Trans
+              i18nKey="footer.disclaimer"
+              components={[
+                <a key="smorgasbord" href="https://github.com/duizendnegen/sunburst-smorgasbord" target="_blank" rel="noopener noreferrer" />,
+                <a key="d3" href="https://d3js.org/" target="_blank" rel="noopener noreferrer" />,
+                <a key="sunburst" href="https://observablehq.com/@d3/sunburst" target="_blank" rel="noopener noreferrer" />,
+              ]}
+            />
+          </p>
         </div>
       </footer>
 
