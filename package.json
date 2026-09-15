@@ -6,7 +6,7 @@
   "type": "module",
   "description": "A fun way of manufacturing consent: a kink smorgasbord to discuss which practices are welcome.",
   "dependencies": {
-    "bulma": "^1.0.4",
+    "@picocss/pico": "^2.1.1",
     "d3": "^7.9.0",
     "file-saver": "^2.0.5",
     "i18next": "^26.4.2",

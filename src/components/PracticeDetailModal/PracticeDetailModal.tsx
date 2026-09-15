@@ -17,33 +17,27 @@ const PracticeDetailModal = ({ isActive, practiceName, note, onNoteChange, onSav
   const { t } = useTranslation();
 
   return (
-    <div className={isActive ? "modal is-active" : "modal"}>
-      <div className="modal-background" onClick={onCancel}></div>
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">{t("detail.title")}</p>
-          <button className="delete" aria-label="close" onClick={onCancel}></button>
+    <dialog className="modal" open={isActive} onClick={onCancel}>
+      <article onClick={(e) : void => e.stopPropagation()}>
+        <header>
+          <h3>{t("detail.title")}</h3>
+          <button className="close" aria-label="close" onClick={onCancel}></button>
         </header>
-        <section className="modal-card-body">
-          <h3 className="subtitle is-5">{practiceName}</h3>
-          <div className="field">
-            <label className="label" htmlFor="practice-note">{t("detail.note_label")}</label>
-            <div className="control">
-              <textarea
-                id="practice-note"
-                className="textarea"
-                rows={5}
-                value={note}
-                onChange={(e) : void => onNoteChange(e.target.value)}></textarea>
-            </div>
-          </div>
+        <section>
+          <h4>{practiceName}</h4>
+          <label htmlFor="practice-note">{t("detail.note_label")}</label>
+          <textarea
+            id="practice-note"
+            rows={5}
+            value={note}
+            onChange={(e) : void => onNoteChange(e.target.value)}></textarea>
         </section>
-        <footer className="modal-card-foot">
-          <button className="button is-primary" onClick={() : void => onSave(note.trim())}>{t("detail.save")}</button>
-          <button className="button" onClick={onCancel}>{t("detail.cancel")}</button>
+        <footer>
+          <button onClick={() : void => onSave(note.trim())}>{t("detail.save")}</button>
+          <button className="secondary" onClick={onCancel}>{t("detail.cancel")}</button>
         </footer>
-      </div>
-    </div>
+      </article>
+    </dialog>
   );
 }
 

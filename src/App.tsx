@@ -2,6 +2,9 @@ import { Suspense, useEffect, useState, type JSX } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 
+// PicoCSS base (default colors + automatic light/dark via prefers-color-scheme),
+// then the app-specific layout on top.
+import "@picocss/pico/css/pico.min.css";
 import "./App.scss";
 
 import AppHeader from "./components/AppHeader/AppHeader";

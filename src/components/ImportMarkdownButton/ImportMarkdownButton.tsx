@@ -40,7 +40,7 @@ const ImportMarkdownButton = () : JSX.Element => {
   }
 
   return (
-    <button className="button is-action" onClick={importNewBoard}>
+    <button className="outline is-action" onClick={importNewBoard}>
       <ImportIcon />
       <span>{t("button.import")}</span>
       <input

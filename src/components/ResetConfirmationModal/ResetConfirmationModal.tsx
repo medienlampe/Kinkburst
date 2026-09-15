@@ -7,24 +7,23 @@ interface ResetConfirmationModalProps {
   isActive: boolean;
 }
 
+// Pico styles every <dialog> as a modal overlay and the inner <article> as the
+// card. Clicking the dimmed backdrop (the dialog itself) cancels.
 const ResetConfirmationModal = ({ onReset, onCancel, isActive } : ResetConfirmationModalProps) : JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <div className={isActive ? "modal is-active" : "modal"}>
-      <div className="modal-background" onClick={onCancel}></div>
-      <div className="modal-card">
-        <section className="modal-card-body">
-          <p>
-            {t("reset.content")}
-          </p>
-        </section>
-        <footer className="modal-card-foot">
-          <button className="button is-primary" onClick={onReset}>{t("reset.confirm")}</button>
-          <button className="button" onClick={onCancel}>{t("reset.cancel")}</button>
+    <dialog className="modal" open={isActive} onClick={onCancel}>
+      <article onClick={(e) : void => e.stopPropagation()}>
+        <p>
+          {t("reset.content")}
+        </p>
+        <footer>
+          <button onClick={onReset}>{t("reset.confirm")}</button>
+          <button className="secondary" onClick={onCancel}>{t("reset.cancel")}</button>
         </footer>
-      </div>
-    </div>
+      </article>
+    </dialog>
   )
 }
 

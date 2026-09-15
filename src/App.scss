@@ -1,27 +1,25 @@
-// Smorkinkboard styles: Bulma base + a dark plum theme built around the board's
-// status colors. All new layout lives here; the sunburst keeps its own CSS in
-// components/Smorgasbord/Smorgasbord.css.
-@use "bulma/sass/index" as *;
+// Smorkinkboard styles: PicoCSS base (default colors, automatic light/dark via
+// prefers-color-scheme) + app-specific layout. The sunburst keeps its own CSS
+// in components/Smorgasbord/Smorgasbord.css.
 
 // ---------------------------------------------------------------------------
-// Design tokens
+// Design tokens — mapped to Pico's variables so the OS light/dark preference
+// applies everywhere without a manual theme switch.
 // ---------------------------------------------------------------------------
 :root {
-  // Surfaces (charcoal with a plum undertone that echoes the brand color).
-  --bg: #17131c;
-  --bg-raised: #201a28;
-  --surface: #262031;
-  --border: #382e47;
+  // Surfaces & text (Pico defaults, theme-aware).
+  --bg: var(--pico-background-color);
+  --bg-raised: var(--pico-card-background-color);
+  --surface: var(--pico-card-background-color);
+  --border: var(--pico-muted-border-color);
 
-  // Text.
-  --text: #f3eff8;
-  --text-muted: #b0a5c0;
+  --text: var(--pico-color);
+  --text-muted: var(--pico-muted-color);
 
-  // Accent (orchid — bright enough for AA contrast with dark text on top).
-  --accent: #e08cc6;
-  --accent-hover: #eb9fd1;
-  --on-accent: #211726;
-  --danger: #f08c8c;
+  // Accent (Pico's default primary) and danger (solarized red).
+  --accent: var(--pico-primary);
+  --on-accent: var(--pico-primary-inverse);
+  --danger: #dc322f;
 
   // Shape & rhythm.
   --radius-md: 10px;
@@ -33,12 +31,6 @@ html {
   scroll-behavior: smooth;
   // Keep anchored headings clear of the sticky header.
   scroll-padding-top: calc(var(--header-height) + 20px);
-}
-
-html,
-body {
-  background-color: var(--bg);
-  color: var(--text);
 }
 
 // Visible keyboard focus everywhere.
@@ -59,179 +51,49 @@ body {
 }
 
 // ---------------------------------------------------------------------------
-// Bulma dark-theme overrides (modals, forms, headings)
+// Toolbar buttons (icon + label). The look comes from Pico's default and
+// outline button variants; these rules only add the icon/label gap and a
+// danger tint (Pico has no danger variant).
 // ---------------------------------------------------------------------------
-.title,
-.subtitle {
-  color: var(--text);
-}
-
-.label {
-  color: var(--text);
-}
-
-hr {
-  background-color: var(--border);
-  border: none;
-}
-
-.input,
-.textarea,
-.select select {
-  background-color: var(--bg);
-  border-color: var(--border);
-  color: var(--text);
-  box-shadow: none;
-}
-
-.input::placeholder,
-.textarea::placeholder {
-  color: var(--text-muted);
-}
-
-.input:focus,
-.textarea:focus,
-.select select:focus {
-  background-color: var(--bg);
-  border-color: var(--accent);
-  color: var(--text);
-  box-shadow: 0 0 0 3px rgba(224, 140, 198, 0.22);
-}
-
-.modal {
-  color: var(--text);
-}
-
-.modal-background {
-  background-color: rgba(10, 8, 14, 0.72);
-}
-
-.modal-card {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  color: var(--text);
-  max-width: 560px;
-  width: calc(100vw - 32px);
-}
-
-.modal-card-head,
-.modal-card-foot {
-  background-color: transparent;
-  border-color: var(--border);
-}
-
-.modal-card-title {
-  color: var(--text);
-  font-weight: 700;
-}
-
-.modal-card-body {
-  background-color: transparent;
-  padding: 24px;
-}
-
-// Secondary modal buttons (e.g. "Close") match the toolbar's ghost style.
-.modal-card-foot .button:not(.is-primary) {
-  background-color: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  box-shadow: none;
-}
-
-.modal-card-foot .button:not(.is-primary):hover,
-.modal-card-foot .button:not(.is-primary):focus {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.modal-card-head .delete,
-.modal-card-foot .delete {
-  color: var(--text-muted);
-}
-
-.modal-card-head .delete:hover,
-.modal-card-head .delete:focus {
-  color: var(--text);
-}
-
-// Primary buttons (modal actions + the toolbar's export button).
-.button.is-primary {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
-  font-weight: 600;
-}
-
-.button.is-primary:hover,
-.button.is-primary:focus {
-  background-color: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: var(--on-accent);
-}
-
-.button.is-primary[disabled] {
-  background-color: transparent;
-  border-color: var(--border);
-  color: var(--text-muted);
-}
-
-// ---------------------------------------------------------------------------
-// Toolbar buttons (icon + label)
-// ---------------------------------------------------------------------------
-.button.is-action {
+// Compact toolbar buttons (Pico's default padding is chunky for a header row).
+.is-action {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  background-color: transparent;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: none;
-  color: var(--text);
+  padding: 6px 12px;
   font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.button.is-action:hover,
-.button.is-action:focus {
-  background-color: rgba(224, 140, 198, 0.07);
-  border-color: var(--accent);
-  color: var(--accent);
+button.is-danger {
+  --pico-color: var(--danger);
+  --pico-border-color: color-mix(in srgb, var(--danger) 45%, transparent);
 }
 
-.button.is-action.is-primary {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
+button.is-danger:hover,
+button.is-danger:focus {
+  --pico-background-color: color-mix(in srgb, var(--danger) 10%, transparent);
+  --pico-color: var(--danger);
+  --pico-border-color: var(--danger);
 }
 
-.button.is-action.is-primary:hover,
-.button.is-action.is-primary:focus {
-  background-color: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: var(--on-accent);
-}
-
-.button.is-action.is-danger {
-  color: var(--danger);
-}
-
-.button.is-action.is-danger:hover,
-.button.is-action.is-danger:focus {
-  background-color: rgba(240, 140, 140, 0.08);
-  border-color: var(--danger);
-  color: var(--danger);
+// Compact form fields (Pico's defaults are chunky for this app).
+input:not([type=checkbox]):not([type=radio]),
+select,
+textarea {
+  font-size: 0.9rem;
+  --pico-form-element-spacing-vertical: 0.5rem;
+  --pico-form-element-spacing-horizontal: 0.75rem;
 }
 
 // The "added/removed" checkmark state used by the edit forms.
-.button.is-confirmation {
+.is-confirmation {
+  position: relative;
   color: transparent !important;
   pointer-events: none;
 }
 
-.button.is-confirmation:after {
+.is-confirmation:after {
   content: '\2713';
   display: inline-block;
   color: #ffffff;
@@ -243,7 +105,7 @@ hr {
   position: absolute !important;
 }
 
-.button[disabled].is-confirmation:after {
+button[disabled].is-confirmation:after {
   color: var(--text-muted);
 }
 
@@ -254,10 +116,16 @@ hr {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgba(23, 19, 28, 0.88);
+  background-color: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+
+  // Muted action buttons (scoped to the header only) so they don't pop more
+  // than the smorgasbord itself.
+  --pico-primary: color-mix(in srgb, var(--text) 40%, var(--pico-primary));
+  --pico-primary-hover: color-mix(in srgb, var(--text) 28%, var(--pico-primary));
+  --pico-primary-selected: color-mix(in srgb, var(--text) 22%, var(--pico-primary));
 }
 
 .app-header-inner {
@@ -265,8 +133,8 @@ hr {
   align-items: center;
   gap: 16px;
   min-height: var(--header-height);
-  max-width: 1160px;
-  margin: 0 auto;
+  // Use the full viewport width (small side margins only) so long button
+  // labels (e.g. German) fit on one line.
   padding: 8px 20px;
 }
 
@@ -278,7 +146,9 @@ hr {
 }
 
 .brand-mark {
+  display: block;
   flex-shrink: 0;
+  border-radius: 50%;
 }
 
 .brand-name {
@@ -346,39 +216,53 @@ hr {
   background-color: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 3px 5px 3px 16px;
+  padding: 2px 4px 2px 8px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .person-chip:focus-within {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(224, 140, 198, 0.18);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
-.person-input {
+// High specificity on purpose: Pico's own form rules (and the global compact
+// rule above) would otherwise win and blow up the chip's input.
+.persons-bar .person-chip .person-input {
   background: transparent;
   border: none;
   outline: none;
   box-shadow: none;
   color: var(--text);
   font-size: 0.9rem;
-  padding: 7px 6px 7px 0;
-  min-width: 9em;
-  max-width: 14em;
+  line-height: 1.2;
+  min-height: 0;
+  padding: 6px 8px 6px 4px;
+  // Pico gives every input width:100%; inside the flex chip that would blow
+  // up to the input's intrinsic width, so pin an explicit size. Wide enough
+  // for the longest placeholder (German: "Name der Person").
+  width: 10em;
+  max-width: 13em;
 }
 
-.person-input::placeholder {
+.persons-bar .person-chip .person-input::placeholder {
   color: var(--text-muted);
   opacity: 0.8;
 }
 
 .person-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 22px;
   height: 22px;
   margin: 0 6px 0 2px;
+  padding: 0;
+  border: none;
   border-radius: 50%;
+  background-color: transparent;
   color: var(--text-muted);
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .person-delete:hover,
@@ -404,7 +288,7 @@ hr {
 
 .person-add:hover,
 .person-add:focus {
-  background-color: rgba(224, 140, 198, 0.07);
+  background-color: color-mix(in srgb, var(--accent) 7%, transparent);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -421,6 +305,14 @@ hr {
   flex-direction: column;
   align-items: center;
   max-width: 900px;
+}
+
+// On big screens the board gets more room — use most of the viewport width,
+// leaving only a small margin on each side.
+@media (min-width: 1280px) {
+  .board-container {
+    max-width: 1560px;
+  }
 }
 
 .board-learn-more {
@@ -467,8 +359,8 @@ hr {
   height: 14px;
   border-radius: 4px;
   flex-shrink: 0;
-  // Keeps the black "Not Defined" swatch visible on the dark background.
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  // Keeps the dark "Not Defined" swatch visible in both themes.
+  box-shadow: inset 0 0 0 1px rgba(128, 128, 128, 0.35);
 }
 
 // ---------------------------------------------------------------------------
@@ -479,7 +371,7 @@ hr {
 }
 
 .faq-container {
-  max-width: 720px;
+  max-width: 980px;
   background-color: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -508,7 +400,7 @@ hr {
 .faq-container a {
   color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid rgba(224, 140, 198, 0.4);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
   transition: border-color 0.15s ease;
 }
 
@@ -526,7 +418,7 @@ hr {
 }
 
 .footer-inner {
-  max-width: 720px;
+  max-width: 980px;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -547,7 +439,7 @@ hr {
 .footer-inner a {
   color: var(--text-muted);
   text-decoration: none;
-  border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+  border-bottom: 1px dotted color-mix(in srgb, var(--text) 20%, transparent);
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -564,7 +456,7 @@ hr {
   font-size: inherit;
   color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px dotted rgba(224, 140, 198, 0.5);
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .button-link:hover {
@@ -580,9 +472,9 @@ hr {
   }
 
   .menu-toggle {
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
     justify-content: center;
+    padding: 0;
     width: 40px;
     height: 40px;
     margin-left: auto;
@@ -616,11 +508,11 @@ hr {
     gap: 6px;
     background-color: var(--bg-raised);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.25);
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
   }
 
-  .app-actions.is-open .button {
+  .app-actions.is-open button {
     width: 100%;
     justify-content: flex-start;
     font-size: 1rem;
@@ -631,9 +523,8 @@ hr {
     padding-top: 28px;
   }
 
-  .person-input {
-    min-width: 7em;
-    max-width: 10em;
+  .persons-bar .person-chip .person-input {
+    width: 8em;
   }
 }
 

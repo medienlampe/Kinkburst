@@ -9,15 +9,9 @@ interface AppHeaderProps {
   children: ReactNode;
 }
 
-// Mini sunburst mark in the four status colors — a tiny board of its own.
+// The whip logo (public/logo.svg), shown as the brand mark in the header.
 const BrandMark = () : JSX.Element => (
-  <svg className="brand-mark" viewBox="0 0 24 24" width="26" height="26" aria-hidden focusable={false}>
-    <path d="M12 12 L12 2 A10 10 0 0 1 22 12 Z" fill="#ff0000"></path>
-    <path d="M12 12 L22 12 A10 10 0 0 1 12 22 Z" fill="#ffff00"></path>
-    <path d="M12 12 L12 22 A10 10 0 0 1 2 12 Z" fill="#32cd32"></path>
-    <path d="M12 12 L2 12 A10 10 0 0 1 12 2 Z" fill="#008000"></path>
-    <circle cx="12" cy="12" r="3.2" fill="#17131c"></circle>
-  </svg>
+  <img className="brand-mark" src="logo.svg" width={50} height={50} alt="WHIP Logo" aria-hidden />
 );
 
 // Sticky app header: brand on the left, actions on the right (desktop) or in a

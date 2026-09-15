@@ -80,8 +80,8 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const getColor = (d: d3.HierarchyRectangularNode<Practice>) : string => {
-    if (!d.depth) { // root node is not clickable & blends into the page background
-      return "#17131c";
+    if (!d.depth) { // root node is not clickable; matches the Not Defined color
+      return "#00151b";
     }
     return STATUSES[d.data.value ?? 0].color;
   }

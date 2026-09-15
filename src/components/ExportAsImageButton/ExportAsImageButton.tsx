@@ -119,7 +119,7 @@ const ExportAsImageButton = () : JSX.Element => {
   }
 
   return (
-    <button className="button is-action" onClick={exportAsImage}>
+    <button className="outline is-action" onClick={exportAsImage}>
       <ImageIcon />
       <span>{t("button.download_image")}</span>
     </button>

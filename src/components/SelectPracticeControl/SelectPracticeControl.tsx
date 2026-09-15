@@ -25,34 +25,30 @@ const SelectPracticeControl = ({ onChange, value, hierarchicalPractices } : Sele
   }
 
   return (
-    <div className="control">
-      <div className="select">
-        <select
-          id="select-practice"
-          value={value}
-          onChange={(e) : void => onChange(e.target.value)}>
-          <option value=''></option>
-          {hierarchicalPractices
-            .map((practice) => {
-              return {
-                key: practice.data.uuid,
-                label: getLabelForPractice(practice),
-                depth: practice.depth
-              }
-            })
-            .sort((a, b) => a.depth === 0
-              ? -1
-              : b.depth === 0
-                ? 1
-                : a.label.localeCompare(b.label))
-            .map((practice) => (
-              <option value={practice.key} key={practice.key}>
-                {practice.label}
-              </option>
-            ))}
-        </select>
-      </div>
-    </div>
+    <select
+      id="select-practice"
+      value={value}
+      onChange={(e) : void => onChange(e.target.value)}>
+      <option value=''></option>
+      {hierarchicalPractices
+        .map((practice) => {
+          return {
+            key: practice.data.uuid,
+            label: getLabelForPractice(practice),
+            depth: practice.depth
+          }
+        })
+        .sort((a, b) => a.depth === 0
+          ? -1
+          : b.depth === 0
+            ? 1
+            : a.label.localeCompare(b.label))
+        .map((practice) => (
+          <option value={practice.key} key={practice.key}>
+            {practice.label}
+          </option>
+        ))}
+    </select>
   )
 }
 

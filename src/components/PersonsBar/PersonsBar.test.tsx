@@ -51,7 +51,7 @@ describe("PersonsBar", () => {
   it("hides the remove button for the last remaining person", () => {
     const { container } = renderPersonsBar([{ id: "1", name: "Person A" }]);
 
-    expect(container.querySelectorAll(".delete")).toHaveLength(0);
+    expect(container.querySelectorAll(".person-delete")).toHaveLength(0);
   });
 
   it("removes a person with its remove button when more than one exists", () => {

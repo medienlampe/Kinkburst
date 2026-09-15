@@ -10,7 +10,7 @@ const EditButton = ({ onClick } : EditButtonProps) : JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <button className="button is-action" onClick={onClick}>
+    <button className="outline is-action" onClick={onClick}>
       <EditIcon />
       <span>{t("button.edit")}</span>
     </button>

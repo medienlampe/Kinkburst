@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 import { personsAtom } from "../../states/persons.atom";
 import type { Person } from "../../interfaces";
-import { PlusIcon } from "../icons";
+import { CloseIcon, PlusIcon } from "../icons";
 
 // Controls the people the board is for (default: one person). The names are shown
 // as chips and feed the board title, e.g. "Smorkinkboard (for Person A, Person B)".
@@ -43,9 +43,11 @@ const PersonsBar = () : JSX.Element => {
               onChange={(e) : void => changeName(person.id, e.target.value)}></input>
             {persons.length > 1 && (
               <button
-                className="delete is-small person-delete"
+                className="person-delete"
                 aria-label={`${t("persons.remove")} ${index + 1}`}
-                onClick={() : void => removePerson(person.id)}></button>
+                onClick={() : void => removePerson(person.id)}>
+                <CloseIcon size={14} />
+              </button>
             )}
           </div>
         ))}

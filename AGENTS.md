@@ -31,12 +31,12 @@ authoritative. Definitions live in `src/constants.tsx` (`STATUSES`, `STATUS_BY_L
 
 | Value | Label         | Color     | Meaning                                                                              |
 | ----- | ------------- | --------- | ------------------------------------------------------------------------------------ |
-| 0     | Not Defined   | black     | Default state — no consent has been created about this yet.                          |
-| 1     | Hard Limit    | red       | Must not be part of the planned session or dynamic.                                  |
-| 2     | Soft Limit    | yellow    | Can be done, but generally to be avoided; may apply in a "service" dimension.        |
-| 3     | Can           | light green | Okay for the people attending, but not their favourite.                            |
-| 4     | Should        | lime green  | Gives pleasure and is very welcome to be part of a scene or dynamic.               |
-| 5     | Must          | green     | A favourite practice which should always be part of the session or dynamic.         |
+| 0     | Not Defined   | darkened solarized base03     | Default state — no consent has been created about this yet.                          |
+| 1     | Hard Limit    | solarized red                 | Must not be part of the planned session or dynamic.                                  |
+| 2     | Soft Limit    | solarized yellow              | Can be done, but generally to be avoided; may apply in a "service" dimension.        |
+| 3     | Can           | pale solarized green          | Okay for the people attending, but not their favourite.                              |
+| 4     | Should        | light solarized green         | Gives pleasure and is very welcome to be part of a scene or dynamic.                 |
+| 5     | Must          | solarized green (vibrant)     | A favourite practice which should always be part of the session or dynamic.          |
 
 ## Markdown exchange format
 
@@ -112,8 +112,10 @@ and rebranded: where the original says **"flavour"**, Smorkinkboard says **"prac
 - Tests run on **Vitest** (jsdom environment, globals enabled, setup in `src/setupTests.ts`).
 - Linting uses the **ESLint flat config** (`eslint.config.js`) with `typescript-eslint` and
   the React hooks plugin.
-- **d3** (v7) for the sunburst rendering; **jotai** for state; **bulma** (scss, v1 — imported
-  via `@use "bulma/sass/index"` in `src/App.scss`) for styling; **i18next** for translations.
+- **d3** (v7) for the sunburst rendering; **jotai** for state; **PicoCSS** (imported as
+  plain CSS via `@picocss/pico/css/pico.min.css` in `src/App.tsx`, before `App.scss`) for
+  styling — Pico's default colors are kept, and light/dark follows the OS preference
+  (`prefers-color-scheme`) automatically; **i18next** for translations.
 - State pattern: flat node list in an atom (`{ uuid, parentUuid, key?, name?, value?, note? }`,
   root has `parentUuid: ""`), nested tree derived via derived atoms (`atom((read) => ...)`).
   No provider wrapper is needed (jotai's default store is global). New domain types:
@@ -153,6 +155,12 @@ translated per locale (`statuses.*` keys) and markdown export/import is fully mu
 export writes the active UI language (plus a ` - <language>` title suffix), import accepts every
 supported language. The English labels in `src/constants.tsx` remain canonical for colors and
 fallbacks; when a label changes, update the locale files (import/export read those).
+Done: replaced Bulma with PicoCSS (2026-09) — Pico's default colors are kept and light/dark
+follows the OS preference automatically (`prefers-color-scheme`, no `data-theme` set); modals
+are native `<dialog>` + `<article>`, buttons use Pico's default/outline variants, forms are
+plain label/input/select markup. The app-specific tokens in `src/App.scss` map to `--pico-*`
+variables so they track the theme. Board and logo colors are now Solarized equivalents
+(see the status table above).
 
 Default dataset (2026-09): `public/practices.json` ships an extended tree (Aftercare, Impact
 Play incl. toy types, Bondage, Electrical, Temperature Play, Touch, Toys, Sex, Edge Play,

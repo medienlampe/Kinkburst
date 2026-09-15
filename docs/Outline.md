@@ -6,12 +6,12 @@ Unchanged are the possibilities to change, export, import and reset as well as d
 
 ## Statuses
 The scale statuses are six-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 5 with the following meaning and color:
-0 - "Not Defined" (black) - Default state, no consent has been created about this yet.
-1 - "Hard Limit" (red) – A practice which must nut be part of the planned session or dynamic, hard limit.
-2 - "Soft Limit" (yellow) - A practice which can be done, but is not necessarily giving the participants something back. It might be applicable in some kind of "service" dimension but is generally to be avoided.  
-3 - "Can" (light green) - A practice which is okay for the people attending but not their favourite.
-4 - "Should" (lime green) - A practice giving pleasure to the people in the dynamic. It's giving pleasure and is very welcome to be part of a scene or dynamic
-5 - "Must" (green) - A favourite practice which should always be part of the session or dynamic.
+0 - "Not Defined" (darkened solarized base03) - Default state, no consent has been created about this yet.
+1 - "Hard Limit" (solarized red) – A practice which must nut be part of the planned session or dynamic, hard limit.
+2 - "Soft Limit" (solarized yellow) - A practice which can be done, but is not necessarily giving the participants something back. It might be applicable in some kind of "service" dimension but is generally to be avoided.  
+3 - "Can" (pale solarized green) - A practice which is okay for the people attending but not their favourite.
+4 - "Should" (light solarized green) - A practice giving pleasure to the people in the dynamic. It's giving pleasure and is very welcome to be part of a scene or dynamic
+5 - "Must" (vibrant solarized green) - A favourite practice which should always be part of the session or dynamic.
 
 As in the original, statuses are to be inherited bottom up as well as top down, depending on the click-interactions.
 

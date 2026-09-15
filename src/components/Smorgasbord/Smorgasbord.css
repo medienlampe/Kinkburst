@@ -1,7 +1,9 @@
 #smorgasbordImage {
   display: block;
   margin: 0 auto;
-  max-width: 90vw;
+  /* Fill the board container; the SVG scales via viewBox. */
+  width: 100%;
+  max-width: min(1500px, 92vw);
   height: auto;
   touch-action: pinch-zoom;
   user-select: none;

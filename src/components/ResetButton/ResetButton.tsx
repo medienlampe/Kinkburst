@@ -10,7 +10,7 @@ const ResetButton = ({ onClick } : ResetButtonProps) : JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <button className="button is-action is-danger" onClick={onClick}>
+    <button className="outline is-action is-danger" onClick={onClick}>
       <ResetIcon />
       <span>{t("button.reset")}</span>
     </button>

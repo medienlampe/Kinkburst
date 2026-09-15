@@ -21,25 +21,18 @@ const RemovePracticeForm = ({ onRemove, hierarchicalPractices } : RemovePractice
 
   return (
     <div>
-      <div className="field">
-        <label className="label" htmlFor="select-practice">{t("edit.remove_practice")}</label>
-        <SelectPracticeControl
-          value={practiceToRemove}
-          onChange={setPracticeToRemove}
-          hierarchicalPractices={hierarchicalPractices ? hierarchicalPractices
-            .descendants()
-            .filter((practice) => practice.parent): []}></SelectPracticeControl>
-      </div>
-      <div className="field">
-        <div className="control">
-          <button
-            className='button is-primary'
-            onClick={removePractice}
-            disabled={practiceToRemove === ""}>
-            {t("edit.remove_practice_button")}
-          </button>
-        </div>
-      </div>
+      <label htmlFor="select-practice">{t("edit.remove_practice")}</label>
+      <SelectPracticeControl
+        value={practiceToRemove}
+        onChange={setPracticeToRemove}
+        hierarchicalPractices={hierarchicalPractices ? hierarchicalPractices
+          .descendants()
+          .filter((practice) => practice.parent): []}></SelectPracticeControl>
+      <button
+        onClick={removePractice}
+        disabled={practiceToRemove === ""}>
+        {t("edit.remove_practice_button")}
+      </button>
     </div>
   )
 }

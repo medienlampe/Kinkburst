@@ -16,13 +16,15 @@ export interface StatusDefinition {
   color: string,
 }
 
+// Colors are the Solarized palette (base colors plus pale/light variants of
+// solarized green for the welcome levels — Must keeps the vibrant base green).
 export const STATUSES: Record<StatusValue, StatusDefinition> = {
-  0: { value: 0, label: "Not Defined", color: "#000000" },
-  1: { value: 1, label: "Hard Limit", color: "#ff0000" },
-  2: { value: 2, label: "Soft Limit", color: "#ffff00" },
-  3: { value: 3, label: "Can", color: "#90ee90" }, // light green
-  4: { value: 4, label: "Should", color: "#32cd32" }, // lime green
-  5: { value: 5, label: "Must", color: "#008000" }, // green
+  0: { value: 0, label: "Not Defined", color: "#00151b" }, // darkened base03
+  1: { value: 1, label: "Hard Limit", color: "#dc322f" }, // solarized red
+  2: { value: 2, label: "Soft Limit", color: "#b58900" }, // solarized yellow
+  3: { value: 3, label: "Can", color: "#c5d47e" }, // pale solarized green
+  4: { value: 4, label: "Should", color: "#a6be40" }, // light solarized green
+  5: { value: 5, label: "Must", color: "#859900" }, // solarized green (vibrant)
 };
 
 export const STATUS_BY_LABEL: Record<string, StatusValue> = Object.fromEntries(

@@ -47,7 +47,7 @@ describe("App", () => {
     });
   };
 
-  // The detail modal stays in the DOM when closed; "is-active" marks it as open.
+  // The detail modal stays in the DOM when closed; the `open` attribute marks it as open.
   const detailModal = () : Element | null => {
     return document.querySelector("#practice-note")?.closest(".modal");
   };
@@ -60,7 +60,7 @@ describe("App", () => {
 
     fireEvent.contextMenu(field, { button: 2 });
 
-    expect(detailModal()?.className).toContain("is-active");
+    expect(detailModal()?.hasAttribute("open")).toBe(true);
   });
 
   it("opens the context overlay on a long press (touch devices)", async () => {
@@ -75,9 +75,9 @@ describe("App", () => {
       fireEvent.pointerDown(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
       act(() : void => { vi.advanceTimersByTime(500); });
 
-      expect(detailModal()?.className).toContain("is-active");
+      expect(detailModal()?.hasAttribute("open")).toBe(true);
       // The first non-root node is the "Physical" category.
-      expect(screen.getByRole("heading", { level: 3, name: "Physical" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 4, name: "Physical" })).toBeInTheDocument();
 
       // Releasing the finger must not also cycle the status.
       fireEvent.pointerUp(field, { pointerType: "touch", button: 0, clientX: 100, clientY: 100 });
@@ -100,7 +100,7 @@ describe("App", () => {
       fireEvent.pointerMove(field, { clientX: 150, clientY: 120 });
       act(() : void => { vi.advanceTimersByTime(500); });
 
-      expect(detailModal()?.className).not.toContain("is-active");
+      expect(detailModal()?.hasAttribute("open")).toBe(false);
     } finally {
       vi.useRealTimers();
     }

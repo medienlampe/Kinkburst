@@ -38,31 +38,30 @@ const EditModal = ({ isActive, onClose } : EditModalProps) : JSX.Element => {
   }
 
   return (
-    <div className={isActive ? "modal is-active" : "modal"}>
-      <div className="modal-background" onClick={onClose}></div>
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">{t("edit.customize")}</p>
-          <button className="delete" aria-label="close" onClick={onClose}></button>
+    <dialog className="modal" open={isActive} onClick={onClose}>
+      <article onClick={(e) : void => e.stopPropagation()}>
+        <header>
+          <h3>{t("edit.customize")}</h3>
+          <button className="close" aria-label="close" onClick={onClose}></button>
         </header>
-        <section className="modal-card-body">
-          <h3 className="subtitle is-5">{t("edit.add")}</h3>
+        <section>
+          <h4>{t("edit.add")}</h4>
           <AddPracticeForm
             hierarchicalPractices={hierarchicalPractices}
             onAdd={addNewPractice}
           ></AddPracticeForm>
           <hr></hr>
-          <h3 className="subtitle is-5">{t("edit.remove")}</h3>
+          <h4>{t("edit.remove")}</h4>
           <RemovePracticeForm
             hierarchicalPractices={hierarchicalPractices}
             onRemove={removePracticeAndDescendents}
           ></RemovePracticeForm>
         </section>
-        <footer className="modal-card-foot">
-          <button className="button" onClick={onClose}>{t("edit.close")}</button>
+        <footer>
+          <button className="secondary" onClick={onClose}>{t("edit.close")}</button>
         </footer>
-      </div>
-    </div>
+      </article>
+    </dialog>
   )
 }
 

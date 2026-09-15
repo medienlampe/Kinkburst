@@ -18,12 +18,12 @@ Each practice ranges from 0 to 5:
 
 | Value | Status        | Color       | Meaning                                                                                                   |
 | ----- | ------------- | ----------- | --------------------------------------------------------------------------------------------------------- |
-| 0     | Not Defined   | black       | Default state — no consent has been created about this yet.                                                |
-| 1     | Hard Limit    | red         | Must not be part of the planned session or dynamic.                                                        |
-| 2     | Soft Limit    | yellow      | Can be done, but generally to be avoided; may apply in a "service" dimension.                              |
-| 3     | Can           | light green | Okay for the people attending, but not their favourite.                                                    |
-| 4     | Should        | lime green  | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
-| 5     | Must          | green       | A favourite practice which should always be part of the session or dynamic.                                |
+| 0     | Not Defined   | darkened solarized base03    | Default state — no consent has been created about this yet.                                                |
+| 1     | Hard Limit    | solarized red                | Must not be part of the planned session or dynamic.                                                        |
+| 2     | Soft Limit    | solarized yellow             | Can be done, but generally to be avoided; may apply in a "service" dimension.                              |
+| 3     | Can           | pale solarized green         | Okay for the people attending, but not their favourite.                                                    |
+| 4     | Should        | light solarized green        | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
+| 5     | Must          | solarized green (vibrant)    | A favourite practice which should always be part of the session or dynamic.                                |
 
 ## People
 
