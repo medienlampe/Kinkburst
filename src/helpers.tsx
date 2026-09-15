@@ -35,9 +35,10 @@ export const boardTitle = (persons: Person[], lng?: string): string => {
 
 // Applies a click on the field with the given uuid to the flat practice list
 // and returns the updated list. The clicked field cycles through all statuses
-// (0 → 1 → … → 5 → 0) and the new status propagates so that no field is ever
-// higher than one of its parents:
-// - Not Defined (0, the overflow case) resets all descendants to Not Defined,
+// downwards (0 → 5 → … → 1 → 0, i.e. from Not Defined straight to Must and
+// back down through the scale) and the new status propagates so that no field
+// is ever higher than one of its parents:
+// - Not Defined (0, the wrap-around case) resets all descendants to Not Defined,
 // - Hard Limit (1) sets all descendants to Hard Limit,
 // - Soft Limit (2) / Can / Should / Must (3/4/5) lower any descendant that
 //   exceeds the new value (e.g. a positive child of a newly soft-limited
@@ -61,7 +62,7 @@ export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
     return practices;
   }
 
-  const newValue = (((target.data.value ?? 0) + 1) % STATUS_COUNT) as StatusValue;
+  const newValue = (((target.data.value ?? 0) - 1 + STATUS_COUNT) % STATUS_COUNT) as StatusValue;
   const descendantUuids = new Set(target.descendants().map(node => node.data.uuid));
   const ancestorUuids = new Set(
     target.ancestors()

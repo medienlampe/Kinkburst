@@ -2,6 +2,7 @@ import { type JSX } from "react";
 import saveAs from "file-saver";
 import { useTranslation } from "react-i18next";
 import { ImageIcon } from "../icons";
+import { diameter } from "../../constants";
 
 const ExportAsImageButton = () : JSX.Element => {
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ const ExportAsImageButton = () : JSX.Element => {
 
     const svgString = getSVGString(nodes);
 
-    svgString2Image(svgString, 2 * 1152, 2 * 1152, save);
+    svgString2Image(svgString, 2 * diameter, 2 * diameter, save);
   }
   
   const save = (dataBlob) : void => {

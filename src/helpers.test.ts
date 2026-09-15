@@ -65,11 +65,11 @@ describe("boardTitle", () => {
 });
 
 describe("applyClick", () => {
-  it("cycles the clicked field through all statuses, wrapping at Must", () => {
+  it("cycles the clicked field downwards through all statuses, wrapping to Must", () => {
     // Start from Not Defined so the full cycle is visible.
     let practices = withValues({ c: 0 });
 
-    const expected = [1, 2, 3, 4, 5, 0];
+    const expected = [5, 4, 3, 2, 1, 0];
     for (const status of expected) {
       practices = applyClick(practices, "c");
       expect(valueOf(practices, "c")).toBe(status);
@@ -77,8 +77,8 @@ describe("applyClick", () => {
   });
 
   it("propagates Hard Limit to all descendants and raises Not Defined ancestors", () => {
-    let practices = tree(); // b=0, c=4, d=5, a=0
-    practices = applyClick(practices, "b"); // b: 0 -> 1 (Hard Limit)
+    let practices = withValues({ b: 2 }); // b=2, c=4, d=5, a=0
+    practices = applyClick(practices, "b"); // b: 2 -> 1 (Hard Limit)
 
     expect(valueOf(practices, "b")).toBe(1);
     expect(valueOf(practices, "c")).toBe(1); // was positive (4) -> Hard Limit
@@ -87,9 +87,9 @@ describe("applyClick", () => {
   });
 
   it("propagates Soft Limit to descendants that are currently positive and raises lower ancestors", () => {
-    const practices = withValues({ b: 1, c: 4, d: 0 }); // Hard Limit, Should (positive), Not Defined
+    const practices = withValues({ b: 3, c: 4, d: 0 }); // Can, Should (positive), Not Defined
 
-    const updated = applyClick(practices, "b"); // b: 1 -> 2 (Soft Limit)
+    const updated = applyClick(practices, "b"); // b: 3 -> 2 (Soft Limit)
 
     expect(valueOf(updated, "b")).toBe(2);
     expect(valueOf(updated, "c")).toBe(2); // was positive (4) -> Soft Limit
@@ -98,37 +98,37 @@ describe("applyClick", () => {
   });
 
   it("propagates Can/Should/Must to all practice ancestors, but not to the root", () => {
-    let practices = tree(); // e=3, a=0, root=0
-    practices = applyClick(practices, "e"); // e: 3 -> 4 (Should)
+    let practices = withValues({ e: 4 }); // e=4, a=0, root=0
+    practices = applyClick(practices, "e"); // e: 4 -> 3 (Can)
 
-    expect(valueOf(practices, "e")).toBe(4);
-    expect(valueOf(practices, "a")).toBe(4);
+    expect(valueOf(practices, "e")).toBe(3);
+    expect(valueOf(practices, "a")).toBe(3);
     expect(valueOf(practices, "root")).toBe(0); // the board title carries no status
   });
 
-  it("resets all descendants when the clicked field overflows back to Not Defined", () => {
-    const atMust = withValues({ b: 5, c: 4, d: 5 }); // Must category with positive children
+  it("resets all descendants when the clicked field wraps back to Not Defined", () => {
+    const hardLimited = withValues({ b: 1, c: 1, d: 1 }); // Hard Limit category with hard-limited children
 
-    const updated = applyClick(atMust, "b"); // b: 5 -> 0 (Not Defined)
+    const updated = applyClick(hardLimited, "b"); // b: 1 -> 0 (Not Defined)
     expect(valueOf(updated, "b")).toBe(0);
     expect(valueOf(updated, "c")).toBe(0); // reset together with the parent
     expect(valueOf(updated, "d")).toBe(0); // reset together with the parent
     expect(valueOf(updated, "a")).toBe(0); // unchanged
   });
 
-  it("does not lower ancestors when a child overflows back to Not Defined", () => {
-    const atMust = withValues({ a: 4, b: 5, c: 3 });
+  it("does not lower ancestors when a child wraps back to Not Defined", () => {
+    const hardLimited = withValues({ a: 2, b: 1, c: 1 });
 
-    const updated = applyClick(atMust, "b"); // b: 5 -> 0 (Not Defined)
+    const updated = applyClick(hardLimited, "b"); // b: 1 -> 0 (Not Defined)
     expect(valueOf(updated, "b")).toBe(0);
     expect(valueOf(updated, "c")).toBe(0); // reset together with the parent
-    expect(valueOf(updated, "a")).toBe(4); // unchanged — other children may still justify it
+    expect(valueOf(updated, "a")).toBe(2); // unchanged — other children may still justify it
   });
 
   it("raises parents when a child moves above them (Hard Limit cannot contain higher levels)", () => {
-    const hardLimited = withValues({ a: 1, b: 1, c: 1, d: 1 });
+    const hardLimited = withValues({ a: 1, b: 1, c: 3, d: 1 });
 
-    const updated = applyClick(hardLimited, "c"); // c: 1 -> 2 (Soft Limit)
+    const updated = applyClick(hardLimited, "c"); // c: 3 -> 2 (Soft Limit)
     expect(valueOf(updated, "c")).toBe(2);
     expect(valueOf(updated, "b")).toBe(2); // raised to its child's level
     expect(valueOf(updated, "a")).toBe(2); // raised transitively

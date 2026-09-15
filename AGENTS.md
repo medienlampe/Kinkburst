@@ -164,7 +164,7 @@ and all four locales in sync when adding or renaming nodes. Keys must not contai
 (i18next resolves dotted keys hierarchically, so a parent key could not be a prefix of its
 children's keys).
 
-Touch gestures (2026-09): the SVG uses `touch-action: pan-y pinch-zoom`, so vertical
+Touch gestures (2026-09): the SVG uses `touch-action: pinch-zoom`, so vertical
 swipes scroll the page while horizontal drags rotate the wheel (`onPointerMove`, tracked
 per pointer id); long press opens the context overlay. Taps fire instantly on every
 device; zooming is left to the browser's native pinch zoom (an in-app double-tap zoom

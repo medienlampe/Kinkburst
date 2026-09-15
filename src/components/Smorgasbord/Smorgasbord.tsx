@@ -167,7 +167,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     ref={svgRef}
     width={diameter}
     height={diameter}
-    viewBox="-576 -576 1152 1152"
+    viewBox={`${-radius} ${-radius} ${diameter} ${diameter}`}
     id='smorgasbordImage'
     // Pointer events cover mouse and touch alike; with `touch-action: pan-y`
     // vertical swipes are taken over by the page (pointercancel) while

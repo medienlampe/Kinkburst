@@ -1,4 +1,4 @@
-export const diameter = 1152;
+export const diameter = 1728;
 export const radius = diameter / 2;
 export const padding = 1;
 
