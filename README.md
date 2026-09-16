@@ -53,7 +53,7 @@ Each practice ranges from 0 to 5:
 
 | Value | Status      | Color                     | Meaning                                                                                                   |
 | ----- | ----------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
-| 0     | Not Defined | darkened solarized base03 | Default state — no consent has been created about this yet.                                               |
+| 0     | Not Defined | near-black (#111)         | Default state — no consent has been created about this yet.                                               |
 | 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                                       |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.                             |
 | 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                                                   |
@@ -91,7 +91,7 @@ In addition, you can **download the board as an image** and **reset it** to the 
 
 The interface ships in **English, Spanish, German and Dutch** — switch anytime via the footer; your choice is remembered.
 
-Smorkinkboard also works great on phones and tablets: horizontal drags rotate the wheel, vertical swipes scroll the page, a long press opens the details overlay, and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
+Smorkinkboard also works great on phones and tablets: taps cycle the status, a long press opens the details overlay, vertical swipes scroll the page (the wheel itself only rotates with a mouse drag), and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
 
 ## Quick Start
 

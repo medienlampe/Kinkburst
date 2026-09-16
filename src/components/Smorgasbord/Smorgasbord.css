@@ -5,10 +5,6 @@
   width: 100%;
   max-width: min(1500px, 92vw);
   height: auto;
-  touch-action: pinch-zoom;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
 }
 
 #smorgasbordImage g {

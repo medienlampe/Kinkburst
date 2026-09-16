@@ -18,7 +18,7 @@ export interface StatusDefinition {
 // Colors are the Solarized palette (base colors plus pale/light variants of
 // solarized green for the welcome levels — Must keeps the vibrant base green).
 export const STATUSES: Record<StatusValue, StatusDefinition> = {
-  0: { value: 0, label: "Not Defined", color: "#00151b" }, // darkened base03
+  0: { value: 0, label: "Not Defined", color: "#111" }, // near-black
   1: { value: 1, label: "Hard Limit", color: "#dc322f" }, // solarized red
   2: { value: 2, label: "Soft Limit", color: "#b58900" }, // solarized yellow
   3: { value: 3, label: "Can", color: "#c5d47e" }, // pale solarized green

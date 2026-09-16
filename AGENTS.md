@@ -37,7 +37,7 @@ Each practice ranges from 0 to 5 (six statuses; defined in `docs/Outline.md`). D
 
 | Value | Label       | Color                     | Meaning                                                                              |
 | ----- | ----------- | ------------------------- | ------------------------------------------------------------------------------------ |
-| 0     | Not Defined | darkened solarized base03 | Default state — no consent has been created about this yet.                          |
+| 0     | Not Defined | near-black (#111)         | Default state — no consent has been created about this yet.                          |
 | 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                  |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.        |
 | 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                              |
@@ -200,7 +200,8 @@ The app is feature-complete per `docs/Outline.md`. Timeline of milestones:
   and all four locales in sync when adding or renaming nodes. Keys must not contain dots (i18next
   resolves dotted keys hierarchically, so a parent key could not be a prefix of its children's keys).
 - **2026-09 — Touch gestures.** The SVG uses `touch-action: pinch-zoom`, so vertical swipes scroll
-  the page while horizontal drags rotate the wheel (`onPointerMove`, tracked per pointer id); long
+  the page (rotation is mouse-only; touch taps cycle the status, `updateDrag` ignores
+  `pointerType === "touch"`); long
   press opens the context overlay. Taps fire instantly on every device; zooming is left to the
   browser's native pinch zoom (an in-app double-tap zoom existed briefly but was removed).
 - **2026-09 — Security & quality review.** Enabled TypeScript `strict` mode and typed previously

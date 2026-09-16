@@ -80,8 +80,8 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const getColor = (d: d3.HierarchyRectangularNode<Practice>) : string => {
-    if (!d.depth) { // root node is not clickable; matches the Not Defined color
-      return "#00151b";
+    if (!d.depth) { // root node is not clickable; near-black, like the Not Defined status
+      return "#111";
     }
     return STATUSES[d.data.value ?? 0].color;
   }
@@ -133,6 +133,10 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
   }
 
   const updateDrag = (e: React.PointerEvent<SVGElement>) : void => {
+    // Rotation is mouse-only: on touch devices a drag would fight the page
+    // scroll, so taps and long presses work but the wheel stays put.
+    if (e.pointerType === "touch") return;
+
     if (dragSubject && e.pointerId === activePointerId.current) {
       // Moving the finger cancels a pending long press.
       if (dragStart.x !== null && dragStart.y !== null
@@ -176,9 +180,9 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     height={diameter}
     viewBox={`${-radius} ${-radius} ${diameter} ${diameter}`}
     id='smorgasbordImage'
-    // Pointer events cover mouse and touch alike; with `touch-action: pan-y`
-    // vertical swipes are taken over by the page (pointercancel) while
-    // horizontal drags rotate the wheel.
+    // Pointer events cover mouse and touch alike. Mouse drags rotate the
+    // wheel; on touch devices rotation is disabled (see updateDrag), taps
+    // cycle the status and long presses open the context overlay.
     onPointerMove={(e) : void => { updateDrag(e) }}
     onPointerUp={(e) : void => { endDrag(e, null) }}
     onPointerCancel={() : void => {

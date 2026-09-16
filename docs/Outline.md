@@ -6,7 +6,7 @@ Unchanged are the possibilities to change, export, import and reset as well as d
 
 ## Statuses
 The scale statuses are six-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 5 with the following meaning and color:
-0 - "Not Defined" (darkened solarized base03) - Default state, no consent has been created about this yet.
+0 - "Not Defined" (near-black, #111) - Default state, no consent has been created about this yet.
 1 - "Hard Limit" (solarized red) – A practice which must nut be part of the planned session or dynamic, hard limit.
 2 - "Soft Limit" (solarized yellow) - A practice which can be done, but is not necessarily giving the participants something back. It might be applicable in some kind of "service" dimension but is generally to be avoided.  
 3 - "Can" (pale solarized green) - A practice which is okay for the people attending but not their favourite.
