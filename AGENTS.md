@@ -4,7 +4,7 @@ Guidance for AI coding agents (and humans) working on this repository.
 
 ## What this project is
 
-**Smorkinkboard** is a fun way of manufacturing consent: a kink-flavoured take on the
+**Kinkburst** is a fun way of manufacturing consent: a kink-flavoured take on the
 [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/) by
 [Pepijn Schoen](https://github.com/duizendnegen).
 
@@ -23,7 +23,7 @@ The full product requirements live in [docs/Outline.md](docs/Outline.md). Key be
   Fields with context get an asterisk (`*`) appended to their title in the scale.
 - Practices are pre-defined fixtures but fully editable in the UI: add, remove, rename.
 - **People**: names can be added/removed (default: one person) and appear in the board title, e.g.
-  `Smorkinkboard (for Person A, Person B and Person C)`.
+  `Kinkburst (for Person A, Person B and Person C)`.
 - Export/import/reset/download-as-image are carried over from the original — but
   **export/import use a human-readable markdown format** instead of JSON (see below).
 - The UI is multilingual (English, Spanish, German, Dutch); the language switcher lives in the
@@ -48,7 +48,7 @@ Each practice ranges from 0 to 4 (five statuses; defined in `docs/Outline.md`). 
 Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-format.md)):
 
 - Exactly one `h1` with the board title (including the people list in brackets). The exporter
-  appends the document language as a suffix, e.g. `# Smorkinkboard (für Person A und Person B) - Deutsch`.
+  appends the document language as a suffix, e.g. `# Kinkburst (für Person A und Person B) - Deutsch`.
 - One heading level per tree level: `h2` is the first level under the title, each deeper node
   goes one heading level down (up to `h6`).
 - Status in brackets after each header name, written in the active UI language on export; import
@@ -61,7 +61,7 @@ labels come from the locale files via i18next — never hardcode translated stri
 ## Repository structure
 
 The code base was copied from the original smorgasbord (same tech stack and interaction model)
-and rebranded: where the original says **"flavour"**, Smorkinkboard says **"practice"**.
+and rebranded: where the original says **"flavour"**, Kinkburst says **"practice"**.
 
 ```
 ├── AGENTS.md                 ← you are here
@@ -69,7 +69,7 @@ and rebranded: where the original says **"flavour"**, Smorkinkboard says **"prac
 ├── README.md                 user-facing docs
 ├── LICENSE.md                MIT license
 ├── index.html                Vite entry HTML (static assets stay in public/)
-├── vite.config.ts            Vite + Vitest config; base "/Smorkinkboard/" for GitHub Pages
+├── vite.config.ts            Vite + Vitest config; base "/Kinkburst/" for GitHub Pages
 ├── eslint.config.js          ESLint flat config
 ├── tsconfig.json             strict mode, isolatedModules
 ├── .github/workflows/
@@ -152,15 +152,15 @@ Most components ship with a co-located `*.test.tsx`; there are also top-level te
 - IDs come from native `crypto.randomUUID()`; file exports (markdown / image) go through
   `src/download.ts` (`downloadBlob`).
 - Translated strings live only in `public/locales/*/translation.json`; never hardcode them.
-- Deployment: `vite.config.ts` sets `base: "/Smorkinkboard/"`, so the app is served under that
+- Deployment: `vite.config.ts` sets `base: "/Kinkburst/"`, so the app is served under that
   subpath everywhere (dev server, build output, and GitHub Pages at
-  `https://medienlampe.github.io/Smorkinkboard/`). Keep paths relative to the page.
+  `https://medienlampe.github.io/Kinkburst/`). Keep paths relative to the page.
 
 ## Commands
 
 ```bash
 npm install        # install dependencies
-npm start          # dev server at http://localhost:3000/Smorkinkboard/
+npm start          # dev server at http://localhost:3000/Kinkburst/
 npm run start-open # same, but reachable on the network (host 0.0.0.0)
 npm test           # vitest, single run (CI-friendly); npm run test:watch for watch mode
 npm run test:coverage  # vitest with v8 coverage; fails below the 80% thresholds in vite.config.ts

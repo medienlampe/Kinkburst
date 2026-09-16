@@ -6,7 +6,7 @@ import type { Person } from "../../interfaces";
 import { CloseIcon, PlusIcon } from "../icons";
 
 // Controls the people the board is for (default: one person). The names are shown
-// as chips and feed the board title, e.g. "Smorkinkboard (for Person A, Person B)".
+// as chips and feed the board title, e.g. "Kinkburst (for Person A, Person B)".
 const PersonsBar = () : JSX.Element => {
   const { t } = useTranslation();
   const [persons, setPersons] = useAtom(personsAtom);

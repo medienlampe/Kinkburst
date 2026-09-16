@@ -15,14 +15,14 @@ describe("downloadBlob", () => {
       clicked.download = this.getAttribute("download");
     });
 
-    const blob = new Blob(["# Smorkinkboard"], { type: "text/markdown" });
-    downloadBlob(blob, "smorkinkboard.md");
+    const blob = new Blob(["# Kinkburst"], { type: "text/markdown" });
+    downloadBlob(blob, "kinkburst.md");
 
     expect(createObjectURL).toHaveBeenCalledWith(blob);
     expect(clicked.href).toBe("blob:test-url");
-    expect(clicked.download).toBe("smorkinkboard.md");
+    expect(clicked.download).toBe("kinkburst.md");
     // The temporary anchor is removed from the document again.
-    expect(document.querySelectorAll("a[download='smorkinkboard.md']")).toHaveLength(0);
+    expect(document.querySelectorAll("a[download='kinkburst.md']")).toHaveLength(0);
 
     // The URL is revoked on the next tick, after the download has started.
     expect(revokeObjectURL).not.toHaveBeenCalled();

@@ -16,7 +16,7 @@ vi.mock("../../markdown/importer", () => ({
 
 const importedBoard = {
   practices: [
-    { uuid: "root", parentUuid: "", name: "Smorkinkboard" },
+    { uuid: "root", parentUuid: "", name: "Kinkburst" },
     { uuid: "a", parentUuid: "root", name: "Physical", value: 4 },
   ],
   persons: [{ id: "p1", name: "Person A" }],
@@ -64,11 +64,11 @@ describe("ImportMarkdownButton", () => {
     const store = createStore();
     renderButton(store);
 
-    const file = new File(["# Smorkinkboard\n"], "board.md", { type: "text/markdown" });
+    const file = new File(["# Kinkburst\n"], "board.md", { type: "text/markdown" });
     fireEvent.change(fileInput(), { target: { files: [file] } });
 
     await waitFor(() => {
-      expect(importMarkdown).toHaveBeenCalledWith("# Smorkinkboard\n");
+      expect(importMarkdown).toHaveBeenCalledWith("# Kinkburst\n");
     });
     expect(store.get(practicesAtom)).toEqual(importedBoard.practices);
     expect(store.get(personsAtom)).toEqual(importedBoard.persons);
@@ -97,7 +97,7 @@ describe("ImportMarkdownButton", () => {
     fireEvent.change(fileInput(), { target: { files: [file] } });
 
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith("Could not read that file as a Smorkinkboard markdown export.");
+      expect(alertSpy).toHaveBeenCalledWith("Could not read that file as a Kinkburst markdown export.");
     });
     expect(errorSpy).toHaveBeenCalled();
   });

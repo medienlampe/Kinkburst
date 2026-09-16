@@ -5,7 +5,7 @@ import i18n from "../i18n";
 import type { Practice } from "../interfaces";
 
 // The example from docs/markdown-format.md (source of truth for the format).
-const docExample = `# Smorkinkboard (for Person A, Person B and Person C)
+const docExample = `# Kinkburst (for Person A, Person B and Person C)
 
 ## Physical (Desired)
 Favourite of Person B
@@ -44,7 +44,7 @@ describe("importMarkdown", () => {
     const nodes = byName(board.practices);
     const root = board.practices.find(practice => practice.parentUuid === "");
     expect(root).toBeDefined();
-    expect(root?.name).toBe("Smorkinkboard (for Person A, Person B and Person C)");
+    expect(root?.name).toBe("Kinkburst (for Person A, Person B and Person C)");
 
     // Hierarchy: categories hang off the root, play areas off categories, practices off play areas.
     expect(nodes.get("Physical")?.parentUuid).toBe(root?.uuid);
@@ -77,7 +77,7 @@ describe("importMarkdown", () => {
   });
 
   it("defaults missing or unrecognized statuses to Not Defined (0)", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical\n\n### Impact (Maybe)\n");
+    const board = importMarkdown("# Kinkburst\n\n## Physical\n\n### Impact (Maybe)\n");
 
     const nodes = byName(board.practices);
     expect(nodes.get("Physical")?.value).toBe(0);
@@ -85,7 +85,7 @@ describe("importMarkdown", () => {
   });
 
   it("matches status names case-insensitively", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (dEsIred)\n");
+    const board = importMarkdown("# Kinkburst\n\n## Physical (dEsIred)\n");
 
     expect(byName(board.practices).get("Physical")?.value).toBe(4);
   });
@@ -95,22 +95,22 @@ describe("importMarkdown", () => {
 
     const root = board.practices.find(practice => practice.parentUuid === "");
     expect(root).toBeDefined();
-    expect(root?.name).toBe("Smorkinkboard");
+    expect(root?.name).toBe("Kinkburst");
     expect(byName(board.practices).get("Physical")?.parentUuid).toBe(root?.uuid);
     expect(board.persons).toHaveLength(1);
   });
 
   it("parses a single person and omits the parenthetical for none", () => {
-    const two = importMarkdown("# Smorkinkboard (for Person A and Person B)\n");
+    const two = importMarkdown("# Kinkburst (for Person A and Person B)\n");
     expect(two.persons.map(person => person.name)).toEqual(["Person A", "Person B"]);
 
-    const none = importMarkdown("# Smorkinkboard\n");
+    const none = importMarkdown("# Kinkburst\n");
     expect(none.persons).toHaveLength(1);
     expect(none.persons[0].name).toBe("");
   });
 
   it("keeps headers deeper than h4 attached to their parent (h5)", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\n\n### Toys (Okay)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\n\n### Toys (Okay)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
 
     const nodes = byName(board.practices);
     expect(nodes.get("Variant")?.parentUuid).toBe(nodes.get("E-Stim")?.uuid);
@@ -122,7 +122,7 @@ it("returns an empty string for a board without a root", () => {
 });
 
 it("falls back to one unnamed person when the title's people list is empty", () => {
-  const board = importMarkdown("# Smorkinkboard (for  )\n");
+  const board = importMarkdown("# Kinkburst (for  )\n");
   expect(board.persons).toHaveLength(1);
   expect(board.persons[0].name).toBe("");
 });
@@ -132,21 +132,21 @@ describe("exportMarkdown", () => {
     const board = importMarkdown(docExample);
     // The exporter appends the language of the document to the h1 title.
     const expected = docExample.replace(
-      "# Smorkinkboard (for Person A, Person B and Person C)",
-      "# Smorkinkboard (for Person A, Person B and Person C) - English",
+      "# Kinkburst (for Person A, Person B and Person C)",
+      "# Kinkburst (for Person A, Person B and Person C) - English",
     );
     expect(exportMarkdown(board.practices, board.persons)).toBe(expected);
   });
 
   it("omits the people parenthetical with fewer than two named persons", () => {
-    const board = importMarkdown("# Smorkinkboard (for Person A and Person B)\n\n## Physical (Desired)\n");
+    const board = importMarkdown("# Kinkburst (for Person A and Person B)\n\n## Physical (Desired)\n");
 
     const exported = exportMarkdown(board.practices, [{ id: "1", name: "Person A" }]);
-    expect(exported.startsWith("# Smorkinkboard - English\n")).toBe(true);
+    expect(exported.startsWith("# Kinkburst - English\n")).toBe(true);
   });
 
   it("exports multi-line notes verbatim and round-trips them", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\nLine one.\nLine two.\n");
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\nLine one.\nLine two.\n");
 
     const physical = byName(board.practices).get("Physical");
     expect(physical?.note).toBe("Line one.\nLine two.");
@@ -167,7 +167,7 @@ describe("localized export/import", () => {
     await i18n.changeLanguage("de");
 
     const exported = exportMarkdown(board.practices, board.persons);
-    expect(exported).toContain("# Smorkinkboard (für Person A, Person B und Person C) - Deutsch");
+    expect(exported).toContain("# Kinkburst (für Person A, Person B und Person C) - Deutsch");
     expect(exported).toContain("## Physical (Gewünscht)");
     expect(exported).toContain("### Bondage (Okay)");
 
@@ -191,19 +191,19 @@ describe("localized export/import", () => {
     ];
 
     for (const [label, expected] of cases) {
-      const parsed = importMarkdown(`# Smorkinkboard\n\n## Physical ${label}\n`);
+      const parsed = importMarkdown(`# Kinkburst\n\n## Physical ${label}\n`);
       expect(byName(parsed.practices).get("Physical")?.value, label).toBe(expected);
     }
   });
 
   it("imports localized people lists and strips the language suffix", () => {
-    const german = importMarkdown("# Smorkinkboard (für Lila und Fry) - Deutsch\n");
+    const german = importMarkdown("# Kinkburst (für Lila und Fry) - Deutsch\n");
     expect(german.persons.map(person => person.name)).toEqual(["Lila", "Fry"]);
 
-    const spanish = importMarkdown("# Smorkinkboard (para Ana y Bruno) - Español\n");
+    const spanish = importMarkdown("# Kinkburst (para Ana y Bruno) - Español\n");
     expect(spanish.persons.map(person => person.name)).toEqual(["Ana", "Bruno"]);
 
-    const dutch = importMarkdown("# Smorkinkboard (voor Ann en Bob) - Nederlands\n");
+    const dutch = importMarkdown("# Kinkburst (voor Ann en Bob) - Nederlands\n");
     expect(dutch.persons.map(person => person.name)).toEqual(["Ann", "Bob"]);
   });
 });

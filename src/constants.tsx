@@ -4,9 +4,9 @@ export const padding = 1;
 
 // The brand name is not translated; it is part of the board title and of the
 // markdown export (see docs/markdown-format.md).
-export const BOARD_NAME = "Smorkinkboard";
+export const BOARD_NAME = "Kinkburst";
 
-// Smorkinkboard statuses (see docs/Outline.md, "Statuses"): five-fold, 0 to 4.
+// Kinkburst statuses (see docs/Outline.md, "Statuses"): five-fold, 0 to 4.
 export type StatusValue = 0 | 1 | 2 | 3 | 4;
 
 export interface StatusDefinition {

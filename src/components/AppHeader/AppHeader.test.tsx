@@ -20,7 +20,7 @@ describe("AppHeader", () => {
   it("renders the brand and its action buttons", () => {
     renderHeader();
 
-    expect(screen.getByRole("heading", { level: 1, name: "Smorkinkboard" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Kinkburst" })).toBeInTheDocument();
     expect(screen.getByAltText("WHIP Logo")).toHaveAttribute("src", "logo.svg");
     expect(actionsNav().querySelectorAll("button")).toHaveLength(1);
     expect(actionsNav().classList.contains("is-open")).toBe(false);

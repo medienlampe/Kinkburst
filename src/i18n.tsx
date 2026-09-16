@@ -27,7 +27,7 @@ i18n
       // Relative path so the files are resolved against the page's own
       // folder (public/locales) instead of the domain root. Needed for
       // deployments under a subpath, e.g. GitHub Pages:
-      // https://medienlampe.github.io/Smorkinkboard/locales/en.json
+      // https://medienlampe.github.io/Kinkburst/locales/en.json
       loadPath: "locales/{{lng}}/{{ns}}.json",
     },
   });

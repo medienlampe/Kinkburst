@@ -13,7 +13,7 @@ export const findAllDescendants = (practices: Practice[], practiceUuid: string):
   return children.concat(descendants);
 }
 
-// The board title, e.g. "Smorkinkboard (for Person A, Person B and Person C)".
+// The board title, e.g. "Kinkburst (for Person A, Person B and Person C)".
 // With fewer than two named persons the parenthetical is omitted (see
 // docs/markdown-format.md, rule 1). The preposition and conjunction are
 // localized via the locale files ("board.for", "board.and"); `lng` pins a

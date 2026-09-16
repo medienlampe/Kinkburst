@@ -36,7 +36,7 @@ const splitPeopleList = (list: string): string[] => {
     .filter(name => name.length > 0);
 };
 
-// Parses the people from a board title like "Smorkinkboard (for Person A, Person B and Person C)".
+// Parses the people from a board title like "Kinkburst (for Person A, Person B and Person C)".
 // The preposition is localized: "for", "für", "para", "voor" (see "board.for").
 // Without a recognizable parenthetical this falls back to a single unnamed person.
 const parsePersonsFromTitle = (title: string): Person[] => {
@@ -72,7 +72,7 @@ const parseHeader = (text: string): { name: string, value: StatusValue } => {
 };
 
 /**
- * Parses a Smorkinkboard markdown document into the internal data format.
+ * Parses a Kinkburst markdown document into the internal data format.
  *
  * Format spec: docs/markdown-format.md
  * - h1 title (with people list in brackets and an optional " - <language>" suffix),

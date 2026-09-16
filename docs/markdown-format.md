@@ -1,14 +1,14 @@
-# Smorkinkboard Markdown Format
+# Kinkburst Markdown Format
 
-The data exchange format for the Smorkinkboard is human-readable markdown. It is converted to and from the internal data format on export and import (unlike the original smorgasbord, which exchanges JSON directly).
+The data exchange format for the Kinkburst is human-readable markdown. It is converted to and from the internal data format on export and import (unlike the original smorgasbord, which exchanges JSON directly).
 
 ## Rules
 
 1. There must always be **exactly one `h1` (`#`)**, containing only the title of the board. The title includes the people it was created for:
-   `Smorkinkboard (for Person A, Person B and Person C)`.
+   `Kinkburst (for Person A, Person B and Person C)`.
    With a single person, the parenthetical may be omitted. 
    The exporter appends the language of the document as a suffix, e.g. 
-   `# Smorkinkboard (für Person A und Person B) - Deutsch` — the importer strips it again.
+   `# Kinkburst (für Person A und Person B) - Deutsch` — the importer strips it again.
 2. The tree is encoded as heading levels: the first level under the title is `h2` (`##`)
    — e.g. top categories like `Physical`, `Psychological`, `Social` — and every further level
    of nesting goes one heading deeper (`h3`, `h4`, ...). The default dataset nests to `h5`
@@ -34,7 +34,7 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
 ## Example
 
 ```markdown
-# Smorkinkboard (for Person A, Person B and Person C)
+# Kinkburst (for Person A, Person B and Person C)
 
 ## Physical (Desired)
 Favourite of Person B

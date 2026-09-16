@@ -144,6 +144,6 @@ describe("ExportAsImageButton", () => {
     });
     const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0];
     expect(blob).toBeInstanceOf(Blob);
-    expect(fileName).toBe("smorkinkboard.png");
+    expect(fileName).toBe("kinkburst.png");
   });
 });

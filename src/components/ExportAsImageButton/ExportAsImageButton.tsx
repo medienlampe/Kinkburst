@@ -127,7 +127,7 @@ const ExportAsImageButton = () : JSX.Element => {
 
     const svgString = getSVGString(nodes);
 
-    svgString2Image(svgString, 2 * diameter, 2 * diameter, blob => downloadBlob(blob, "smorkinkboard.png"));
+    svgString2Image(svgString, 2 * diameter, 2 * diameter, blob => downloadBlob(blob, "kinkburst.png"));
   }
 
   return (

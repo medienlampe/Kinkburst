@@ -1,12 +1,12 @@
 <div align="center">
 
-# Smorkinkboard
+# Kinkburst
 
 **A fun way of manufacturing consent.**
 
 A kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.com/duizendnegen/sunburst-smorgasbord/) by [Pepijn Schoen](https://github.com/duizendnegen) — thank you for creating the original project and for allowing me to do this!
 
-[![Test, Build & Deploy to Pages](https://github.com/medienlampe/Smorkinkboard/actions/workflows/main.yml/badge.svg)](https://github.com/medienlampe/Smorkinkboard/actions/workflows/main.yml)
+[![Test, Build & Deploy to Pages](https://github.com/medienlampe/Kinkburst/actions/workflows/main.yml/badge.svg)](https://github.com/medienlampe/Kinkburst/actions/workflows/main.yml)
 [![React](https://img.shields.io/badge/react-19.3-61DAFB?logo=react&logoColor=fff)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/vite-8.x-646CFF?logo=vite&logoColor=fff)](https://vite.dev/)
 [![TypeScript](https://img.shields.io/badge/typescript-6.0-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
@@ -18,7 +18,7 @@ A kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.c
 
 ---
 
-Smorkinkboard shows which practices are welcome for the people in your dynamic, organized as a
+Kinkburst shows which practices are welcome for the people in your dynamic, organized as a
 rotating tree of arbitrary depth: top-level **categories** (e.g. *Physical*, *Psychological*,
 *Social*), their **play areas** (e.g. *Bondage*, *Impact Play*, *Toys*), and nested
 **practices** (e.g. *Whip*, *Living Buffet*).
@@ -32,12 +32,12 @@ It is a single-page app with no backend: your board lives entirely in your brows
 - **Click a field** to cycle its status from 0 to 4 — the field and all of its parents update their color, so statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
 - **Right-click a field** (long press on touch devices) to add details or context for it. Fields with context get an asterisk (`*`) appended to their title in the scale.
 - The default dataset ships with a broad set of practices — and you can **add, remove or rename** items at any depth right in the UI.
-- **People**: add the people the board is for; they appear in the title, e.g. *Smorkinkboard (for Person A, Person B and Person C)*. One person by default, more can be added as needed.
+- **People**: add the people the board is for; they appear in the title, e.g. *Kinkburst (for Person A, Person B and Person C)*. One person by default, more can be added as needed.
 
 A small excerpt of what a filled-in board looks like:
 
 ```text
-Smorkinkboard (for Gerald and Yennefer)
+Kinkburst (for Gerald and Yennefer)
 └── Physical (Desired)
     ├── Impact Play (Desired)
     │   └── Toy
@@ -61,10 +61,10 @@ Each practice ranges from 0 to 4:
 
 ## Export & Import
 
-Different from the original smorgasbord, Smorkinkboard exchanges data in a **human-readable markdown format** instead of JSON. Headers mark the hierarchy — one heading level per tree level (`#` title, then one level deeper per branch, up to `######`) — the status in brackets marks the value, and free text below a header is stored as context:
+Different from the original smorgasbord, Kinkburst exchanges data in a **human-readable markdown format** instead of JSON. Headers mark the hierarchy — one heading level per tree level (`#` title, then one level deeper per branch, up to `######`) — the status in brackets marks the value, and free text below a header is stored as context:
 
 ```markdown
-# Smorkinkboard (for Gerald and Yennefer) - Deutsch
+# Kinkburst (for Gerald and Yennefer) - Deutsch
 
 ## Physical (Desired)
 Favourite of Yennefer
@@ -90,13 +90,13 @@ In addition, you can **download the board as an image** and **reset it** to the 
 
 The interface ships in **English, Spanish, German and Dutch** — switch anytime via the footer; your choice is remembered.
 
-Smorkinkboard also works great on phones and tablets: taps cycle the status, a long press opens the details overlay, vertical swipes scroll the page (the wheel itself only rotates with a mouse drag), and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
+Kinkburst also works great on phones and tablets: taps cycle the status, a long press opens the details overlay, vertical swipes scroll the page (the wheel itself only rotates with a mouse drag), and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
 
 ## Quick Start
 
 ```bash
 npm install        # install dependencies
-npm start          # dev server at http://localhost:3000/Smorkinkboard/
+npm start          # dev server at http://localhost:3000/Kinkburst/
 ```
 
 More commands (CI runs on Node.js 26.x):

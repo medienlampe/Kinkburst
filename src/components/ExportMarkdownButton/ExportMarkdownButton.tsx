@@ -14,7 +14,7 @@ const ExportMarkdownButton = () : JSX.Element => {
 
   const exportCurrentBoard = () : void => {
     const dataBlob = new Blob([exportMarkdown(practices, persons)], {type: "text/markdown;charset=utf-8"});
-    downloadBlob(dataBlob, "smorkinkboard.md");
+    downloadBlob(dataBlob, "kinkburst.md");
   }
 
   return (

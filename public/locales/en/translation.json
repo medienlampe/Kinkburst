@@ -11,7 +11,7 @@
     "language": "English"
   },
   "practices": {
-    "smorkinkboard": "Smorkinkboard",
+    "kinkburst": "Kinkburst",
     "physical": "Physical",
     "physical_aftercare": "Aftercare",
     "physical_aftercare_cuddling": "Cuddling",
@@ -144,7 +144,7 @@
     "cancel": "No, cancel"
   },
   "import": {
-    "error": "Could not read that file as a Smorkinkboard markdown export."
+    "error": "Could not read that file as a Kinkburst markdown export."
   },
   "footer": {
     "disclaimer": "<0>Inspired by the Relationship Anarchy Smorgasbord</0>; built with <1>D3</1>, based on their <2>Sunburst diagram</2>.<br />No cookies, no tracking, no data collected. Local data stored on your machine in your browser makes sure you don't have to start over every time you load the website.",
@@ -162,6 +162,6 @@
     "how_to_use_content_1": "Set the people this board is for at the top of the page. Then click on a field: each click cycles a practice from Not Defined through Hard Limit, Soft Limit and Okay to Desired — and updates all branches of the tree accordingly. Right-click a field to add notes.",
     "how_to_use_content_2": "Exactly how you use this tool is up to you, but it works best when you fill it in together. You can either click through it together, or each use it independently and share your results with each other. The point is to have a conversation.",
     "safety": "Is this safe?",
-    "safety_content": "Smorkinkboard is a tool: it shows which practices are welcome for the people in a dynamic, and which aren't. It only works if you fill it in together after actually talking about it — and if you keep revisiting it, because limits and favourites change over time."
+    "safety_content": "Kinkburst is a tool: it shows which practices are welcome for the people in a dynamic, and which aren't. It only works if you fill it in together after actually talking about it — and if you keep revisiting it, because limits and favourites change over time."
   }
 }

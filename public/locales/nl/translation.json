@@ -11,7 +11,7 @@
     "language": "Nederlands"
   },
   "practices": {
-    "smorkinkboard": "Smorkinkboard",
+    "kinkburst": "Kinkburst",
     "physical": "Fysiek",
     "physical_aftercare": "Aftercare",
     "physical_aftercare_cuddling": "Knuffelen",
@@ -144,7 +144,7 @@
     "cancel": "Nee, annuleren"
   },
   "import": {
-    "error": "Kon het bestand niet lezen als Smorkinkboard-markdown-export."
+    "error": "Kon het bestand niet lezen als Kinkburst-markdown-export."
   },
   "footer": {
     "disclaimer": "<0>Geïnspireerd door het Relationship Anarchy Smorgasbord</0>; gebouwd met <1>D3</1>, op basis van hun <2>Sunburst-diagram</2>.<br />Geen cookies, geen tracking, geen gegevens verzameld. Lokale gegevens op je apparaat in je browser zorgen ervoor dat je niet elke keer opnieuw moet beginnen.",
@@ -162,6 +162,6 @@
     "how_to_use_content_1": "Zet bovenaan de pagina de personen waar dit board voor is. Klik daarna op een veld: elke klik schakelt een praktijk van Niet besproken via Hard Limit, Soft Limit en Oké naar Gewenst — en werkt bijgevolg alle takken van de boom bij. Rechtsklik op een veld om notities toe te voegen.",
     "how_to_use_content_2": "Hoe jullie het precies gebruiken is aan jullie, maar het werkt het beste als jullie het samen invullen. Klikken samen doorheen, of gebruik het onafhankelijk en deel de resultaten met elkaar. Het gaat om het gesprek.",
     "safety": "Is dit veilig?",
-    "safety_content": "Smorkinkboard is een hulpmiddel: het toont welke praktijken welkom zijn voor de mensen in een dynamiek en welke niet. Het werkt alleen als jullie het samen invullen na écht met elkaar te hebben gesproken — en regelmatig terugkomen, want grenzen en favorieten veranderen met de tijd."
+    "safety_content": "Kinkburst is een hulpmiddel: het toont welke praktijken welkom zijn voor de mensen in een dynamiek en welke niet. Het werkt alleen als jullie het samen invullen na écht met elkaar te hebben gesproken — en regelmatig terugkomen, want grenzen en favorieten veranderen met de tijd."
   }
 }

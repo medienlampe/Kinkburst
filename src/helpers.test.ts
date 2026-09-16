@@ -43,24 +43,24 @@ describe("boardTitle", () => {
   const person = (name: string): Person => ({ id: name || "empty", name });
 
   it("returns the plain board name without named persons", () => {
-    expect(boardTitle([])).toBe("Smorkinkboard");
-    expect(boardTitle([person("")])).toBe("Smorkinkboard");
-    expect(boardTitle([person("Person A")])).toBe("Smorkinkboard");
+    expect(boardTitle([])).toBe("Kinkburst");
+    expect(boardTitle([person("")])).toBe("Kinkburst");
+    expect(boardTitle([person("Person A")])).toBe("Kinkburst");
   });
 
   it("lists two persons with \"and\"", () => {
     expect(boardTitle([person("Person A"), person("Person B")]))
-      .toBe("Smorkinkboard (for Person A and Person B)");
+      .toBe("Kinkburst (for Person A and Person B)");
   });
 
   it("lists three or more persons with commas and an Oxford comma", () => {
     expect(boardTitle([person("Person A"), person("Person B"), person("Person C")]))
-      .toBe("Smorkinkboard (for Person A, Person B and Person C)");
+      .toBe("Kinkburst (for Person A, Person B and Person C)");
   });
 
   it("ignores unnamed persons in the list", () => {
     expect(boardTitle([person("Person A"), person(""), person("Person C")]))
-      .toBe("Smorkinkboard (for Person A and Person C)");
+      .toBe("Kinkburst (for Person A and Person C)");
   });
 });
 

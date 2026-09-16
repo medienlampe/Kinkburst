@@ -18,7 +18,7 @@ describe("App", () => {
     // The page title heading shows the board name (no named persons yet).
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toBeInTheDocument();
-    expect(heading.textContent).toMatch(/smorkinkboard/i);
+    expect(heading.textContent).toMatch(/kinkburst/i);
 
     // The footer disclaimer renders its attribution links as real anchors
     // (the locale strings use Trans component placeholders, not raw HTML).
@@ -27,7 +27,7 @@ describe("App", () => {
       "https://github.com/duizendnegen/sunburst-smorgasbord",
       "https://d3js.org/",
       "https://observablehq.com/@d3/sunburst",
-      "https://github.com/medienlampe/Smorkinkboard",
+      "https://github.com/medienlampe/Kinkburst",
       "https://whip-leipzig.de/impressum.html"
     ]);
 

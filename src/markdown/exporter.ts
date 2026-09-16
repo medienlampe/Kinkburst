@@ -4,7 +4,7 @@ import { boardTitle } from "../helpers";
 import { statusLabel } from "./statusLabels";
 
 /**
- * Serializes the internal data format into a Smorkinkboard markdown document.
+ * Serializes the internal data format into a Kinkburst markdown document.
  *
  * Format spec: docs/markdown-format.md
  * - Exactly one h1 with the board title (including the people list), followed by

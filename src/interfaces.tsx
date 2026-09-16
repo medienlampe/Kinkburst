@@ -1,6 +1,6 @@
 import type { StatusValue } from "./constants";
 
-// Smorkinkboard domain types (see docs/Outline.md).
+// Kinkburst domain types (see docs/Outline.md).
 // The tree is stored flat: the root node has parentUuid "".
 export interface Practice {
   uuid: string,

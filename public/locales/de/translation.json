@@ -11,7 +11,7 @@
     "language": "Deutsch"
   },
   "practices": {
-    "smorkinkboard": "Smorkinkboard",
+    "kinkburst": "Kinkburst",
     "physical": "Physisch",
     "physical_aftercare": "Aftercare",
     "physical_aftercare_cuddling": "Kuscheln",
@@ -144,7 +144,7 @@
     "cancel": "Nein, abbrechen"
   },
   "import": {
-    "error": "Die Datei konnte nicht als Smorkinkboard-Markdown-Export gelesen werden."
+    "error": "Die Datei konnte nicht als Kinkburst-Markdown-Export gelesen werden."
   },
   "footer": {
     "disclaimer": "<0>Inspiriert vom Relationship Anarchy Smorgasbord</0>; gebaut mit <1>D3</1>, basiert auf deren <2>Sunburst-Diagramm</2>.<br />Keine Cookies, kein Tracking, keine Daten gesammelt. Lokale Daten auf deinem Rechner in deinem Browser sorgen dafür, dass du nicht jedes Mal von vorne anfangen musst.",
@@ -162,6 +162,6 @@
     "how_to_use_content_1": "Oben auf der Seite setzt du die Personen, für die das Board gedacht ist. Dann klickst du auf ein Feld: Jeder Klick schaltet eine Praktik von Unbesprochen über Hard Limit, Soft Limit und Okay zu Gewünscht — und aktualisiert entsprechend alle Zweige des Baums. Rechtsklick auf ein Feld öffnet die Möglichkeit Notizen zu hinterlegen.",
     "how_to_use_content_2": "Wie genau du das Werkzeug nutzt, liegt bei dir — am besten funktioniert es, wenn ihr es gemeinsam ausfüllt. Klickt entweder zusammen durch oder füllt es unabhängig aus und teilt eure Ergebnisse. Es geht um das Gespräch.",
     "safety": "Ist das sicher?",
-    "safety_content": "Smorkinkboard ist ein Werkzeug: Es zeigt, welche Praktiken für die Personen in einer Dynamik willkommen sind und welche nicht. Es funktioniert nur, wenn ihr es gemeinsam ausfüllt, nachdem ihr wirklich darüber geredet habt — und regelmäßig darauf zurückkommt, denn Limits und Favoriten ändern sich im Laufe der Zeit."
+    "safety_content": "Kinkburst ist ein Werkzeug: Es zeigt, welche Praktiken für die Personen in einer Dynamik willkommen sind und welche nicht. Es funktioniert nur, wenn ihr es gemeinsam ausfüllt, nachdem ihr wirklich darüber geredet habt — und regelmäßig darauf zurückkommt, denn Limits und Favoriten ändern sich im Laufe der Zeit."
   }
 }
