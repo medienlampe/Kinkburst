@@ -18,7 +18,7 @@ const ExportMarkdownButton = () : JSX.Element => {
   }
 
   return (
-    <button className="is-action" onClick={exportCurrentBoard}>
+    <button className="outline is-action" onClick={exportCurrentBoard}>
       <ExportIcon />
       <span>{t("button.export")}</span>
     </button>
