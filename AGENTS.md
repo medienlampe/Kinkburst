@@ -163,6 +163,7 @@ npm install        # install dependencies
 npm start          # dev server at http://localhost:3000/Smorkinkboard/
 npm run start-open # same, but reachable on the network (host 0.0.0.0)
 npm test           # vitest, single run (CI-friendly); npm run test:watch for watch mode
+npm run test:coverage  # vitest with v8 coverage; fails below the 80% thresholds in vite.config.ts
 npm run build      # type-check (tsc --noEmit) + production build to dist/
 npm run preview    # serve the production build locally
 npm run lint       # eslint over the repo (flat config)

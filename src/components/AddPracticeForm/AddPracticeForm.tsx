@@ -29,8 +29,9 @@ const AddPracticeForm = ({ onAdd, hierarchicalPractices } : AddPracticeFormProps
 
   return (
     <div>
-      <label htmlFor="select-practice">{t("edit.parent_element")}</label>
+      <label htmlFor="add-select-practice">{t("edit.parent_element")}</label>
       <SelectPracticeControl
+        id="add-select-practice"
         value={parentUuidToAddPracticeTo}
         onChange={setParentUuidToAddPracticeTo}
         hierarchicalPractices={hierarchicalPractices ? hierarchicalPractices

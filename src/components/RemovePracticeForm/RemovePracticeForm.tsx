@@ -21,8 +21,9 @@ const RemovePracticeForm = ({ onRemove, hierarchicalPractices } : RemovePractice
 
   return (
     <div>
-      <label htmlFor="select-practice">{t("edit.remove_practice")}</label>
+      <label htmlFor="remove-select-practice">{t("edit.remove_practice")}</label>
       <SelectPracticeControl
+        id="remove-select-practice"
         value={practiceToRemove}
         onChange={setPracticeToRemove}
         hierarchicalPractices={hierarchicalPractices ? hierarchicalPractices

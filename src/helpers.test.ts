@@ -64,6 +64,10 @@ describe("boardTitle", () => {
   });
 });
 
+it("returns an empty list unchanged", () => {
+  expect(applyClick([], "x")).toEqual([]);
+});
+
 describe("applyClick", () => {
   it("cycles the clicked field downwards through all statuses, wrapping to Desired", () => {
     // Start from Not Defined so the full cycle is visible.

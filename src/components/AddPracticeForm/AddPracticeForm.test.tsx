@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import AddPracticeForm from "./AddPracticeForm";
 import * as d3 from "d3";
 import { I18nextProvider } from "react-i18next";
@@ -50,4 +50,31 @@ it("adds a new practice when the add button is clicked", async () => {
     "Edge Play",
     parentUuid
   );
+});
+
+it("shows a confirmation state briefly after adding", async () => {
+  render(
+    <I18nextProvider i18n={i18n}>
+      <AddPracticeForm
+        onAdd={() : void => {}}
+        hierarchicalPractices={hierarchicalPractices} />
+    </I18nextProvider>);
+
+  const parentUuid = testPractices.find(practice => practice.key === "physical_impact_play")!.uuid;
+  fireEvent.change(screen.getByLabelText("Parent element"), {
+    target: { value: parentUuid }
+  });
+  fireEvent.change(screen.getByLabelText("Name of the new practice"), {
+    target: { value: "Edge Play" }
+  });
+
+  const button = screen.getByRole("button");
+  fireEvent.click(button);
+  expect(button.className).toContain("is-confirmation");
+
+  // The confirmation style is only shown for a moment.
+  await act(async () : Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 600));
+  });
+  expect(button.className).not.toContain("is-confirmation");
 });

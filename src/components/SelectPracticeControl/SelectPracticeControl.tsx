@@ -7,9 +7,12 @@ interface SelectPracticeControlProps {
   onChange: (uuid: string) => void;
   value: string,
   hierarchicalPractices: d3.HierarchyNode<Practice>[];
+  // Unique id per instance so the surrounding <label htmlFor> always points at
+  // this control (the add/remove forms render one each).
+  id?: string;
 }
 
-const SelectPracticeControl = ({ onChange, value, hierarchicalPractices } : SelectPracticeControlProps) : JSX.Element => {
+const SelectPracticeControl = ({ onChange, value, hierarchicalPractices, id = "select-practice" } : SelectPracticeControlProps) : JSX.Element => {
   const { t } = useTranslation();
 
   const getLabelForPractice = (practice: d3.HierarchyNode<Practice>) : string => {
@@ -26,7 +29,7 @@ const SelectPracticeControl = ({ onChange, value, hierarchicalPractices } : Sele
 
   return (
     <select
-      id="select-practice"
+      id={id}
       value={value}
       onChange={(e) : void => onChange(e.target.value)}>
       <option value=''></option>

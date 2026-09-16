@@ -117,6 +117,16 @@ describe("importMarkdown", () => {
   });
 });
 
+it("returns an empty string for a board without a root", () => {
+  expect(exportMarkdown([], [])).toBe("");
+});
+
+it("falls back to one unnamed person when the title's people list is empty", () => {
+  const board = importMarkdown("# Smorkinkboard (for  )\n");
+  expect(board.persons).toHaveLength(1);
+  expect(board.persons[0].name).toBe("");
+});
+
 describe("exportMarkdown", () => {
   it("round-trips the example from docs/markdown-format.md", () => {
     const board = importMarkdown(docExample);
