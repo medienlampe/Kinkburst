@@ -187,8 +187,8 @@ describe("localized export/import", () => {
   });
 
   it("imports localized people lists and strips the language suffix", () => {
-    const german = importMarkdown("# Smorkinkboard (für Sven und Abba) - Deutsch\n");
-    expect(german.persons.map(person => person.name)).toEqual(["Sven", "Abba"]);
+    const german = importMarkdown("# Smorkinkboard (für Lila und Fry) - Deutsch\n");
+    expect(german.persons.map(person => person.name)).toEqual(["Lila", "Fry"]);
 
     const spanish = importMarkdown("# Smorkinkboard (para Ana y Bruno) - Español\n");
     expect(spanish.persons.map(person => person.name)).toEqual(["Ana", "Bruno"]);

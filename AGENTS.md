@@ -49,7 +49,7 @@ Each practice ranges from 0 to 5 (six statuses; defined in `docs/Outline.md`). D
 Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-format.md)):
 
 - Exactly one `h1` with the board title (including the people list in brackets). The exporter
-  appends the document language as a suffix, e.g. `# Smorkinkboard (für Sven und Abba) - Deutsch`.
+  appends the document language as a suffix, e.g. `# Smorkinkboard (für Person A und Person B) - Deutsch`.
 - One heading level per tree level: `h2` is the first level under the title, each deeper node
   goes one heading level down (up to `h6`).
 - Status in brackets after each header name, written in the active UI language on export; import

@@ -8,7 +8,7 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
    `Smorkinkboard (for Person A, Person B and Person C)`.
    With a single person, the parenthetical may be omitted. 
    The exporter appends the language of the document as a suffix, e.g. 
-   `# Smorkinkboard (für Sven und Abba) - Deutsch` — the importer strips it again.
+   `# Smorkinkboard (für Person A und Person B) - Deutsch` — the importer strips it again.
 2. The tree is encoded as heading levels: the first level under the title is `h2` (`##`)
    — e.g. top categories like `Physical`, `Psychological`, `Social` — and every further level
    of nesting goes one heading deeper (`h3`, `h4`, ...). The default dataset nests to `h5`
