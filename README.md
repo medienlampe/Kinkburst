@@ -12,7 +12,7 @@ A kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.c
 [![TypeScript](https://img.shields.io/badge/typescript-6.0-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
 [![d3](https://img.shields.io/badge/d3-v7-197CE6)](https://d3js.org/)
 
-[How it works](#how-it-works) · [Statuses](#statuses) · [Export & Import](#export--import) · [Languages](#languages) · [Quick Start](#quick-start) · [Made with local LLMs](#made-with-local-llms)
+[How it works](#how-it-works) · [Statuses](#statuses) · [Export & Import](#export--import) · [Languages](#languages) · [Quick Start](#quick-start)
 
 </div>
 
@@ -107,10 +107,6 @@ npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build locally
 npm run lint       # lint the repo (ESLint flat config)
 ```
-
-## Made with local LLMs
-
-This project was built and is maintained with the help of a fully local, home-brewed LLM setup running on Apple Silicon and powered by green energy. Model used: [Qwen3.8 27B](https://huggingface.co/Qwen), served from [unsloth's GGUF quant](https://huggingface.co/unsloth/Qwen3.8-27B-GGUF) as well as [Jackrong's MTP variant](https://huggingface.co/Jackrong/Qwen3.8-27B-MTP-GGUF).
 
 ## Contributing
 

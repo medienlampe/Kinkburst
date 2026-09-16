@@ -1,0 +1,11 @@
+/* TEAM */
+Name: Sven Bischoff
+Site: https://bischoff.media
+Location: Leipzig, Germany
+
+/* THANKS */
+Pepijn Schoen: https://github.com/duizendnegen/sunburst-smorgasbord
+
+/* SITE */
+Standards: React 19, TypeScript, Vite, d3, Pico CSS, i18next
+Software: Visual Studio Code, Ghostty, Unsloth Studio, llama.cpp, Jackrong's Qwen3.8 27B MTP version (https://huggingface.co/Jackrong/Qwen3.8-27B-MTP-GGUF)
