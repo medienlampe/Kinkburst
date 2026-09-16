@@ -6,8 +6,7 @@ export const padding = 1;
 // markdown export (see docs/markdown-format.md).
 export const BOARD_NAME = "Smorkinkboard";
 
-// Smorkinkboard statuses (see docs/Outline.md, "Statuses").
-// Note: the outline says "five-fold" but lists six values (0-5); the list is authoritative.
+// Smorkinkboard statuses (see docs/Outline.md, "Statuses"): six-fold, 0 to 5.
 export type StatusValue = 0 | 1 | 2 | 3 | 4 | 5;
 
 export interface StatusDefinition {
