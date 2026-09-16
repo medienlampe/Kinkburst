@@ -23,7 +23,7 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
    | 0     | Not Defined  | Unbesprochen   | No definido      | Niet besproken   |
    | 1     | Hard Limit   | Hard Limit     | Hard Limit       | Hard Limit       |
    | 2     | Soft Limit   | Soft Limit     | Soft Limit       | Soft Limit       |
-   | 3     | Can          | Kann           | Puede            | Kan              |
+   | 3     | Okay         | Okay           | Está bien        | Oké              |
    | 4     | Desired      | Gewünscht      | Deseable         | Gewenst          |
  
    The English labels are the canonical terms; the others are read from the locale files (`public/locales`).
@@ -41,14 +41,14 @@ Favourite of Person B
 
 ### Impact (Desired)
 
-### Bondage (Can)
+### Bondage (Okay)
 
 ### Blood (Soft Limit)
 
 #### Cutting (Hard Limit)
 Can trigger crash for Person A.
 
-#### Needling (Can)
+#### Needling (Okay)
 Liked by Person B.
 
 ## Psychological (Not Defined)

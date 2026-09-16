@@ -12,14 +12,14 @@ Favourite of Person B
 
 ### Impact (Desired)
 
-### Bondage (Can)
+### Bondage (Okay)
 
 ### Blood (Soft Limit)
 
 #### Cutting (Hard Limit)
 Can trigger crash for Person A.
 
-#### Needling (Can)
+#### Needling (Okay)
 Liked by Person B.
 
 ## Psychological (Not Defined)
@@ -91,7 +91,7 @@ describe("importMarkdown", () => {
   });
 
   it("synthesizes a root when the h1 is missing", () => {
-    const board = importMarkdown("## Physical (Desired)\n\n### Bondage (Can)\n");
+    const board = importMarkdown("## Physical (Desired)\n\n### Bondage (Okay)\n");
 
     const root = board.practices.find(practice => practice.parentUuid === "");
     expect(root).toBeDefined();
@@ -110,7 +110,7 @@ describe("importMarkdown", () => {
   });
 
   it("keeps headers deeper than h4 attached to their parent (h5)", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\n\n### Toys (Can)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
+    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\n\n### Toys (Okay)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
 
     const nodes = byName(board.practices);
     expect(nodes.get("Variant")?.parentUuid).toBe(nodes.get("E-Stim")?.uuid);
@@ -159,7 +159,7 @@ describe("localized export/import", () => {
     const exported = exportMarkdown(board.practices, board.persons);
     expect(exported).toContain("# Smorkinkboard (für Person A, Person B und Person C) - Deutsch");
     expect(exported).toContain("## Physical (Gewünscht)");
-    expect(exported).toContain("### Bondage (Kann)");
+    expect(exported).toContain("### Bondage (Okay)");
 
     const reimported = importMarkdown(exported);
     expect(reimported.persons.map(person => person.name)).toEqual(["Person A", "Person B", "Person C"]);
@@ -171,13 +171,13 @@ describe("localized export/import", () => {
     const cases: Array<[string, number]> = [
       // en
       ["(Not Defined)", 0], ["(Hard Limit)", 1], ["(Soft Limit)", 2],
-      ["(Can)", 3], ["(Desired)", 4],
+      ["(Okay)", 3], ["(Desired)", 4],
       // de
-      ["(Unbesprochen)", 0], ["(Kann)", 3], ["(Gewünscht)", 4],
+      ["(Unbesprochen)", 0], ["(Okay)", 3], ["(Gewünscht)", 4],
       // es
-      ["(No definido)", 0], ["(Puede)", 3], ["(Deseable)", 4],
+      ["(No definido)", 0], ["(Está bien)", 3], ["(Deseable)", 4],
       // nl
-      ["(Niet besproken)", 0], ["(Kan)", 3], ["(Gewenst)", 4],
+      ["(Niet besproken)", 0], ["(Oké)", 3], ["(Gewenst)", 4],
     ];
 
     for (const [label, expected] of cases) {

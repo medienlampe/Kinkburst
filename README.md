@@ -42,7 +42,7 @@ Smorkinkboard (for Gerald and Yennefer)
     ├── Impact Play (Desired)
     │   └── Toy
     │       ├── Whip (Desired) *
-    │       └── Flogger (Can)
+    │       └── Flogger (Okay)
     └── Bondage (Soft Limit)
         └── Cutting (Hard Limit) *   ← "can trigger crash"
 ```
@@ -71,7 +71,7 @@ Favourite of Yennefer
 
 ### Impact Play (Desired)
 
-#### Toy (Can)
+#### Toy (Okay)
 
 ##### Whip (Desired)
 Slowly.

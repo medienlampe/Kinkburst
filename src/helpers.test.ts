@@ -99,7 +99,7 @@ describe("applyClick", () => {
 
   it("propagates Can/Desired to all practice ancestors, but not to the root", () => {
     let practices = withValues({ e: 4 }); // e=4, a=0, root=0
-    practices = applyClick(practices, "e"); // e: 4 -> 3 (Can)
+    practices = applyClick(practices, "e"); // e: 4 -> 3 (Okay)
 
     expect(valueOf(practices, "e")).toBe(3);
     expect(valueOf(practices, "a")).toBe(3);

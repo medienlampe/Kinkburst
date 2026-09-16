@@ -21,7 +21,7 @@ export const STATUSES: Record<StatusValue, StatusDefinition> = {
   0: { value: 0, label: "Not Defined", color: "#111" }, // near-black
   1: { value: 1, label: "Hard Limit", color: "#dc322f" }, // solarized red
   2: { value: 2, label: "Soft Limit", color: "#b58900" }, // solarized yellow
-  3: { value: 3, label: "Can", color: "#c5d47e" }, // pale solarized green
+  3: { value: 3, label: "Okay", color: "#c5d47e" }, // pale solarized green
   4: { value: 4, label: "Desired", color: "#a6be40" }, // light solarized green
 };
 
