@@ -115,8 +115,7 @@
     "hard_limit": "Hard Limit",
     "soft_limit": "Soft Limit",
     "can": "Kann",
-    "should": "Schön",
-    "must": "Muss"
+    "desired": "Gewünscht"
   },
   "legend": {
     "title": "Legende"
@@ -160,7 +159,7 @@
     "whats_this": "Was ist das?",
     "whats_this_content": "Dies ist ein Werkzeug, um zu besprechen und zu erkunden, welche BDSM-Praktiken in eurer Dynamik willkommen sind.",
     "how_to_use": "Wie nutze ich es?",
-    "how_to_use_content_1": "Oben auf der Seite setzt du die Personen, für die das Board gedacht ist. Dann klickst du auf ein Feld: Jeder Klick schaltet eine Praktik von Unbesprochen über Hard Limit, Soft Limit, Kann und Schön zu Muss — und aktualisiert entsprechend alle Zweige des Baums. Rechtsklick auf ein Feld öffnet die Möglichkeit Notizen zu hinterlegen.",
+    "how_to_use_content_1": "Oben auf der Seite setzt du die Personen, für die das Board gedacht ist. Dann klickst du auf ein Feld: Jeder Klick schaltet eine Praktik von Unbesprochen über Hard Limit, Soft Limit und Kann zu Gewünscht — und aktualisiert entsprechend alle Zweige des Baums. Rechtsklick auf ein Feld öffnet die Möglichkeit Notizen zu hinterlegen.",
     "how_to_use_content_2": "Wie genau du das Werkzeug nutzt, liegt bei dir — am besten funktioniert es, wenn ihr es gemeinsam ausfüllt. Klickt entweder zusammen durch oder füllt es unabhängig aus und teilt eure Ergebnisse. Es geht um das Gespräch.",
     "safety": "Ist das sicher?",
     "safety_content": "Smorkinkboard ist ein Werkzeug: Es zeigt, welche Praktiken für die Personen in einer Dynamik willkommen sind und welche nicht. Es funktioniert nur, wenn ihr es gemeinsam ausfüllt, nachdem ihr wirklich darüber geredet habt — und regelmäßig darauf zurückkommt, denn Limits und Favoriten ändern sich im Laufe der Zeit."

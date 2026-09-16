@@ -18,13 +18,14 @@ const LONG_PRESS_MS = 500;
 // A pending long press is cancelled as soon as the finger moves this far (rotation starts).
 const DRAG_THRESHOLD_PX = 10;
 
-// Pick a readable text color (black or white) for a given fill color.
+// Pick a readable text color for a given fill color: black on light fills,
+// a dimmed off-white on dark fills so it doesn't glare against near-black.
 const textColorFor = (fill: string): string => {
   const color = d3.rgb(fill);
-  if (!color) return "#fff";
+  if (!color) return "#dcdcdc";
 
   const luminance = (0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b) / 255;
-  return luminance > 0.5 ? "#000" : "#fff";
+  return luminance > 0.5 ? "#000" : "#dcdcdc";
 };
 
 const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps) : JSX.Element => {
@@ -216,7 +217,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
               fill={textColorFor(getColor(d))}
               fillOpacity="1.0"
               dy="0.32em"
-              style={{fontFamily: "sans-serif", fontSize: "13px", textAnchor: "middle"}}>
+              style={{fontFamily: "sans-serif", fontSize: "13px", fontWeight: "bold", textAnchor: "middle"}}>
               { getLabel(d) }
             </text>
           </g>

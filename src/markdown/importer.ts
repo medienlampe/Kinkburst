@@ -55,7 +55,7 @@ const parsePersonsFromTitle = (title: string): Person[] => {
   return names.map(name => ({ id: crypto.randomUUID(), name }));
 };
 
-// Splits a header line like "Physical (Must)" into its name and status.
+// Splits a header line like "Physical (Desired)" into its name and status.
 // Status names are matched case-insensitively; an unrecognized or missing
 // status defaults to Not Defined (0).
 const parseHeader = (text: string): { name: string, value: StatusValue } => {

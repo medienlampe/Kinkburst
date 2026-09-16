@@ -115,8 +115,7 @@
     "hard_limit": "Hard Limit",
     "soft_limit": "Soft Limit",
     "can": "Kan",
-    "should": "Leuk",
-    "must": "Moet"
+    "desired": "Gewenst"
   },
   "legend": {
     "title": "Legenda"
@@ -160,7 +159,7 @@
     "whats_this": "Wat is dit?",
     "whats_this_content": "Dit is een hulpmiddel om te bespreken en te verkennen welke BDSM-praktijken welkom zijn in jullie dynamiek.",
     "how_to_use": "Hoe gebruik ik het?",
-    "how_to_use_content_1": "Zet bovenaan de pagina de personen waar dit board voor is. Klik daarna op een veld: elke klik schakelt een praktijk van Niet besproken via Hard Limit, Soft Limit, Kan en Leuk naar Moet — en werkt bijgevolg alle takken van de boom bij. Rechtsklik op een veld om notities toe te voegen.",
+    "how_to_use_content_1": "Zet bovenaan de pagina de personen waar dit board voor is. Klik daarna op een veld: elke klik schakelt een praktijk van Niet besproken via Hard Limit, Soft Limit en Kan naar Gewenst — en werkt bijgevolg alle takken van de boom bij. Rechtsklik op een veld om notities toe te voegen.",
     "how_to_use_content_2": "Hoe jullie het precies gebruiken is aan jullie, maar het werkt het beste als jullie het samen invullen. Klikken samen doorheen, of gebruik het onafhankelijk en deel de resultaten met elkaar. Het gaat om het gesprek.",
     "safety": "Is dit veilig?",
     "safety_content": "Smorkinkboard is een hulpmiddel: het toont welke praktijken welkom zijn voor de mensen in een dynamiek en welke niet. Het werkt alleen als jullie het samen invullen na écht met elkaar te hebben gesproken — en regelmatig terugkomen, want grenzen en favorieten veranderen met de tijd."

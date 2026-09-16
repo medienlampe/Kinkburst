@@ -35,15 +35,15 @@ export const boardTitle = (persons: Person[], lng?: string): string => {
 
 // Applies a click on the field with the given uuid to the flat practice list
 // and returns the updated list. The clicked field cycles through all statuses
-// downwards (0 → 5 → … → 1 → 0, i.e. from Not Defined straight to Must and
+// downwards (0 → 4 → … → 1 → 0, i.e. from Not Defined straight to Desired and
 // back down through the scale) and the new status propagates so that no field
 // is ever higher than one of its parents:
 // - Not Defined (0, the wrap-around case) resets all descendants to Not Defined,
 // - Hard Limit (1) sets all descendants to Hard Limit,
-// - Soft Limit (2) / Can / Should / Must (3/4/5) lower any descendant that
+// - Soft Limit (2) / Can / Desired (3/4) lower any descendant that
 //   exceeds the new value (e.g. a positive child of a newly soft-limited
 //   category),
-// - any defined status (1-5) raises every practice ancestor (not the root,
+// - any defined status (1-4) raises every practice ancestor (not the root,
 //   which is just the board title and carries no status) that is lower than it.
 // Clicks on the root (the board title) or unknown nodes are ignored.
 // Safely parses the board state persisted in localStorage. Returns undefined
@@ -70,6 +70,16 @@ export const parseStoredPractices = (raw: string | null): Practice[] | undefined
     return undefined;
   }
 
+  // Boards saved with an older status scale may carry values that no longer
+  // exist (e.g. 5, before "Must" was removed) — clamp them to the top of the
+  // current scale so rendering never hits an unknown status.
+  const clamped = nodes.map(node => {
+    if (typeof node.value === "number" && node.value > STATUS_COUNT - 1) {
+      return { ...node, value: STATUS_COUNT - 1 };
+    }
+    return node;
+  });
+
   // The tree must be well-formed: unique uuids, exactly one root (parentUuid
   // ""), and every other node's parent must exist — otherwise d3.stratify
   // throws during rendering.
@@ -83,7 +93,7 @@ export const parseStoredPractices = (raw: string | null): Practice[] | undefined
     return undefined;
   }
 
-  return nodes as Practice[];
+  return clamped as Practice[];
 };
 
 // Safely parses the persons persisted in localStorage; returns undefined for

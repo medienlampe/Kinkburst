@@ -5,13 +5,12 @@ The practices fixtures are to be pre-defined but should be able to be edited in 
 Unchanged are the possibilities to change, export, import and reset as well as downloading as an image. Additionally, people names should be able to be added which then are shown in th title as well like "Smorkinkboard (for Person A, Person B and Person C)". Default is one person, but more can be added or removed as needed.
 
 ## Statuses
-The scale statuses are six-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 5 with the following meaning and color:
+The scale statuses are five-fold to express the dimension of the mentioned kink. Each kink can range from 0 to 4 with the following meaning and color:
 0 - "Not Defined" (near-black, #111) - Default state, no consent has been created about this yet.
 1 - "Hard Limit" (solarized red) – A practice which must nut be part of the planned session or dynamic, hard limit.
 2 - "Soft Limit" (solarized yellow) - A practice which can be done, but is not necessarily giving the participants something back. It might be applicable in some kind of "service" dimension but is generally to be avoided.  
 3 - "Can" (pale solarized green) - A practice which is okay for the people attending but not their favourite.
-4 - "Should" (light solarized green) - A practice giving pleasure to the people in the dynamic. It's giving pleasure and is very welcome to be part of a scene or dynamic
-5 - "Must" (vibrant solarized green) - A favourite practice which should always be part of the session or dynamic.
+4 - "Desired" (light solarized green) - A practice giving pleasure to the people in the dynamic. It's giving pleasure and is very welcome to be part of a scene or dynamic.
 
 As in the original, statuses are to be inherited bottom up as well as top down, depending on the click-interactions.
 
@@ -23,10 +22,10 @@ Next to each header in brackets "()" is the status of said item in written form 
 ```
 # Smorkinkboard (for Person A, Person B and Person C)
 
-## Physical (Must)
+## Physical (Desired)
 Favourite of Person B
 
-### Impact (Must)
+### Impact (Desired)
 
 ### Bondage (Can)
 
@@ -42,7 +41,7 @@ Liked by Person B.
 
 ### Degradation (Not Defined) 
 
-## Social (Should)
+## Social (Desired)
 
-### Public (Should)
+### Public (Desired)
 ```

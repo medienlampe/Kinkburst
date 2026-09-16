@@ -11,8 +11,8 @@ import { statusLabel } from "./statusLabels";
  *   a " - <language>" suffix naming the language of the document (e.g. " - Deutsch")
  * - One heading level per tree level (h2 = first level under the title), capped at h6
  * - Header names and statuses are written in the active UI language: default-dataset nodes
- *   carry an i18n key and are translated like every other label, e.g. "## Physical (Must)"
- *   or "## Physisch (Muss)"; user-added and imported nodes export their stored name
+ *   carry an i18n key and are translated like every other label, e.g. "## Physical (Desired)"
+ *   or "## Physisch (Gewünscht)"; user-added and imported nodes export their stored name
  * - Context notes as text below the header; items with a note get "*" appended to their title in the UI
  *
  * The tree is walked depth-first so the output is always in document order,

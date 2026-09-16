@@ -29,7 +29,7 @@ It is a single-page app with no backend: your board lives entirely in your brows
 
 ## How it works
 
-- **Click a field** to cycle its status from 0 to 5 — the field and all of its parents update their color, so statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
+- **Click a field** to cycle its status from 0 to 4 — the field and all of its parents update their color, so statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
 - **Right-click a field** (long press on touch devices) to add details or context for it. Fields with context get an asterisk (`*`) appended to their title in the scale.
 - The default dataset ships with a broad set of practices — and you can **add, remove or rename** items at any depth right in the UI.
 - **People**: add the people the board is for; they appear in the title, e.g. *Smorkinkboard (for Person A, Person B and Person C)*. One person by default, more can be added as needed.
@@ -38,10 +38,10 @@ A small excerpt of what a filled-in board looks like:
 
 ```text
 Smorkinkboard (for Gerald and Yennefer)
-└── Physical (Must)
-    ├── Impact Play (Should)
+└── Physical (Desired)
+    ├── Impact Play (Desired)
     │   └── Toy
-    │       ├── Whip (Must) *
+    │       ├── Whip (Desired) *
     │       └── Flogger (Can)
     └── Bondage (Soft Limit)
         └── Cutting (Hard Limit) *   ← "can trigger crash"
@@ -49,7 +49,7 @@ Smorkinkboard (for Gerald and Yennefer)
 
 ## Statuses
 
-Each practice ranges from 0 to 5:
+Each practice ranges from 0 to 4:
 
 | Value | Status      | Color                     | Meaning                                                                                                   |
 | ----- | ----------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -57,8 +57,7 @@ Each practice ranges from 0 to 5:
 | 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                                       |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.                             |
 | 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                                                   |
-| 4     | Should      | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
-| 5     | Must        | solarized green (vibrant) | A favourite practice which should always be part of the session or dynamic.                                |
+| 4     | Desired     | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
 
 ## Export & Import
 
@@ -67,14 +66,14 @@ Different from the original smorgasbord, Smorkinkboard exchanges data in a **hum
 ```markdown
 # Smorkinkboard (for Gerald and Yennefer) - Deutsch
 
-## Physical (Must)
+## Physical (Desired)
 Favourite of Yennefer
 
-### Impact Play (Should)
+### Impact Play (Desired)
 
 #### Toy (Can)
 
-##### Whip (Must)
+##### Whip (Desired)
 Slowly.
 
 ### Bondage (Soft Limit)

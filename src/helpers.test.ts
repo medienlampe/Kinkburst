@@ -16,7 +16,7 @@ const tree = (): Practice[] => [
   makePractice("a", "root"),
   makePractice("b", "a"),
   makePractice("c", "b", 4),
-  makePractice("d", "b", 5),
+  makePractice("d", "b", 4),
   makePractice("e", "a", 3),
 ];
 
@@ -65,11 +65,11 @@ describe("boardTitle", () => {
 });
 
 describe("applyClick", () => {
-  it("cycles the clicked field downwards through all statuses, wrapping to Must", () => {
+  it("cycles the clicked field downwards through all statuses, wrapping to Desired", () => {
     // Start from Not Defined so the full cycle is visible.
     let practices = withValues({ c: 0 });
 
-    const expected = [5, 4, 3, 2, 1, 0];
+    const expected = [4, 3, 2, 1, 0];
     for (const status of expected) {
       practices = applyClick(practices, "c");
       expect(valueOf(practices, "c")).toBe(status);
@@ -77,7 +77,7 @@ describe("applyClick", () => {
   });
 
   it("propagates Hard Limit to all descendants and raises Not Defined ancestors", () => {
-    let practices = withValues({ b: 2 }); // b=2, c=4, d=5, a=0
+    let practices = withValues({ b: 2 }); // b=2, c=4, d=4, a=0
     practices = applyClick(practices, "b"); // b: 2 -> 1 (Hard Limit)
 
     expect(valueOf(practices, "b")).toBe(1);
@@ -87,7 +87,7 @@ describe("applyClick", () => {
   });
 
   it("propagates Soft Limit to descendants that are currently positive and raises lower ancestors", () => {
-    const practices = withValues({ b: 3, c: 4, d: 0 }); // Can, Should (positive), Not Defined
+    const practices = withValues({ b: 3, c: 4, d: 0 }); // Can, Desired (positive), Not Defined
 
     const updated = applyClick(practices, "b"); // b: 3 -> 2 (Soft Limit)
 
@@ -97,7 +97,7 @@ describe("applyClick", () => {
     expect(valueOf(updated, "a")).toBe(2); // a soft-limit field may not sit under Hard Limit/Not Defined
   });
 
-  it("propagates Can/Should/Must to all practice ancestors, but not to the root", () => {
+  it("propagates Can/Desired to all practice ancestors, but not to the root", () => {
     let practices = withValues({ e: 4 }); // e=4, a=0, root=0
     practices = applyClick(practices, "e"); // e: 4 -> 3 (Can)
 
@@ -172,6 +172,15 @@ describe("parseStoredPractices", () => {
   it("rejects duplicate uuids", () => {
     const duplicated = [...tree(), makePractice("c", "b")];
     expect(parseStoredPractices(JSON.stringify(duplicated))).toBeUndefined();
+  });
+
+  it("clamps values from the old six-status scale to the top of the current one", () => {
+    // Simulate data persisted by the old six-status scale (5 no longer exists).
+    const legacy = tree().map(p => p.uuid === "d" ? { ...p, value: 5 as unknown as StatusValue } : p);
+
+    const parsed = parseStoredPractices(JSON.stringify(legacy));
+    expect(parsed).toBeDefined();
+    expect(parsed?.find(practice => practice.uuid === "d")?.value).toBe(4);
   });
 
   it("rejects trees without exactly one root or with orphaned parents", () => {

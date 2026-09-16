@@ -16,7 +16,7 @@ to five levels deep; the importer/exporter round-trip any depth up to `h6`.
 
 The full product requirements live in [docs/Outline.md](docs/Outline.md). Key behaviors:
 
-- **Click** a field to cycle its status (0 → 5); the field and all of its ancestors update their
+- **Click** a field to cycle its status (0 → 4); the field and all of its ancestors update their
   color — same inheritance model as the original smorgasbord, statuses propagate bottom-up and
   top-down (`applyClick` in `src/helpers.tsx`).
 - **Right-click** any field (long press on touch devices) opens an overlay to add details/context.
@@ -31,7 +31,7 @@ The full product requirements live in [docs/Outline.md](docs/Outline.md). Key be
 
 ## Statuses
 
-Each practice ranges from 0 to 5 (six statuses; defined in `docs/Outline.md`). Definitions live in
+Each practice ranges from 0 to 4 (five statuses; defined in `docs/Outline.md`). Definitions live in
 `src/constants.tsx` (`STATUSES`, `STATUS_BY_LABEL`); user-facing labels come from the locale files
 (`statuses.*` keys) — English is canonical:
 
@@ -41,8 +41,7 @@ Each practice ranges from 0 to 5 (six statuses; defined in `docs/Outline.md`). D
 | 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                  |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.        |
 | 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                              |
-| 4     | Should      | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                 |
-| 5     | Must        | solarized green (vibrant) | A favourite practice which should always be part of the session or dynamic.          |
+| 4     | Desired     | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                 |
 
 ## Markdown exchange format
 
@@ -53,7 +52,7 @@ Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-forma
 - One heading level per tree level: `h2` is the first level under the title, each deeper node
   goes one heading level down (up to `h6`).
 - Status in brackets after each header name, written in the active UI language on export; import
-  accepts the labels of all supported languages (en/de/es/nl), e.g. `(Must)` / `(Muss)` / `(Moet)`.
+  accepts the labels of all supported languages (en/de/es/nl), e.g. `(Desired)` / `(Gewünscht)` / `(Gewenst)`.
 - Free text below a header is stored as context for that item.
 
 The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`, `statusLabels.ts`). All
@@ -141,7 +140,8 @@ Most components ship with a co-located `*.test.tsx`; there are also top-level te
   no `data-theme` set); modals are native `<dialog>` + `<article>`, buttons use Pico's default/
   outline variants. App-specific design tokens live at the top of `src/App.scss` and map to
   `--pico-*` variables so they track the theme. Board and logo colors are Solarized equivalents
-  (see the status table above).
+  (see the status table above), except "Not Defined" which is a near-black `#111`. Field labels
+  render bold, black on light fills and dimmed off-white (`#dcdcdc`) on dark ones (`textColorFor`).
 - State pattern: flat node list in an atom (`{ uuid, parentUuid, key?, name?, value?, note? }`,
   root has `parentUuid: ""`), nested tree derived via derived atoms (`atom((read) => ...)`).
   No provider wrapper is needed (jotai's default store is global). Domain types: `Practice` and

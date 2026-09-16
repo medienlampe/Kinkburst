@@ -7,10 +7,10 @@ import type { Practice } from "../interfaces";
 // The example from docs/markdown-format.md (source of truth for the format).
 const docExample = `# Smorkinkboard (for Person A, Person B and Person C)
 
-## Physical (Must)
+## Physical (Desired)
 Favourite of Person B
 
-### Impact (Must)
+### Impact (Desired)
 
 ### Bondage (Can)
 
@@ -26,9 +26,9 @@ Liked by Person B.
 
 ### Degradation (Not Defined)
 
-## Social (Should)
+## Social (Desired)
 
-### Public (Should)
+### Public (Desired)
 `;
 
 const byName = (practices: Practice[]): Map<string, Practice> => {
@@ -59,8 +59,8 @@ describe("importMarkdown", () => {
     expect(nodes.get("Public")?.parentUuid).toBe(nodes.get("Social")?.uuid);
 
     // Statuses.
-    expect(nodes.get("Physical")?.value).toBe(5);
-    expect(nodes.get("Impact")?.value).toBe(5);
+    expect(nodes.get("Physical")?.value).toBe(4);
+    expect(nodes.get("Impact")?.value).toBe(4);
     expect(nodes.get("Bondage")?.value).toBe(3);
     expect(nodes.get("Blood")?.value).toBe(2);
     expect(nodes.get("Cutting")?.value).toBe(1);
@@ -85,13 +85,13 @@ describe("importMarkdown", () => {
   });
 
   it("matches status names case-insensitively", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (mUsT)\n");
+    const board = importMarkdown("# Smorkinkboard\n\n## Physical (dEsIred)\n");
 
-    expect(byName(board.practices).get("Physical")?.value).toBe(5);
+    expect(byName(board.practices).get("Physical")?.value).toBe(4);
   });
 
   it("synthesizes a root when the h1 is missing", () => {
-    const board = importMarkdown("## Physical (Must)\n\n### Bondage (Can)\n");
+    const board = importMarkdown("## Physical (Desired)\n\n### Bondage (Can)\n");
 
     const root = board.practices.find(practice => practice.parentUuid === "");
     expect(root).toBeDefined();
@@ -110,7 +110,7 @@ describe("importMarkdown", () => {
   });
 
   it("keeps headers deeper than h4 attached to their parent (h5)", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Must)\n\n### Toys (Can)\n\n#### E-Stim (Should)\n\n##### Variant (Hard Limit)\n");
+    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\n\n### Toys (Can)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
 
     const nodes = byName(board.practices);
     expect(nodes.get("Variant")?.parentUuid).toBe(nodes.get("E-Stim")?.uuid);
@@ -129,14 +129,14 @@ describe("exportMarkdown", () => {
   });
 
   it("omits the people parenthetical with fewer than two named persons", () => {
-    const board = importMarkdown("# Smorkinkboard (for Person A and Person B)\n\n## Physical (Must)\n");
+    const board = importMarkdown("# Smorkinkboard (for Person A and Person B)\n\n## Physical (Desired)\n");
 
     const exported = exportMarkdown(board.practices, [{ id: "1", name: "Person A" }]);
     expect(exported.startsWith("# Smorkinkboard - English\n")).toBe(true);
   });
 
   it("exports multi-line notes verbatim and round-trips them", () => {
-    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Must)\nLine one.\nLine two.\n");
+    const board = importMarkdown("# Smorkinkboard\n\n## Physical (Desired)\nLine one.\nLine two.\n");
 
     const physical = byName(board.practices).get("Physical");
     expect(physical?.note).toBe("Line one.\nLine two.");
@@ -158,12 +158,12 @@ describe("localized export/import", () => {
 
     const exported = exportMarkdown(board.practices, board.persons);
     expect(exported).toContain("# Smorkinkboard (für Person A, Person B und Person C) - Deutsch");
-    expect(exported).toContain("## Physical (Muss)");
+    expect(exported).toContain("## Physical (Gewünscht)");
     expect(exported).toContain("### Bondage (Kann)");
 
     const reimported = importMarkdown(exported);
     expect(reimported.persons.map(person => person.name)).toEqual(["Person A", "Person B", "Person C"]);
-    expect(byName(reimported.practices).get("Physical")?.value).toBe(5);
+    expect(byName(reimported.practices).get("Physical")?.value).toBe(4);
     expect(byName(reimported.practices).get("Bondage")?.value).toBe(3);
   });
 
@@ -171,13 +171,13 @@ describe("localized export/import", () => {
     const cases: Array<[string, number]> = [
       // en
       ["(Not Defined)", 0], ["(Hard Limit)", 1], ["(Soft Limit)", 2],
-      ["(Can)", 3], ["(Should)", 4], ["(Must)", 5],
+      ["(Can)", 3], ["(Desired)", 4],
       // de
-      ["(Unbesprochen)", 0], ["(Kann)", 3], ["(Schön)", 4], ["(Muss)", 5],
+      ["(Unbesprochen)", 0], ["(Kann)", 3], ["(Gewünscht)", 4],
       // es
-      ["(No definido)", 0], ["(Puede)", 3], ["(Deseable)", 4], ["(Imprescindible)", 5],
+      ["(No definido)", 0], ["(Puede)", 3], ["(Deseable)", 4],
       // nl
-      ["(Niet besproken)", 0], ["(Kan)", 3], ["(Leuk)", 4], ["(Moet)", 5],
+      ["(Niet besproken)", 0], ["(Kan)", 3], ["(Gewenst)", 4],
     ];
 
     for (const [label, expected] of cases) {

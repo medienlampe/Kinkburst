@@ -24,8 +24,7 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
    | 1     | Hard Limit   | Hard Limit     | Hard Limit       | Hard Limit       |
    | 2     | Soft Limit   | Soft Limit     | Soft Limit       | Soft Limit       |
    | 3     | Can          | Kann           | Puede            | Kan              |
-   | 4     | Should       | Schön          | Deseable         | Leuk             |
-   | 5     | Must         | Muss           | Imprescindible   | Moet             |
+   | 4     | Desired      | Gewünscht      | Deseable         | Gewenst          |
  
    The English labels are the canonical terms; the others are read from the locale files (`public/locales`).
    Item names follow the same rule for default-dataset nodes (which carry translation keys);
@@ -37,10 +36,10 @@ The data exchange format for the Smorkinkboard is human-readable markdown. It is
 ```markdown
 # Smorkinkboard (for Person A, Person B and Person C)
 
-## Physical (Must)
+## Physical (Desired)
 Favourite of Person B
 
-### Impact (Must)
+### Impact (Desired)
 
 ### Bondage (Can)
 
@@ -56,9 +55,9 @@ Liked by Person B.
 
 ### Degradation (Not Defined)
 
-## Social (Should)
+## Social (Desired)
 
-### Public (Should)
+### Public (Desired)
 ```
 
 ## Parsing notes

@@ -6,8 +6,8 @@ export const padding = 1;
 // markdown export (see docs/markdown-format.md).
 export const BOARD_NAME = "Smorkinkboard";
 
-// Smorkinkboard statuses (see docs/Outline.md, "Statuses"): six-fold, 0 to 5.
-export type StatusValue = 0 | 1 | 2 | 3 | 4 | 5;
+// Smorkinkboard statuses (see docs/Outline.md, "Statuses"): five-fold, 0 to 4.
+export type StatusValue = 0 | 1 | 2 | 3 | 4;
 
 export interface StatusDefinition {
   value: StatusValue,
@@ -16,14 +16,13 @@ export interface StatusDefinition {
 }
 
 // Colors are the Solarized palette (base colors plus pale/light variants of
-// solarized green for the welcome levels — Must keeps the vibrant base green).
+// solarized green for the welcome levels).
 export const STATUSES: Record<StatusValue, StatusDefinition> = {
   0: { value: 0, label: "Not Defined", color: "#111" }, // near-black
   1: { value: 1, label: "Hard Limit", color: "#dc322f" }, // solarized red
   2: { value: 2, label: "Soft Limit", color: "#b58900" }, // solarized yellow
   3: { value: 3, label: "Can", color: "#c5d47e" }, // pale solarized green
-  4: { value: 4, label: "Should", color: "#a6be40" }, // light solarized green
-  5: { value: 5, label: "Must", color: "#859900" }, // solarized green (vibrant)
+  4: { value: 4, label: "Desired", color: "#a6be40" }, // light solarized green
 };
 
 export const STATUS_BY_LABEL: Record<string, StatusValue> = Object.fromEntries(
@@ -40,9 +39,8 @@ export const STATUS_I18N_KEYS: Record<StatusValue, string> = {
   1: "statuses.hard_limit",
   2: "statuses.soft_limit",
   3: "statuses.can",
-  4: "statuses.should",
-  5: "statuses.must",
+  4: "statuses.desired",
 };
 
 // The number of statuses; clicking a field cycles through all of them.
-export const STATUS_COUNT = 6;
+export const STATUS_COUNT = 5;
