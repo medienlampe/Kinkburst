@@ -53,7 +53,7 @@ Each practice ranges from 0 to 4:
 
 | Value | Status      | Color                     | Meaning                                                                                                   |
 | ----- | ----------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
-| 0     | Not Defined | near-black (#111)         | Default state — no consent has been created about this yet.                                               |
+| 0     | Not Defined | near-black.               | Default state — no consent has been created about this yet.                                               |
 | 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                                       |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.                             |
 | 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                                                   |
