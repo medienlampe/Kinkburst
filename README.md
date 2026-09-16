@@ -109,6 +109,10 @@ npm run preview    # serve the production build locally
 npm run lint       # lint the repo (ESLint flat config)
 ```
 
+## Disclaimer
+
+This project has been created and is maintained by the help of a homebrew local LLM setup – no cloud models used at all. It uses [Qwen3.8 27B (GGUF)](https://huggingface.co/unsloth/Qwen3.8-27B-GGUF) by unsloth and [Qwen3.8 27B MTP by Jackrong](https://huggingface.co/Jackrong/Qwen3.8-27B-MTP-GGUF) running on Apple Silicon with green energy.
+
 ## Contributing
 
 We're open for pull requests — best discuss your suggestion first by opening an issue. See [AGENTS.md](AGENTS.md) for the project structure and conventions (used by both humans and AI coding agents).
