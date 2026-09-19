@@ -1,8 +1,10 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
+import { getDefaultStore } from "jotai";
 import App from "./App";
 import appI18n from "./i18n";
 import testPractices from "./fixtures/testPractices.json";
+import { createDefaultPersons, personsAtom } from "./states/persons.atom";
 
 // Smoke test: mounts the whole app (state atoms, i18n, d3 sunburst) to catch
 // runtime errors such as broken state-library integrations.
@@ -147,6 +149,29 @@ describe("App", () => {
     expect(document.querySelector("path[data-status]")?.getAttribute("data-status")).toBe(before);
   });
 
+  it("renders without storage when localStorage is unavailable", async () => {
+    vi.stubGlobal("localStorage", undefined);
+    // No stored persons either, so the app starts with an empty people list.
+    getDefaultStore().set(personsAtom, []);
+
+    try {
+      const fetchMock = vi.fn().mockResolvedValue({ json: () => Promise.resolve(testPractices) });
+      vi.stubGlobal("fetch", fetchMock);
+
+      render(<App />);
+      await waitFor(() => {
+        expect(document.querySelectorAll("#smorgasbordImage g").length).toBeGreaterThan(0);
+      });
+
+      // Let in-flight promise chains from earlier tests settle while our stubs
+      // are still active, so they cannot resolve against the next test's mocks.
+      await new Promise(resolve => setTimeout(resolve, 0));
+    } finally {
+      vi.unstubAllGlobals();
+      getDefaultStore().set(personsAtom, createDefaultPersons());
+    }
+  });
+
   it("switches the UI language from the footer", async () => {
     await renderLoadedApp();
 
@@ -177,6 +202,9 @@ describe("App", () => {
   it("resets the board through the confirmation modal", async () => {
     const fetchMock = vi.fn().mockResolvedValue({ json: () => Promise.resolve(testPractices) });
     vi.stubGlobal("fetch", fetchMock);
+    // Count only the practices fetch: i18next may fire its own locale requests
+    // ("locales/.../translation.json") against whichever fetch mock is active.
+    const practiceCalls = () : number => fetchMock.mock.calls.filter(([url]) => String(url).includes("practices.json")).length;
 
     // Start from a clean slate so the initial load goes through fetch.
     localStorage.clear();
@@ -185,7 +213,7 @@ describe("App", () => {
     await waitFor(() => {
       expect(document.querySelectorAll("#smorgasbordImage g").length).toBeGreaterThan(0);
     });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(practiceCalls()).toBe(1);
 
     // Cancel first: the board is left untouched.
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
@@ -195,12 +223,12 @@ describe("App", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "No, cancel" }));
     expect(resetDialog().hasAttribute("open")).toBe(false);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(practiceCalls()).toBe(1);
 
     // Confirm: the defaults are re-fetched.
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
     fireEvent.click(screen.getByRole("button", { name: "Yes, reset" }));
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(practiceCalls()).toBe(2));
   });
 
   it("saves a context note from the detail modal", async () => {

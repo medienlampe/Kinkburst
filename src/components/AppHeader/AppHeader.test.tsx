@@ -49,6 +49,16 @@ describe("AppHeader", () => {
     expect(actionsNav().classList.contains("is-open")).toBe(false);
   });
 
+  it("ignores other keys while the panel is open", () => {
+    renderHeader();
+
+    fireEvent.click(menuToggle());
+    expect(actionsNav().classList.contains("is-open")).toBe(true);
+
+    fireEvent.keyDown(window, { key: "Enter" });
+    expect(actionsNav().classList.contains("is-open")).toBe(true);
+  });
+
   it("closes the panel when clicking outside the header", () => {
     renderHeader();
 

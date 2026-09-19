@@ -145,6 +145,23 @@ describe("applyClick", () => {
     expect(applyClick(practices, "root")).toEqual(practices);
     expect(applyClick(practices, "does-not-exist")).toEqual(practices);
   });
+
+  it("handles fields that have no stored status yet", () => {
+    const bare = (uuid: string, parentUuid: string): Practice => ({ uuid, parentUuid, name: uuid });
+    const practices = [
+      makePractice("root", ""),
+      bare("a", "root"), // no stored status
+      bare("b", "a"),   // no stored status
+      bare("c", "b"),   // no stored status
+    ];
+
+    // Clicking a value-less field cycles it up to Desired, leaves its
+    // value-less descendants untouched, and raises the value-less ancestor.
+    const updated = applyClick(practices, "b");
+    expect(valueOf(updated, "b")).toBe(4);
+    expect(valueOf(updated, "c")).toBe(0); // no status yet -> unchanged
+    expect(valueOf(updated, "a")).toBe(4); // raised from undefined
+  });
 });
 
 describe("parseStoredPractices", () => {

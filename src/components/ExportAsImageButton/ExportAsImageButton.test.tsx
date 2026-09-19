@@ -64,8 +64,9 @@ describe("ExportAsImageButton", () => {
   it("hides Not Defined fields and injects matching CSS into the exported svg", () => {
     // A stylesheet rule that matches a class on the board, to exercise the
     // CSS extraction (jsdom exposes same-origin sheets).
+    // One rule matches the board (kept), one does not (dropped).
     const style = document.createElement("style");
-    style.textContent = ".board-path { fill: rgb(220, 50, 47); }";
+    style.textContent = ".board-path { fill: rgb(220, 50, 47); } .not-on-board { color: rgb(1, 2, 3); }";
     document.head.appendChild(style);
 
     mountBoardSvg();
@@ -78,10 +79,64 @@ describe("ExportAsImageButton", () => {
     const exported = serializeSpy.mock.results[0].value as string;
     // The Not Defined field is hidden in the export...
     expect(exported).toContain('fill-opacity="0"');
-    // ...and matching CSS rules are carried along.
+    // ...and matching CSS rules are carried along, while non-matching ones are dropped.
     expect(exported).toContain("board-path");
+    expect(exported).not.toContain("not-on-board");
 
     style.remove();
+  });
+
+  it("exports an svg without an id and without children", () => {
+    // A board element that has a class (collected for the CSS) but neither an
+    // id nor any descendants.
+    const plain = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    plain.setAttribute("class", "board-frame");
+    vi.spyOn(document, "getElementById").mockReturnValue(plain as unknown as HTMLElement);
+
+    renderButton();
+    expect(() : void => {
+      fireEvent.click(screen.getByRole("button", { name: "Image" }));
+    }).not.toThrow();
+  });
+
+  it("rethrows stylesheet errors that are not SecurityErrors", () => {
+    mountBoardSvg();
+    renderButton();
+
+    const brokenSheet = {
+      get cssRules() : CSSRuleList {
+        throw new Error("boom");
+      },
+    };
+    const descriptor = Object.getOwnPropertyDescriptor(Document.prototype, "styleSheets");
+    Object.defineProperty(document, "styleSheets", { configurable: true, value: [brokenSheet] });
+
+    // React reports errors thrown in event handlers as a window "error" event.
+    const reported : string[] = [];
+    const onError = (event : ErrorEvent) : void => { reported.push(event.message); };
+    window.addEventListener("error", onError);
+
+    try {
+      fireEvent.click(screen.getByRole("button", { name: "Image" }));
+      expect(reported).toContain("boom");
+    } finally {
+      window.removeEventListener("error", onError);
+      if (descriptor) {
+        Object.defineProperty(document, "styleSheets", descriptor);
+      } else {
+        delete (document as unknown as Record<string, unknown>).styleSheets;
+      }
+    }
+  });
+
+  it("does nothing when the canvas context is unavailable", () => {
+    mountBoardSvg();
+    renderButton();
+
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+    fireEvent.click(screen.getByRole("button", { name: "Image" }));
+
+    expect(downloadBlob).not.toHaveBeenCalled();
   });
 
   it("skips cross-origin stylesheets (SecurityError) instead of throwing", () => {
@@ -145,5 +200,35 @@ describe("ExportAsImageButton", () => {
     const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0];
     expect(blob).toBeInstanceOf(Blob);
     expect(fileName).toBe("kinkburst.png");
+  });
+
+  it("does not download when toBlob produces no blob", async () => {
+    mountBoardSvg();
+    renderButton();
+
+    const context = { clearRect: vi.fn(), drawImage: vi.fn() };
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(context as unknown as CanvasRenderingContext2D);
+    vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation(
+      function (this : HTMLCanvasElement, callback : BlobCallback) : void {
+        callback(null); // e.g. the canvas is tainted or unsupported
+      }
+    );
+
+    class FakeImage {
+      onload : (() => void) | null = null;
+      #src = "";
+      get src() : string { return this.#src; }
+      set src(value : string) {
+        this.#src = value;
+        queueMicrotask(() => this.onload?.());
+      }
+    }
+    vi.stubGlobal("Image", FakeImage);
+
+    fireEvent.click(screen.getByRole("button", { name: "Image" }));
+
+    // Give the (fired) onload microtask a chance to run.
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(downloadBlob).not.toHaveBeenCalled();
   });
 });

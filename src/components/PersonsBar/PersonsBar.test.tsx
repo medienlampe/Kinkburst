@@ -41,6 +41,17 @@ describe("PersonsBar", () => {
     expect(personInputs()[0]).toHaveValue("Immo");
   });
 
+  it("updates only the edited person's name", () => {
+    renderPersonsBar([
+      { id: "1", name: "Person A" },
+      { id: "2", name: "Person B" },
+    ]);
+
+    fireEvent.change(personInputs()[1], { target: { value: "Person C" } });
+    expect(personInputs()[0]).toHaveValue("Person A");
+    expect(personInputs()[1]).toHaveValue("Person C");
+  });
+
   it("adds a person with the add button", () => {
     renderPersonsBar([{ id: "1", name: "Person A" }]);
 

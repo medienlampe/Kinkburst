@@ -132,6 +132,13 @@ describe("importMarkdown", () => {
     expect(nodes.get("Blood")?.value).toBe(3);
     expect(nodes.get("Cutting")?.value).toBe(1);
   });
+
+  it("ignores any further h1 lines", () => {
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\n\n# Second Title (Desired)\n");
+
+    expect(byName(board.practices).has("Physical")).toBe(true);
+    expect(board.practices.some(practice => practice.name?.includes("Second Title"))).toBe(false);
+  });
 });
 
 it("returns an empty string for a board without a root", () => {
@@ -142,6 +149,22 @@ it("falls back to one unnamed person when the title's people list is empty", () 
   const board = importMarkdown("# Kinkburst (for  )\n");
   expect(board.persons).toHaveLength(1);
   expect(board.persons[0].name).toBe("");
+});
+
+it("exports unkeyed nodes with their stored names at any depth", () => {
+  const board: Practice[] = [
+    { uuid: "root", parentUuid: "", name: "Kinkburst" },
+    { uuid: "a", parentUuid: "root", name: "Category" },
+    { uuid: "b", parentUuid: "a" }, // no stored name or status
+    { uuid: "c", parentUuid: "b", name: "Practice" },
+    { uuid: "d", parentUuid: "c", name: "Deep Practice" },
+  ];
+
+  const lines = exportMarkdown(board, []).split("\n");
+  expect(lines).toContain("## Category (Not Defined)");
+  expect(lines).toContain("###  (Not Defined)"); // unnamed node keeps its heading
+  expect(lines).toContain("- Practice (Not Defined)");
+  expect(lines).toContain("  - Deep Practice (Not Defined)");
 });
 
 describe("exportMarkdown", () => {

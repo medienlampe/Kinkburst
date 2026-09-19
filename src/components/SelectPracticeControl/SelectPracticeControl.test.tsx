@@ -65,3 +65,66 @@ it("renders the practice names nested hierarchically", async () => {
   expect(screen.getByRole("option", { name: "Physical > Impact Play > Toy > Whip" })).toBeInTheDocument();
   expect(screen.getByRole("option", { name: "Social > Public Play" })).toBeInTheDocument();
 });
+
+it("translates a keyed root node", () => {
+  const nodes = d3.stratify<Practice>()
+    .id(d => d.uuid)
+    .parentId(d => d.parentUuid)([
+      { uuid: "root", parentUuid: "", key: "kinkburst" },
+      { uuid: "a", parentUuid: "root", name: "Area" },
+    ])
+    .descendants();
+
+  render(
+    <I18nextProvider i18n={i18n}>
+      <SelectPracticeControl
+        onChange={() : void => {}}
+        value=''
+        hierarchicalPractices={nodes} />
+    </I18nextProvider>);
+
+  expect(screen.getByRole("option", { name: "Kinkburst" })).toBeInTheDocument();
+});
+
+it("falls back to stored names and skips unnamed ancestors in the path", () => {
+  const nodes = d3.stratify<Practice>()
+    .id(d => d.uuid)
+    .parentId(d => d.parentUuid)([
+      { uuid: "root", parentUuid: "", name: "My Board" },
+      { uuid: "a", parentUuid: "root" }, // no key, no name
+      { uuid: "b", parentUuid: "a", name: "Area" },
+    ])
+    .descendants();
+
+  render(
+    <I18nextProvider i18n={i18n}>
+      <SelectPracticeControl
+        onChange={() : void => {}}
+        value=''
+        hierarchicalPractices={nodes} />
+    </I18nextProvider>);
+
+  expect(screen.getByRole("option", { name: "My Board" })).toBeInTheDocument();
+  // The unnamed parent contributes an empty segment to the path.
+  expect(screen.getAllByRole("option").some(option => option.textContent === " > Area")).toBe(true);
+});
+
+it("renders a minimal two-node board", () => {
+  const nodes = d3.stratify<Practice>()
+    .id(d => d.uuid)
+    .parentId(d => d.parentUuid)([
+      { uuid: "root", parentUuid: "", name: "My Board" },
+      { uuid: "a", parentUuid: "root", name: "Area" },
+    ])
+    .descendants();
+
+  render(
+    <I18nextProvider i18n={i18n}>
+      <SelectPracticeControl
+        onChange={() : void => {}}
+        value=''
+        hierarchicalPractices={nodes} />
+    </I18nextProvider>);
+
+  expect(screen.getAllByRole("option")).toHaveLength(3); // empty + root + area
+});
