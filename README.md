@@ -61,7 +61,7 @@ Each practice ranges from 0 to 4:
 
 ## Export & Import
 
-Different from the original smorgasbord, Kinkburst exchanges data in a **human-readable markdown format** instead of JSON. Headers mark the hierarchy — one heading level per tree level (`#` title, then one level deeper per branch, up to `######`) — the status in brackets marks the value, and free text below a header is stored as context:
+Different from the original smorgasbord, Kinkburst exchanges data in a **human-readable markdown format** instead of JSON. The first two levels of the hierarchy are headings (`##` and `###`), deeper levels are unordered lists indented two spaces per level — the status in brackets marks the value, and free text after an item is stored as context:
 
 ```markdown
 # Kinkburst (for Gerald and Yennefer) - Deutsch
@@ -70,15 +70,12 @@ Different from the original smorgasbord, Kinkburst exchanges data in a **human-r
 Favourite of Yennefer
 
 ### Impact Play (Desired)
-
-#### Toy (Okay)
-
-##### Whip (Desired)
+- Toy (Desired)
+  - Whip (Desired)
 Slowly.
 
 ### Bondage (Soft Limit)
-
-#### Cutting (Hard Limit)
+- Cutting (Hard Limit)
 Can trigger crash for Yennefer.
 ```
 

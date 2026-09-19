@@ -55,10 +55,10 @@ const parsePersonsFromTitle = (title: string): Person[] => {
   return names.map(name => ({ id: crypto.randomUUID(), name }));
 };
 
-// Splits a header line like "Physical (Desired)" into its name and status.
+// Splits an item like "Physical (Desired)" into its name and status.
 // Status names are matched case-insensitively; an unrecognized or missing
 // status defaults to Not Defined (0).
-const parseHeader = (text: string): { name: string, value: StatusValue } => {
+const parseItem = (text: string): { name: string, value: StatusValue } => {
   const match = text.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
 
   if (!match) {
@@ -76,14 +76,17 @@ const parseHeader = (text: string): { name: string, value: StatusValue } => {
  *
  * Format spec: docs/markdown-format.md
  * - h1 title (with people list in brackets and an optional " - <language>" suffix),
- *   h2/h3/h4 hierarchy, "(Status)" suffixes, notes below headers
+ *   h2/h3 for the first two tree levels, unordered lists (two spaces per level)
+ *   below that, "(Status)" suffixes, notes as free text after an item
  * - Status labels and the people preposition/conjunction are accepted in every
  *   supported language (en/de/es/nl); unknown/missing statuses default to "Not Defined" (0)
+ * - A node's status never exceeds its parent's: after parsing, each node's status is
+ *   lifted up to its ancestors (see applyClick in helpers.tsx for the app's invariant)
  * - Importing replaces the current board state entirely (same semantics as the original's JSON import)
  *
- * Headers are assigned to parents with a level stack, so any header depth
- * round-trips. The h1 becomes the root node; its people parenthetical is
- * parsed into the persons list and stripped from the root name.
+ * Items are assigned to parents with a level stack, so any depth round-trips.
+ * The h1 becomes the root node; its people parenthetical is parsed into the
+ * persons list and stripped from the root name.
  */
 export const importMarkdown = (markdown: string): ParsedBoard => {
   let title = BOARD_NAME;
@@ -100,37 +103,19 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
     noteBuffer = [];
   };
 
-  for (const rawLine of markdown.split(/\r?\n/)) {
-    const line = rawLine.trim();
-
-    if (line === "") {
-      continue; // blank lines are ignored
+  // The h1 is the board title; its people parenthetical becomes the persons list.
+  const handleTitle = (text: string): void => {
+    if (stack.length > 0) {
+      return; // ignore any further h1 lines
     }
+    title = stripLanguageSuffix(text);
+    const root: Practice = { uuid: crypto.randomUUID(), parentUuid: "", name: text };
+    practices.push(root);
+    stack.push(root);
+  };
 
-    const headerMatch = line.match(/^(#{1,6})\s+(.*)$/);
-
-    if (!headerMatch) {
-      // Free text below a header is context for that item.
-      noteBuffer.push(line);
-      continue;
-    }
-
-    flushNote();
-
-    const level = headerMatch[1].length;
-    const text = headerMatch[2].trim();
-
-    if (level === 1) {
-      // The h1 is the board title; ignore any further h1 lines.
-      if (stack.length === 0) {
-        title = stripLanguageSuffix(text);
-        const root: Practice = { uuid: crypto.randomUUID(), parentUuid: "", name: text };
-        practices.push(root);
-        stack.push(root);
-      }
-      continue;
-    }
-
+  // Attaches an item to the most recent item at a shallower level.
+  const attach = (text: string, level: number): void => {
     // Without an h1, synthesize a root so the tree stays connected.
     if (stack.length === 0) {
       const root: Practice = { uuid: crypto.randomUUID(), parentUuid: "", name: BOARD_NAME };
@@ -138,13 +123,13 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
       stack.push(root);
     }
 
-    // The root sits at stack index 0 (level 1); a header of level L must be
-    // attached to the node at level L-1, i.e. to a stack of length L-1.
+    // The root sits at stack index 0; an item of level L attaches to the node at
+    // level L-1, i.e. to a stack of length L-1.
     while (stack.length > 1 && stack.length >= level) {
       stack.pop();
     }
 
-    const { name, value } = parseHeader(text);
+    const { name, value } = parseItem(text);
     const practice: Practice = {
       uuid: crypto.randomUUID(),
       parentUuid: stack[stack.length - 1].uuid,
@@ -153,9 +138,56 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
     };
     practices.push(practice);
     stack.push(practice);
+  };
+
+  for (const rawLine of markdown.split(/\r?\n/)) {
+    const line = rawLine.trim();
+
+    if (line === "") {
+      continue; // blank lines are ignored
+    }
+
+    // The h1 is the board title; the first two tree levels are h2/h3 headings.
+    const headerMatch = line.match(/^(#{1,3})\s+(.*)$/);
+    if (headerMatch) {
+      flushNote();
+      const level = headerMatch[1].length;
+      if (level === 1) {
+        handleTitle(headerMatch[2].trim());
+      } else {
+        attach(headerMatch[2].trim(), level);
+      }
+      continue;
+    }
+
+    // Two spaces of indentation = one level deeper; list items sit below the h3s.
+    const listItemMatch = rawLine.match(/^(\s*)- (.*)$/);
+    if (listItemMatch) {
+      flushNote();
+      const indent = Math.floor(listItemMatch[1].length / 2);
+      attach(listItemMatch[2].trim(), indent + 4);
+      continue;
+    }
+
+    // Free text after an item is context for that item.
+    noteBuffer.push(line);
   }
 
   flushNote();
+
+  // Restore the app's invariant (see applyClick in helpers.tsx): a field may never be
+  // higher than its parents — lift each node's status up to its ancestors, so a
+  // "Desired" leaf renders together with its whole branch.
+  const byUuid = new Map(practices.map((practice): [string, Practice] => [practice.uuid, practice]));
+  for (const practice of practices) {
+    let cursor = byUuid.get(practice.parentUuid);
+    while (cursor) {
+      if ((practice.value ?? 0) > (cursor.value ?? 0)) {
+        cursor.value = practice.value;
+      }
+      cursor = byUuid.get(cursor.parentUuid);
+    }
+  }
 
   return { practices, persons: parsePersonsFromTitle(title) };
 };

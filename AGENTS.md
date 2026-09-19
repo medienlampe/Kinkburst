@@ -12,7 +12,8 @@ It shows which practices are welcome for the people in a dynamic, organized as a
 of arbitrary depth — top-level **categories** (e.g. `Physical`, `Psychological`, `Social`), their
 **play areas** (e.g. `Bondage`, `Impact Play`, `Toys`), and nested **practices**
 (e.g. `Whip`, `Living Buffet`). The default dataset (`public/practices.json`, 85 nodes) nests up
-to five levels deep; the importer/exporter round-trip any depth up to `h6`.
+to five levels deep; the importer/exporter round-trip any depth (headings for the first two
+levels, unordered lists below that).
 
 The full product requirements live in [docs/Outline.md](docs/Outline.md). Key behaviors:
 
@@ -49,11 +50,13 @@ Export/import uses markdown (spec: [docs/markdown-format.md](docs/markdown-forma
 
 - Exactly one `h1` with the board title (including the people list in brackets). The exporter
   appends the document language as a suffix, e.g. `# Kinkburst (für Person A und Person B) - Deutsch`.
-- One heading level per tree level: `h2` is the first level under the title, each deeper node
-  goes one heading level down (up to `h6`).
-- Status in brackets after each header name, written in the active UI language on export; import
-  accepts the labels of all supported languages (en/de/es/nl), e.g. `(Desired)` / `(Gewünscht)` / `(Gewenst)`.
-- Free text below a header is stored as context for that item.
+- The first two tree levels are headings (`h2`, `h3`); every deeper level is an unordered list
+  item, indented two spaces per level below the `h3`s — any depth round-trips.
+- Status in brackets after each name, written in the active UI language on export; import accepts
+  the labels of all supported languages (en/de/es/nl), e.g. `(Desired)` / `(Gewünscht)` / `(Gewenst)`.
+- A node's status never exceeds its parent's: on import, each node's status is lifted up to its
+  ancestors (same invariant as `applyClick` in `src/helpers.tsx`).
+- Free text after an item is stored as context for that item.
 
 The conversion lives in `src/markdown/` (`exporter.ts`, `importer.ts`, `statusLabels.ts`). All
 labels come from the locale files via i18next — never hardcode translated strings in the code.

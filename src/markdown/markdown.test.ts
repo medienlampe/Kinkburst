@@ -15,11 +15,9 @@ Favourite of Person B
 ### Bondage (Okay)
 
 ### Blood (Soft Limit)
-
-#### Cutting (Hard Limit)
+- Cutting (Hard Limit)
 Can trigger crash for Person A.
-
-#### Needling (Okay)
+- Needling (Soft Limit)
 Liked by Person B.
 
 ## Psychological (Not Defined)
@@ -64,7 +62,7 @@ describe("importMarkdown", () => {
     expect(nodes.get("Bondage")?.value).toBe(3);
     expect(nodes.get("Blood")?.value).toBe(2);
     expect(nodes.get("Cutting")?.value).toBe(1);
-    expect(nodes.get("Needling")?.value).toBe(3);
+    expect(nodes.get("Needling")?.value).toBe(2);
     expect(nodes.get("Psychological")?.value).toBe(0);
     expect(nodes.get("Social")?.value).toBe(4);
     expect(nodes.get("Public")?.value).toBe(4);
@@ -109,11 +107,30 @@ describe("importMarkdown", () => {
     expect(none.persons[0].name).toBe("");
   });
 
-  it("keeps headers deeper than h4 attached to their parent (h5)", () => {
-    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\n\n### Toys (Okay)\n\n#### E-Stim (Desired)\n\n##### Variant (Hard Limit)\n");
+  it("keeps deeply nested list items attached to their parent", () => {
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\n\n### Toys (Okay)\n- E-Stim (Desired)\n  - Variant (Hard Limit)\n");
 
     const nodes = byName(board.practices);
+    expect(nodes.get("E-Stim")?.parentUuid).toBe(nodes.get("Toys")?.uuid);
     expect(nodes.get("Variant")?.parentUuid).toBe(nodes.get("E-Stim")?.uuid);
+  });
+
+  it("lifts a leaf's status up to its ancestors", () => {
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Okay)\n\n### Blood (Not Defined)\n- Cutting (Desired)\n");
+
+    const nodes = byName(board.practices);
+    expect(nodes.get("Cutting")?.value).toBe(4);
+    expect(nodes.get("Blood")?.value).toBe(4);
+    expect(nodes.get("Physical")?.value).toBe(4);
+  });
+
+  it("does not lower an ancestor's status for a weaker child", () => {
+    const board = importMarkdown("# Kinkburst\n\n## Physical (Desired)\n\n### Blood (Okay)\n- Cutting (Hard Limit)\n");
+
+    const nodes = byName(board.practices);
+    expect(nodes.get("Physical")?.value).toBe(4);
+    expect(nodes.get("Blood")?.value).toBe(3);
+    expect(nodes.get("Cutting")?.value).toBe(1);
   });
 });
 

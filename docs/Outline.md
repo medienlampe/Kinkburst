@@ -15,9 +15,9 @@ The scale statuses are five-fold to express the dimension of the mentioned kink.
 As in the original, statuses are to be inherited bottom up as well as top down, depending on the click-interactions.
 
 ## Export/Import
-Different to the original Smorgasboard, the export and import formats are to be human-readable and must be converted on export as well as import into the internal data format. The data exchange format for the Kinkburst is to be based upon markdown. Headers mark hierarchies and context is given as text below the headers. There must always only be one h1 (#), containing only the title of the page.
-Top categories are h2 (##), below these sub-categories with h3 (###) and below these practices with h4 (####).
-Next to each header in brackets "()" is the status of said item in written form as defined in "Statuses". Here's an example of how this file could look like this:
+Different to the original Smorgasboard, the export and import formats are to be human-readable and must be converted on export as well as import into the internal data format. The data exchange format for the Kinkburst is to be based upon markdown. The first two levels of the hierarchy are headings (## and ###), deeper levels are unordered lists indented two spaces per level, and context is given as text below the items. There must always only be one h1 (#), containing only the title of the page.
+Top categories are h2 (##), below these sub-categories with h3 (###) and below these practices as list items (-).
+Next to each item in brackets "()" is the status of said item in written form as defined in "Statuses". Here's an example of how this file could look like this:
 
 ```
 # Kinkburst (for Person A, Person B and Person C)
@@ -30,11 +30,9 @@ Favourite of Person B
 ### Bondage (Okay)
 
 ### Blood (Soft Limit)
-
-#### Cutting (Hard Limit)
+- Cutting (Hard Limit)
 Can trigger crash for Person A.
-
-#### Needling (Okay)
+- Needling (Soft Limit)
 Liked by Person B.
 
 ## Psychological (Not Defined)

@@ -9,15 +9,16 @@ import { statusLabel } from "./statusLabels";
  * Format spec: docs/markdown-format.md
  * - Exactly one h1 with the board title (including the people list), followed by
  *   a " - <language>" suffix naming the language of the document (e.g. " - Deutsch")
- * - One heading level per tree level (h2 = first level under the title), capped at h6
- * - Header names and statuses are written in the active UI language: default-dataset nodes
+ * - The first two tree levels are headings (h2, h3); every deeper level is an unordered
+ *   list item, indented two spaces per level below the h3s — any depth round-trips
+ * - Names and statuses are written in the active UI language: default-dataset nodes
  *   carry an i18n key and are translated like every other label, e.g. "## Physical (Desired)"
  *   or "## Physisch (Gewünscht)"; user-added and imported nodes export their stored name
- * - Context notes as text below the header; items with a note get "*" appended to their title in the UI
+ * - Context notes as free text below the item; items with a note get "*" appended to their title in the UI
  *
  * The tree is walked depth-first so the output is always in document order,
- * independent of the ordering of the flat practice list. Header levels map to
- * tree depth (root = h1), capped at h6 for arbitrarily deep user edits.
+ * independent of the ordering of the flat practice list. Tree levels map to h2/h3
+ * headings and then to list indentation (root = h1).
  */
 export const exportMarkdown = (practices: Practice[], persons: Person[]): string => {
   let root: Practice | undefined;
@@ -44,20 +45,27 @@ export const exportMarkdown = (practices: Practice[], persons: Person[]): string
     `# ${boardTitle(persons, lng)} - ${i18n.t("board.language", { lng })}`,
   ];
 
-  const walk = (node: Practice, level: number): void => {
+  const walk = (node: Practice, depth: number): void => {
     const children = childrenByParent.get(node.uuid) ?? [];
     for (const child of children) {
-      const headerLevel = Math.min(level + 1, 6);
       // Default-dataset nodes carry an i18n key; translate them into the active
       // UI language. User-added and imported nodes fall back to their name.
       const label = child.key ? i18n.t(`practices.${child.key}`) : (child.name ?? "");
-      lines.push("");
-      lines.push(`${"#".repeat(headerLevel)} ${label} (${statusLabel(child.value ?? 0)})`);
+      const childDepth = depth + 1;
+      if (childDepth <= 3) {
+        // The first two tree levels are h2/h3 headings, separated by blank lines.
+        lines.push("");
+        lines.push(`${"#".repeat(childDepth)} ${label} (${statusLabel(child.value ?? 0)})`);
+      } else {
+        // Deeper levels are list items, indented two spaces per level below the h3s.
+        const indent = "  ".repeat(childDepth - 4);
+        lines.push(`${indent}- ${label} (${statusLabel(child.value ?? 0)})`);
+      }
       const note = child.note?.trim();
       if (note) {
         lines.push(note);
       }
-      walk(child, headerLevel);
+      walk(child, childDepth);
     }
   };
 
