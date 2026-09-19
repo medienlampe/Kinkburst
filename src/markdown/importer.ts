@@ -55,9 +55,8 @@ const parsePersonsFromTitle = (title: string): Person[] => {
   return names.map(name => ({ id: crypto.randomUUID(), name }));
 };
 
-// Splits an item like "Physical (Desired)" into its name and status.
-// Status names are matched case-insensitively; an unrecognized or missing
-// status defaults to Not Defined (0).
+// Splits an item like "Physical (Desired)" into its name and status;
+// items without a bracketed status default to Not Defined (0).
 const parseItem = (text: string): { name: string, value: StatusValue } => {
   const match = text.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
 
@@ -66,27 +65,18 @@ const parseItem = (text: string): { name: string, value: StatusValue } => {
   }
 
   const name = match[1].trim();
-  // Status labels are accepted in every supported language (case-insensitive).
   const value = parseStatusLabel(match[2]);
   return { name, value };
 };
 
 /**
  * Parses a Kinkburst markdown document into the internal data format.
- *
- * Format spec: docs/markdown-format.md
- * - h1 title (with people list in brackets and an optional " - <language>" suffix),
- *   h2/h3 for the first two tree levels, unordered lists (two spaces per level)
- *   below that, "(Status)" suffixes, notes as free text after an item
- * - Status labels and the people preposition/conjunction are accepted in every
- *   supported language (en/de/es/nl); unknown/missing statuses default to "Not Defined" (0)
- * - A node's status never exceeds its parent's: after parsing, each node's status is
- *   lifted up to its ancestors (see applyClick in helpers.tsx for the app's invariant)
- * - Importing replaces the current board state entirely (same semantics as the original's JSON import)
+ * The format itself is specified in docs/markdown-format.md (source of truth).
  *
  * Items are assigned to parents with a level stack, so any depth round-trips.
  * The h1 becomes the root node; its people parenthetical is parsed into the
- * persons list and stripped from the root name.
+ * persons list and stripped from the root name. Statuses are lifted up to the
+ * ancestors afterwards (the app's invariant, see applyClick in helpers.tsx).
  */
 export const importMarkdown = (markdown: string): ParsedBoard => {
   let title = BOARD_NAME;
@@ -147,7 +137,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
       continue; // blank lines are ignored
     }
 
-    // The h1 is the board title; the first two tree levels are h2/h3 headings.
+    // The h1 is the board title; h2/h3 mark the first two tree levels (spec rule 2).
     const headerMatch = line.match(/^(#{1,3})\s+(.*)$/);
     if (headerMatch) {
       flushNote();
@@ -160,7 +150,7 @@ export const importMarkdown = (markdown: string): ParsedBoard => {
       continue;
     }
 
-    // Two spaces of indentation = one level deeper; list items sit below the h3s.
+    // List items mark the deeper levels (spec rule 2).
     const listItemMatch = rawLine.match(/^(\s*)- (.*)$/);
     if (listItemMatch) {
       flushNote();
