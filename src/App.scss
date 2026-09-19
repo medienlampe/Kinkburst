@@ -426,10 +426,20 @@ button[disabled].is-confirmation:after {
 }
 
 .footer-inner h3 {
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   color: var(--text);
+}
+
+.footer-version {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.footer-build-date {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
 }
 
 .footer-languages {

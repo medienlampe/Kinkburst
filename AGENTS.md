@@ -225,3 +225,7 @@ The app is feature-complete per `docs/Outline.md`. Timeline of milestones:
   either — and keep the README's export/import example consistent with both.
 - Translated strings live only in the locale files; when adding UI text, add it to all four of
   `public/locales/{en,de,es,nl}/translation.json`.
+- **Bump the version after big changes.** The `version` field in `package.json` is shown in the
+  footer as `Kinkburst v<version>` (injected at build time via `vite.config.ts`). After significant
+  changes (new features, format changes) bump it — minor for new features, patch for fixes — and
+  mention the bump to the user. Keep `package-lock.json` in sync.

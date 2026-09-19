@@ -166,7 +166,10 @@ const App = () : JSX.Element => {
 
       <footer className="app-footer">
         <div className="container footer-inner">
-          <h3>{BOARD_NAME}</h3>
+          <h3>
+            {BOARD_NAME} <span className="footer-version">v{__APP_VERSION__}</span>
+          </h3>
+          <p className="footer-build-date">{t("footer.updated")} {new Date(__BUILD_DATE__).toLocaleDateString()}</p>
           <p className="footer-languages">
             {t("footer.languages")}&nbsp;
             <button className="button-link" onClick={() : void => changeLanguage("en")}>{t("footer.languages_english")}</button>,&nbsp;

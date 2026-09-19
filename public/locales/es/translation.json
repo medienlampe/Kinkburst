@@ -147,6 +147,7 @@
     "error": "No se pudo leer ese archivo como exportación markdown de Kinkburst."
   },
   "footer": {
+    "updated": "Actualizado el:",
     "disclaimer": "<0>Inspirado en el Relationship Anarchy Smorgasbord</0>; construido con <1>D3</1>, basado en su <2>diagrama Sunburst</2>.<br />Sin cookies, sin rastreo, sin datos recopilados. Los datos locales en tu equipo en tu navegador aseguran que no tengas que empezar de cero cada vez que cargas la web.",
     "imprint": "Imprimir",
     "languages": "Disponible en",
