@@ -5,26 +5,14 @@ import { parseState } from "./states";
 
 /**
  * Parses a Sunburst Smorgasbord markdown document into the internal data format.
- *
- * Format spec: docs/markdown-format.md
- * - h1 board name (its content is not part of the data), h2 primary nodes, deeper
- *   levels as unordered list items ("-") indented two spaces per level, "(STATE)" suffixes
- * - States are NO/MAYBE/YES, accepted case-insensitively; unrecognized or missing states
- *   default to NO
- * - The root node is not part of the document; it is synthesized with its fixed identity
- * - Free text is not part of the format and is ignored (this data model has no notes)
- *
- * Items are assigned to parents with a level stack, so any depth round-trips.
- * Importing replaces the current board state entirely (same semantics as the old JSON import).
+ * Format spec (source of truth): docs/markdown-format.md
  */
 export const importMarkdown = (markdown: string): Flavour[] => {
-  // The root node is not part of the document (the h1 is the board name);
-  // synthesize it so the tree stays connected.
+  // Synthesize the root node (not part of the document) so the tree stays connected.
   const root: Flavour = { uuid: uuidv4(), parentUuid: "", ...ROOT_FLAVOUR };
   const flavours: Flavour[] = [root];
 
-  // Ancestors of the next item, innermost last; each entry records the level it
-  // was parsed at (root = 1, h2 primary nodes = 2, list items deeper).
+  // Ancestors of the next item, innermost last; each records its parsed level.
   const stack: Array<{ flavour: Flavour, level: number }> = [{ flavour: root, level: 1 }];
 
   const attach = (text: string, level: number): void => {
@@ -33,8 +21,7 @@ export const importMarkdown = (markdown: string): Flavour[] => {
       stack.pop();
     }
 
-    // Split an item like "Kink (MAYBE)" into its name and state; an unrecognized
-    // or missing state defaults to NO.
+    // Split "Kink (MAYBE)" into a name and a state.
     const match = text.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
     const flavour: Flavour = {
       uuid: uuidv4(),
@@ -64,8 +51,7 @@ export const importMarkdown = (markdown: string): Flavour[] => {
 
     const listItemMatch = rawLine.match(/^(\s*)- (.*)$/);
     if (listItemMatch) {
-      // List items start at level 3 (children of the h2 primary nodes), one
-      // level deeper per two spaces of indentation.
+      // Two spaces of indentation = one level deeper; list items sit under the h2s.
       const indent = Math.floor(listItemMatch[1].length / 2);
       attach(listItemMatch[2].trim(), indent + 3);
       continue;

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useSetRecoilState } from "recoil";
 import flavoursState from "../../states/flavours.atom";
@@ -8,16 +8,16 @@ const ImportMarkdownButton = () : JSX.Element => {
   const { t } = useTranslation();
   const setFlavours = useSetRecoilState(flavoursState);
 
-  const inputFile = useRef(null);
+  const inputFile = useRef<HTMLInputElement>(null);
 
   const importNewFlavours = () : void => {
     inputFile.current.click();
   }
 
-  const handleFileSubmission = (event) : void => {
+  const handleFileSubmission = (event: ChangeEvent<HTMLInputElement>) : void => {
     event.stopPropagation();
     event.preventDefault();
-    let file = event.target.files[0];
+    let file = event.target.files?.[0];
     if (!file) return;
 
     let reader = new FileReader();
@@ -25,7 +25,7 @@ const ImportMarkdownButton = () : JSX.Element => {
     reader.readAsText(file, "UTF-8");
   }
 
-  const handleReaderOnLoad = (evt) : void => {
+  const handleReaderOnLoad = (evt: ProgressEvent<FileReader>) : void => {
     try {
       setFlavours(importMarkdown(evt.target.result as string));
     } catch (error) {
