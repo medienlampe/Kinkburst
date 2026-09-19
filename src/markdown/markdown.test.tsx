@@ -10,12 +10,12 @@ import Flavour from "../interfaces";
 // The example from docs/markdown-format.md (source of truth for the format).
 const docExample = `# Sunburst Smorgasbord - English
 
-## Kink (MAYBE)
+## Kink (YES)
 - Body contact (YES)
   - Deep pressure (NO)
 - Cuddles (MAYBE)
 
-## Creativity (NO)
+## Creativity (YES)
 - Projects (YES)
 
 ## Communication (MAYBE)
@@ -47,11 +47,11 @@ describe("importMarkdown", () => {
     expect(nodes.get("Projects")?.parentUuid).toBe(nodes.get("Creativity")?.uuid);
 
     // States.
-    expect(nodes.get("Kink")?.state).toBe("MAYBE");
+    expect(nodes.get("Kink")?.state).toBe("YES");
     expect(nodes.get("Body contact")?.state).toBe("YES");
     expect(nodes.get("Deep pressure")?.state).toBe("NO");
     expect(nodes.get("Cuddles")?.state).toBe("MAYBE");
-    expect(nodes.get("Creativity")?.state).toBe("NO");
+    expect(nodes.get("Creativity")?.state).toBe("YES");
     expect(nodes.get("Projects")?.state).toBe("YES");
     expect(nodes.get("Communication")?.state).toBe("MAYBE");
   });
@@ -62,6 +62,43 @@ describe("importMarkdown", () => {
     const nodes = byName(board);
     expect(nodes.get("Kink")?.state).toBe("NO");
     expect(nodes.get("Body contact")?.state).toBe("NO");
+  });
+
+  it("propagates a child's state up to all of its ancestors", () => {
+    const board = importMarkdown(`# Sunburst Smorgasbord - Deutsch
+
+## Pflege (NO)
+- Gegenseitig (NO)
+  - Notfälle (NO)
+- Andere (NO)
+  - Pflanzen (NO)
+    - Pflanzen (NO)
+      - Pflanzen (YES)
+`);
+
+    // The whole branch above the YES leaf becomes YES, mirroring the app's
+    // invariant (see handleElementClick in App.tsx).
+    expect(board.filter(flavour => flavour.name === "Pflanzen").every(flavour => flavour.state === "YES")).toBe(true);
+
+    const nodes = byName(board);
+    expect(nodes.get("Andere")?.state).toBe("YES");
+    expect(nodes.get("Pflege")?.state).toBe("YES");
+
+    // Unrelated branches keep their states.
+    expect(nodes.get("Gegenseitig")?.state).toBe("NO");
+    expect(nodes.get("Notfälle")?.state).toBe("NO");
+  });
+
+  it("propagates MAYBE up to its ancestors", () => {
+    const board = importMarkdown(`# Sunburst Smorgasbord
+
+## Kink (NO)
+- Body contact (MAYBE)
+`);
+
+    const nodes = byName(board);
+    expect(nodes.get("Body contact")?.state).toBe("MAYBE");
+    expect(nodes.get("Kink")?.state).toBe("MAYBE");
   });
 
   it("matches states case-insensitively", () => {

@@ -12,6 +12,10 @@ export const importMarkdown = (markdown: string): Flavour[] => {
   const root: Flavour = { uuid: uuidv4(), parentUuid: "", ...ROOT_FLAVOUR };
   const flavours: Flavour[] = [root];
 
+  // The app's invariant (see handleElementClick in App.tsx): a node's state
+  // never exceeds its parent's — YES propagates up to all ancestors, NO down.
+  const stateRank: Record<string, number> = { "NO": 0, "MAYBE": 1, "YES": 2 };
+
   // Ancestors of the next item, innermost last; each records its parsed level.
   const stack: Array<{ flavour: Flavour, level: number }> = [{ flavour: root, level: 1 }];
 
@@ -21,7 +25,7 @@ export const importMarkdown = (markdown: string): Flavour[] => {
       stack.pop();
     }
 
-    // Split "Kink (MAYBE)" into a name and a state.
+    // Split strings like "Kink (MAYBE)" into a name and a state.
     const match = text.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
     const flavour: Flavour = {
       uuid: uuidv4(),
@@ -58,6 +62,19 @@ export const importMarkdown = (markdown: string): Flavour[] => {
     }
 
     // Free text is not part of the format; ignore it.
+  }
+
+  // Restore the invariant: lift each node's state up to its ancestors, so a
+  // "YES" leaf renders together with its whole branch (as in the app).
+  const byUuid = new Map(flavours.map((flavour): [string, Flavour] => [flavour.uuid, flavour]));
+  for (const flavour of flavours) {
+    let cursor = byUuid.get(flavour.parentUuid);
+    while (cursor) {
+      if ((stateRank[flavour.state] ?? 0) > (stateRank[cursor.state] ?? 0)) {
+        cursor.state = flavour.state;
+      }
+      cursor = byUuid.get(cursor.parentUuid);
+    }
   }
 
   return flavours;

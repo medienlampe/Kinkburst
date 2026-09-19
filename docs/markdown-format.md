@@ -16,6 +16,9 @@ The data exchange format for the Sunburst Smorgasbord is human-readable markdown
 4. Next to each name, in brackets `()`, is the state of that item: `NO`, `MAYBE` or `YES`.
    The exporter writes the stored value; the importer accepts the states **case-insensitively**.
    An unrecognized or missing state defaults to `NO`.
+   A node's state never exceeds its parent's (in the app, setting a node to `YES` sets all of
+   its ancestors to `YES` as well). On import, each node's state is therefore lifted up to its
+   ancestors — e.g. importing `## Kink (MAYBE)` with `- Body contact (YES)` yields `Kink` as `YES`.
 5. Item names follow this rule: default-dataset nodes export their translation in the **active UI
    language** (they carry translation keys); user-added and imported items export their stored name
    verbatim. On import, names are always taken verbatim.
@@ -26,12 +29,12 @@ The data exchange format for the Sunburst Smorgasbord is human-readable markdown
 ```markdown
 # Sunburst Smorgasbord - English
 
-## Kink (MAYBE)
+## Kink (YES)
 - Body contact (YES)
   - Deep pressure (NO)
 - Cuddles (MAYBE)
 
-## Creativity (NO)
+## Creativity (YES)
 - Projects (YES)
 
 ## Communication (MAYBE)
