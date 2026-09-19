@@ -23,3 +23,18 @@
   position: relative;
 }
 
+/* Decorative logo centered over the board's inner circle: an opaque page-
+   background disc masks the root circle, with the logo inset inside it. */
+.board-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20%;
+  padding: 4%;
+  background-color: var(--bg);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  border-radius: 100%;
+}
+

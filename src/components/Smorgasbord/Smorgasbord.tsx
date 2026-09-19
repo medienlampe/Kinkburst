@@ -224,6 +224,9 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
         ))}
     </g>
     </svg>
+    {/* Decorative center logo: sits above the board's root circle and does not
+        rotate with it (pointer-events pass through, so it never blocks taps). */}
+    <img className="board-logo" src="logo.svg" alt="" aria-hidden />
   </div>;
 }
 
