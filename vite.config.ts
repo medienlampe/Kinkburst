@@ -7,7 +7,7 @@ const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), 
 };
 
 export default defineConfig({
-  base: "/Kinkburst/",
+  base: "/",
   plugins: [react()],
   server: {
     port: 3000,
