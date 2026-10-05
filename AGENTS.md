@@ -24,7 +24,7 @@ The full product requirements live in [docs/Outline.md](docs/Outline.md). Key be
   (`HardLimitConfirmationModal`, only when it has at least one colored descendant via
   `hasDefinedDescendants`) and resets all descendants to Not Defined — only the clicked field turns
   red, so hard limits don't visually dominate the whole subtree.
-- **Right-click** any field (long press on touch devices) opens an overlay to add details/context.
+- **Right-click** any field (long press on touch devices) opens an overlay to set the status directly and to add details/context. The status swatches are the touch-friendly alternative to click cycling (and its Shift modifier).
   Fields with context get an asterisk (`*`) appended to their title in the scale.
 - Practices are pre-defined fixtures but fully editable in the UI: add, remove, rename.
 - **People**: names can be added/removed (default: one person) and appear in the board title, e.g.
@@ -117,7 +117,7 @@ and rebranded: where the original says **"flavour"**, Kinkburst says **"practice
     │   ├── ExportAsImageButton/ download as image
     │   ├── ResetButton/ + ResetConfirmationModal/ reset to defaults
     │   ├── EditButton/       opens the edit modal
-    │   ├── PracticeDetailModal/  right-click overlay for context notes
+    │   ├── PracticeDetailModal/  right-click overlay: status picker + context notes
     │   └── PersonsBar/       add/remove people
     ├── states/               jotai atoms + derived atoms
     │   ├── practices.atom.ts            flat list of practice nodes
@@ -182,7 +182,8 @@ The app is feature-complete per `docs/Outline.md`. Timeline of milestones:
 
 - **2026-07 — Core port.** Runs on `public/practices.json` and the `Practice` type; 0–5 status
   model with click cycling and top-down/bottom-up inheritance (`applyClick`); markdown
-  export/import per `docs/markdown-format.md`; right-click context notes (`PracticeDetailModal`,
+  export/import per `docs/markdown-format.md`; right-click overlay for the status picker and
+  context notes (`PracticeDetailModal`,
   asterisk on titled fields); people management (`PersonsBar`) shown in the board title.
   "Flavour" terminology renamed to "practice"; JSON export/import gone (markdown only).
 - **2026-07 — Tooling.** Migrated off Create React App to Vite + Vitest + ESLint flat config;

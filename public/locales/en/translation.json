@@ -122,6 +122,7 @@
   },
   "detail": {
     "title": "Practice details",
+    "status_label": "Status",
     "note_label": "Context / notes",
     "save": "Save",
     "cancel": "Cancel"

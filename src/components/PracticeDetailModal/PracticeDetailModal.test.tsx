@@ -7,7 +7,14 @@ import userEvent from "@testing-library/user-event";
 
 // Mirrors how App.tsx uses the modal: the note draft is parent-controlled and
 // reset when a field is opened.
-const Harness = ({ onSave, onCancel }: { onSave: (note: string) => void, onCancel: () => void }) => {
+interface HarnessProps {
+  onSave: (note: string) => void,
+  onCancel: () => void,
+  onSelectStatus?: (value: number) => void,
+  currentValue?: number | undefined,
+}
+
+const Harness = ({ onSave, onCancel, onSelectStatus = () => undefined, currentValue } : HarnessProps) => {
   const [note, setNote] = useState("existing context");
 
   return (
@@ -17,14 +24,16 @@ const Harness = ({ onSave, onCancel }: { onSave: (note: string) => void, onCance
       note={note}
       onNoteChange={setNote}
       onSave={onSave}
-      onCancel={onCancel} />
+      onCancel={onCancel}
+      currentValue={currentValue}
+      onSelectStatus={onSelectStatus} />
   );
 };
 
-const renderModal = (onSave: (note: string) => void, onCancel: () => void) => {
+const renderModal = (onSave: (note: string) => void, onCancel: () => void, extra: Partial<HarnessProps> = {}) => {
   return render(
     <I18nextProvider i18n={i18n}>
-      <Harness onSave={onSave} onCancel={onCancel} />
+      <Harness onSave={onSave} onCancel={onCancel} {...extra} />
     </I18nextProvider>
   );
 };
@@ -54,5 +63,26 @@ describe("PracticeDetailModal", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
     expect(onCancel).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("PracticeDetailModal status picker", () => {
+  it("offers one option per status and marks the current one", () => {
+    renderModal(() : void => {}, () : void => {}, { currentValue: 3 });
+
+    const options = screen.getAllByRole("button", { name: /Not Defined|Hard Limit|Soft Limit|Okay|Desired/ });
+    expect(options).toHaveLength(5);
+
+    expect(screen.getByRole("button", { name: "Okay" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Hard Limit" })).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("calls onSelectStatus with the chosen status", () => {
+    const onSelectStatus = vi.fn();
+    renderModal(() : void => {}, () : void => {}, { onSelectStatus });
+
+    fireEvent.click(screen.getByRole("button", { name: "Hard Limit" }));
+    expect(onSelectStatus).toHaveBeenCalledTimes(1);
+    expect(onSelectStatus).toHaveBeenCalledWith(1);
   });
 });

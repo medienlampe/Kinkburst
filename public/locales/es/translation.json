@@ -122,6 +122,7 @@
   },
   "detail": {
     "title": "Detalles de la práctica",
+    "status_label": "Estado",
     "note_label": "Contexto / notas",
     "save": "Guardar",
     "cancel": "Cancelar"

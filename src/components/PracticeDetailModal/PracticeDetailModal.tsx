@@ -1,5 +1,6 @@
 import { type JSX } from "react";
 import { useTranslation } from "react-i18next";
+import { STATUSES, STATUS_I18N_KEYS, type StatusValue } from "../../constants";
 
 interface PracticeDetailModalProps {
   isActive: boolean;
@@ -8,13 +9,20 @@ interface PracticeDetailModalProps {
   onNoteChange: (note: string) => void;
   onSave: (note: string) => void;
   onCancel: () => void;
+  // Current status of the field; undefined when unknown. Selecting a swatch
+  // sets the status directly — the touch-friendly alternative to click
+  // cycling (and its Shift modifier).
+  currentValue?: number | undefined;
+  onSelectStatus: (value: StatusValue) => void;
 }
 
-// Overlay opened on right-click of a field to view and edit its context note.
-// Fields with a note get an asterisk ("*") appended to their title in the scale.
+// Overlay opened on right-click (long press on touch) of a field to set its
+// status and view/edit its context note. Fields with a note get an asterisk
+// ("*") appended to their title in the scale.
 // The note draft is controlled by the parent, which resets it when a field opens.
-const PracticeDetailModal = ({ isActive, practiceName, note, onNoteChange, onSave, onCancel } : PracticeDetailModalProps) : JSX.Element => {
+const PracticeDetailModal = ({ isActive, practiceName, note, onNoteChange, onSave, onCancel, currentValue, onSelectStatus } : PracticeDetailModalProps) : JSX.Element => {
   const { t } = useTranslation();
+  const statusLabel = t("detail.status_label");
 
   return (
     <dialog className="modal" open={isActive} onClick={onCancel}>
@@ -25,6 +33,19 @@ const PracticeDetailModal = ({ isActive, practiceName, note, onNoteChange, onSav
         </header>
         <section>
           <h4>{practiceName}</h4>
+          <div className="status-picker" role="group" aria-label={statusLabel}>
+            {Object.values(STATUSES).map(status => (
+              <button
+                key={status.value}
+                type="button"
+                className={"status-option" + (status.value === currentValue ? " current" : "")}
+                aria-pressed={status.value === currentValue}
+                onClick={() : void => onSelectStatus(status.value)}>
+                <span className="legend-swatch" style={{ backgroundColor: status.color }} aria-hidden></span>
+                <span>{t(STATUS_I18N_KEYS[status.value])}</span>
+              </button>
+            ))}
+          </div>
           <label htmlFor="practice-note">{t("detail.note_label")}</label>
           <textarea
             id="practice-note"

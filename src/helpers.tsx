@@ -49,22 +49,6 @@ export const boardTitle = (persons: Person[], lng?: string): string => {
   return `${BOARD_NAME} (${t("board.for")} ${list})`;
 }
 
-// Applies a click on the field with the given uuid to the flat practice list
-// and returns the updated list. The clicked field cycles through all statuses
-// downwards (0 → 4 → … → 1 → 0, i.e. from Not Defined straight to Desired and
-// back down through the scale); with `cycleUp` (Shift held) it cycles upwards
-// instead (0 → 1 → … → 4 → 0). The new status propagates so that no field is
-// ever higher than one of its parents:
-// - Not Defined (0, the wrap-around case) resets all descendants to Not Defined,
-// - Hard Limit (1) resets all descendants to Not Defined — only the clicked
-//   field itself turns red, so a hard limit does not visually dominate the
-//   whole subtree (the caller asks for confirmation first, see App),
-// - Soft Limit (2) / Can / Desired (3/4) lower any descendant that
-//   exceeds the new value (e.g. a positive child of a newly soft-limited
-//   category),
-// - any defined status (1-4) raises every practice ancestor (not the root,
-//   which is just the board title and carries no status) that is lower than it.
-// Clicks on the root (the board title) or unknown nodes are ignored.
 // Safely parses the board state persisted in localStorage. Returns undefined
 // for missing or corrupted data (invalid JSON, wrong shape, broken tree) so
 // the app falls back to the default dataset instead of crashing on load.
@@ -141,7 +125,18 @@ export const parseStoredPersons = (raw: string | null): Person[] | undefined => 
   return people as Person[];
 };
 
-export const applyClick = (practices: Practice[], uuid: string, cycleUp = false): Practice[] => {
+// Sets the field with the given uuid to an explicit status and propagates it,
+// keeping the invariant that no field is ever higher than one of its parents:
+// - Not Defined (0) resets all descendants to Not Defined,
+// - Hard Limit (1) resets all descendants to Not Defined — only the set field
+//   itself turns red, so a hard limit does not visually dominate the whole
+//   subtree (the caller asks for confirmation first, see App),
+// - Soft Limit (2) / Okay / Desired (3/4) lower any descendant that exceeds
+//   the new value (e.g. a positive child of a newly soft-limited category),
+// - Ancestors are raised to at least the new value so a hard-limited field can
+//   never sit under a looser one.
+// The root (the board title) and unknown nodes are ignored.
+export const applyStatus = (practices: Practice[], uuid: string, newValue: StatusValue): Practice[] => {
   if (!practices || practices.length === 0) {
     return practices;
   }
@@ -157,7 +152,6 @@ export const applyClick = (practices: Practice[], uuid: string, cycleUp = false)
     return practices;
   }
 
-  const newValue = nextStatus(target.data.value, cycleUp);
   const descendantUuids = new Set(target.descendants().map(node => node.data.uuid));
   const ancestorUuids = new Set(
     target.ancestors()
@@ -193,4 +187,22 @@ export const applyClick = (practices: Practice[], uuid: string, cycleUp = false)
 
     return practice;
   });
+};
+
+// Applies a click on the field with the given uuid to the flat practice list
+// and returns the updated list. The clicked field cycles through all statuses
+// downwards (0 → 4 → … → 1 → 0, i.e. from Not Defined straight to Desired and
+// back down through the scale); with `cycleUp` (Shift held) it cycles upwards
+// instead (0 → 1 → … → 4 → 0). Propagation is identical to applyStatus.
+export const applyClick = (practices: Practice[], uuid: string, cycleUp = false): Practice[] => {
+  if (!practices || practices.length === 0) {
+    return practices;
+  }
+
+  const target = practices.find(practice => practice.uuid === uuid);
+  if (!target) {
+    return practices;
+  }
+
+  return applyStatus(practices, uuid, nextStatus(target.value, cycleUp));
 };

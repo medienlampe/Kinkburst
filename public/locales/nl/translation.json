@@ -122,6 +122,7 @@
   },
   "detail": {
     "title": "Praktijkdetails",
+    "status_label": "Status",
     "note_label": "Context / notities",
     "save": "Opslaan",
     "cancel": "Annuleren"

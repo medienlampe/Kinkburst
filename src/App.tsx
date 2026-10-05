@@ -23,8 +23,8 @@ import Legend from "./components/Legend/Legend";
 import { practicesAtom } from "./states/practices.atom";
 import { personsAtom, createDefaultPersons } from "./states/persons.atom";
 import type { Person, Practice } from "./interfaces";
-import { applyClick, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
-import { BOARD_NAME } from "./constants";
+import { applyClick, applyStatus, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
+import { BOARD_NAME, type StatusValue } from "./constants";
 
 const App = () : JSX.Element => {
   const { t, i18n } = useTranslation();
@@ -33,7 +33,10 @@ const App = () : JSX.Element => {
   const [persons, setPersons] = useAtom(personsAtom);
 
   const [resetConfirmationModalActive, setResetConfirmationModalActive] = useState<boolean>(false);
-  const [hardLimitTargetUuid, setHardLimitTargetUuid] = useState<string | null>(null);
+  // A pending Hard Limit change awaiting confirmation (from click cycling or
+  // the status picker in the detail overlay). Both paths share this state so
+  // the destructive child reset is confirmed identically.
+  const [pendingHardLimit, setPendingHardLimit] = useState<{ uuid: string; value: StatusValue } | null>(null);
   const [editModalActive, setEditModalActive] = useState<boolean>(false);
   const [detailTargetUuid, setDetailTargetUuid] = useState<string | null>(null);
   const [detailDraft, setDetailDraft] = useState<string>("");
@@ -112,14 +115,14 @@ const App = () : JSX.Element => {
     // Setting a field to Hard Limit resets all of its children — ask first,
     // but only if that would actually change something (any colored child).
     if (nextStatus(target.value, cycleUp) === 1 && hasDefinedDescendants(practices, uuid)) {
-      setHardLimitTargetUuid(uuid);
+      setPendingHardLimit({ uuid, value: 1 });
       return;
     }
 
     setPractices(applyClick(practices, uuid, cycleUp));
   }
 
-  const hardLimitTarget = practices.find(practice => practice.uuid === hardLimitTargetUuid) ?? null;
+  const hardLimitTarget = practices.find(practice => practice.uuid === (pendingHardLimit?.uuid ?? "")) ?? null;
   const hardLimitTargetName = hardLimitTarget
     ? (hardLimitTarget.key ? t("practices." + hardLimitTarget.key) : (hardLimitTarget.name ?? ""))
     : "";
@@ -142,6 +145,24 @@ const App = () : JSX.Element => {
       )
     );
     setDetailTargetUuid(null);
+  }
+
+  // Sets the field's status directly from the detail overlay — the
+  // touch-friendly alternative to click cycling (and its Shift modifier).
+  const handleSelectStatus = (value: StatusValue) : void => {
+    if (!detailTargetUuid) {
+      return;
+    }
+
+    setDetailTargetUuid(null);
+
+    // Same guard as the click path: Hard Limit resets colored children.
+    if (value === 1 && hasDefinedDescendants(practices, detailTargetUuid)) {
+      setPendingHardLimit({ uuid: detailTargetUuid, value });
+      return;
+    }
+
+    setPractices(applyStatus(practices, detailTargetUuid, value));
   }
 
   const detailTarget = practices.find(practice => practice.uuid === detailTargetUuid) ?? null;
@@ -220,12 +241,12 @@ const App = () : JSX.Element => {
         isActive={hardLimitTarget !== null}
         practiceName={hardLimitTargetName}
         onConfirm={() : void => {
-          if (hardLimitTargetUuid) {
-            setPractices(applyClick(practices, hardLimitTargetUuid));
+          if (pendingHardLimit) {
+            setPractices(applyStatus(practices, pendingHardLimit.uuid, pendingHardLimit.value));
           }
-          setHardLimitTargetUuid(null);
+          setPendingHardLimit(null);
         }}
-        onCancel={() : void => { setHardLimitTargetUuid(null); }}
+        onCancel={() : void => { setPendingHardLimit(null); }}
       ></HardLimitConfirmationModal>
       <EditModal
         isActive={editModalActive}
@@ -237,6 +258,8 @@ const App = () : JSX.Element => {
         onNoteChange={setDetailDraft}
         onSave={saveNote}
         onCancel={() : void => { setDetailTargetUuid(null); }}
+        currentValue={detailTarget?.value}
+        onSelectStatus={handleSelectStatus}
       ></PracticeDetailModal>
     </Suspense>
   );

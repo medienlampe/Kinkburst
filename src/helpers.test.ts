@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyClick, boardTitle, findAllDescendants, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
+import { applyClick, applyStatus, boardTitle, findAllDescendants, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
 import type { StatusValue } from "./constants";
 import type { Person, Practice } from "./interfaces";
 
@@ -54,6 +54,40 @@ describe("hasDefinedDescendants", () => {
     expect(hasDefinedDescendants(practices, "b")).toBe(true);
     expect(hasDefinedDescendants(practices, "a")).toBe(true); // transitively
     expect(hasDefinedDescendants(practices, "c")).toBe(false);
+  });
+});
+
+describe("applyStatus", () => {
+  it("sets the field to an explicit status without cycling", () => {
+    const practices = withValues({ c: 0 });
+
+    expect(valueOf(applyStatus(practices, "c", 3), "c")).toBe(3);
+    expect(valueOf(applyStatus(practices, "c", 1), "c")).toBe(1);
+    expect(valueOf(applyStatus(practices, "c", 0), "c")).toBe(0);
+  });
+
+  it("raises ancestors and clamps descendants like a click would", () => {
+    const practices = withValues({ b: 0, c: 4, d: 0 }); // a=0, c Desired under Not Defined parent
+
+    const updated = applyStatus(practices, "b", 2); // Soft Limit on the middle field
+
+    expect(valueOf(updated, "b")).toBe(2);
+    expect(valueOf(updated, "a")).toBe(2); // ancestor raised
+    expect(valueOf(updated, "c")).toBe(2); // descendant clamped down
+  });
+
+  it("resets descendants when set to Hard Limit or Not Defined", () => {
+    const practices = withValues({ b: 2, c: 4, d: 3 });
+
+    expect(valueOf(applyStatus(practices, "b", 1), "c")).toBe(0);
+    expect(valueOf(applyStatus(practices, "b", 0), "d")).toBe(0);
+  });
+
+  it("ignores the root and unknown nodes", () => {
+    const practices = tree();
+
+    expect(applyStatus(practices, "root", 3)).toEqual(practices);
+    expect(applyStatus(practices, "missing", 3)).toEqual(practices);
   });
 });
 

@@ -122,6 +122,7 @@
   },
   "detail": {
     "title": "Details",
+    "status_label": "Status",
     "note_label": "Kontext / Notizen",
     "save": "Speichern",
     "cancel": "Abbrechen"
