@@ -110,6 +110,12 @@ npm run lint       # lint the repo (ESLint flat config)
 
 We're open for pull requests — best discuss your suggestion first by opening an issue. See [AGENTS.md](AGENTS.md) for the project structure and conventions (used by both humans and AI coding agents).
 
+### Translations 
+
+The current translations for Spanish and Dutch are prepared but have been automatically translated, so they're far off. If you're a (close-to-)native speaker and want to support, we'd be delighted!
+If you want to provide further languages like Polish, Ukrainian, ... – please go for it as well.
+Thanks!
+
 ## License
 
 MIT — see [LICENSE.md](LICENSE.md).
