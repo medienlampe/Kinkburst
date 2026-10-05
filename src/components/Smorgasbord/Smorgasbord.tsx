@@ -139,14 +139,22 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     if (e.pointerType === "touch") return;
 
     if (dragSubject && e.pointerId === activePointerId.current) {
-      // Moving the finger cancels a pending long press.
-      if (dragStart.x !== null && dragStart.y !== null
-        && Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) > DRAG_THRESHOLD_PX) {
-        cancelLongPress();
-      }
+      const moved = dragStart.x !== null && dragStart.y !== null
+        ? Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y)
+        : Infinity;
 
       const currentRotation = calculateRotationFor(e.clientX, e.clientY);
       if (currentRotation === null) return;
+
+      // Sub-threshold jitter: a slightly drifting click must not rotate the
+      // board. Keep tracking the angle so the first real rotation step is small.
+      if (moved <= DRAG_THRESHOLD_PX) {
+        setPreviousRotation(currentRotation);
+        return;
+      }
+
+      // Moving the finger past the threshold cancels a pending long press.
+      cancelLongPress();
 
       const diff = currentRotation - previousRotation;
       setPreviousRotation(currentRotation);
@@ -166,7 +174,11 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
       return;
     }
 
-    if (d && d.depth && e.button === 0 && e.clientX === dragStart.x && e.clientY === dragStart.y) {
+    // A click is a release within the jitter threshold of the press point;
+    // past it, the pointer was rotating the board.
+    if (d && d.depth && e.button === 0
+      && dragStart.x !== null && dragStart.y !== null
+      && Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) <= DRAG_THRESHOLD_PX) {
       onElementClick(d.data.uuid);
     }
 

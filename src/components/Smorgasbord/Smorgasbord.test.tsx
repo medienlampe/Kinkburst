@@ -161,6 +161,42 @@ describe("Smorgasbord edge cases", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  it("treats a slightly drifting pointer as a click and does not rotate", async () => {
+    const onClick = vi.fn();
+    await renderBoard(onClick);
+    const svg = document.querySelector("#smorgasbordImage")!;
+    const group = firstSlicePath().closest("g")!;
+    const rotationGroup = svg.querySelector("g") as SVGGElement;
+
+    // 3.6px drift, inside the 10px threshold.
+    fireEvent.pointerDown(group, { pointerId: 1, button: 0, clientX: 5, clientY: 5 });
+    fireEvent.pointerMove(svg, { pointerId: 1, clientX: 8, clientY: 7 });
+    expect(rotationGroup.getAttribute("transform")).toBe("rotate(0)");
+
+    fireEvent.pointerUp(group, { pointerId: 1, button: 0, clientX: 8, clientY: 7 });
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(rotationGroup.getAttribute("transform")).toBe("rotate(0)");
+  });
+
+  it("rotates the board past the threshold and does not click", async () => {
+    const onClick = vi.fn();
+    await renderBoard(onClick);
+    const svg = document.querySelector("#smorgasbordImage")!;
+    const group = firstSlicePath().closest("g")!;
+    const rotationGroup = svg.querySelector("g") as SVGGElement;
+
+    // ~35px move past the 10px threshold at a different angle around the
+    // board center (jsdom reports all-zero rects, so the center is the
+    // origin — points on one ray would yield zero rotation): this is a
+    // rotation, not a click.
+    fireEvent.pointerDown(group, { pointerId: 1, button: 0, clientX: 5, clientY: 5 });
+    fireEvent.pointerMove(svg, { pointerId: 1, clientX: 40, clientY: 10 });
+
+    expect(rotationGroup.getAttribute("transform") ?? "").not.toBe("rotate(0)");
+    fireEvent.pointerUp(group, { pointerId: 1, button: 0, clientX: 40, clientY: 10 });
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
   it("does not open the context overlay for the board center", async () => {
     const onRightClick = vi.fn();
     const store = createStore();
