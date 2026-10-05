@@ -47,7 +47,7 @@ describe("ImportMarkdownButton", () => {
     renderButton(createStore());
 
     expect(screen.getByRole("button", { name: "Import" })).toBeInTheDocument();
-    expect(fileInput()).toHaveAttribute("accept", ".md,.markdown,text/markdown,text/x-markdown");
+    expect(fileInput()).toHaveAttribute("accept", ".md,.markdown,.txt,text/markdown,text/x-markdown,text/plain");
   });
 
   it("opens the file picker when clicked", () => {
@@ -72,6 +72,46 @@ describe("ImportMarkdownButton", () => {
     });
     expect(store.get(practicesAtom)).toEqual(importedBoard.practices);
     expect(store.get(personsAtom)).toEqual(importedBoard.persons);
+  });
+
+  it("imports a .txt export produced by ExportMarkdownButton", async () => {
+    (importMarkdown as ReturnType<typeof vi.fn>).mockReturnValue(importedBoard);
+    const store = createStore();
+    renderButton(store);
+
+    // The exporter writes .txt files; the picker must accept them.
+    const file = new File(["# Kinkburst\n"], "20260824-Kinkburst-EllaEmmaIda.txt", { type: "text/plain" });
+    fireEvent.change(fileInput(), { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(importMarkdown).toHaveBeenCalledWith("# Kinkburst\n");
+    });
+    expect(store.get(practicesAtom)).toEqual(importedBoard.practices);
+  });
+
+  it("imports the same file again after an earlier import", async () => {
+    (importMarkdown as ReturnType<typeof vi.fn>).mockReturnValue(importedBoard);
+    const store = createStore();
+    renderButton(store);
+
+    const content = "# Kinkburst\n";
+    const file = new File([content], "board.md", { type: "text/markdown" });
+
+    fireEvent.change(fileInput(), { target: { files: [file] } });
+    await waitFor(() : void => {
+      expect(importMarkdown).toHaveBeenCalledTimes(1);
+    });
+    expect(store.get(practicesAtom)).toEqual(importedBoard.practices);
+
+    // Re-selecting the same file must import again and overwrite state.
+    const updatedPractices = [...importedBoard.practices, { uuid: "extra", parentUuid: "root", name: "Extra" }];
+    (importMarkdown as ReturnType<typeof vi.fn>).mockReturnValueOnce({ ...importedBoard, practices: updatedPractices });
+    fireEvent.change(fileInput(), { target: { files: [file] } });
+
+    await waitFor(() : void => {
+      expect(importMarkdown).toHaveBeenCalledTimes(2);
+    });
+    expect(store.get(practicesAtom)).toEqual(updatedPractices);
   });
 
   it("ignores a change without a file", () => {
