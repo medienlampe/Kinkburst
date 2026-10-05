@@ -120,6 +120,13 @@
   "legend": {
     "title": "Leyenda"
   },
+  "usage_tips": {
+    "title": "Consejos",
+    "rotate": "Arrastra la rueda para girarla.",
+    "right_click": "Haz clic derecho sobre un campo para abrir el panel de contexto.",
+    "shift": "Mantén pulsada Shift al hacer clic para alternar los estados en orden inverso.",
+    "long_press": "Pulsa y mantén un campo para abrir el menú contextual."
+  },
   "detail": {
     "title": "Detalles de la práctica",
     "status_label": "Estado",

@@ -120,6 +120,13 @@
   "legend": {
     "title": "Legende"
   },
+  "usage_tips": {
+    "title": "Tipps",
+    "rotate": "Ziehe am Rad, um es zu drehen.",
+    "right_click": "Klicke mit der rechten Maustaste auf ein Feld, um den Kontext-Overlay zu öffnen.",
+    "shift": "Halte Shift beim Klicken gedrückt, um die Statusreihenfolge umzukehren.",
+    "long_press": "Tippe lange auf ein Feld, um das Kontextmenü zu öffnen."
+  },
   "detail": {
     "title": "Details",
     "status_label": "Status",

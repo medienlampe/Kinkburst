@@ -120,6 +120,13 @@
   "legend": {
     "title": "Legend"
   },
+  "usage_tips": {
+    "title": "Tips",
+    "rotate": "Drag the wheel to rotate it.",
+    "right_click": "Right-click a field to open the context overlay.",
+    "shift": "Hold Shift while clicking to cycle statuses in reverse order.",
+    "long_press": "Long-press a field to open the context menu."
+  },
   "detail": {
     "title": "Practice details",
     "status_label": "Status",

@@ -20,6 +20,7 @@ import HardLimitConfirmationModal from "./components/HardLimitConfirmationModal/
 import PracticeDetailModal from "./components/PracticeDetailModal/PracticeDetailModal";
 import PersonsBar from "./components/PersonsBar/PersonsBar";
 import Legend from "./components/Legend/Legend";
+import UsageTips from "./components/UsageTips/UsageTips";
 import { practicesAtom } from "./states/practices.atom";
 import { personsAtom, createDefaultPersons } from "./states/persons.atom";
 import type { Person, Practice } from "./interfaces";
@@ -149,12 +150,12 @@ const App = () : JSX.Element => {
 
   // Sets the field's status directly from the detail overlay — the
   // touch-friendly alternative to click cycling (and its Shift modifier).
+  // Applied immediately (the board updates live behind the open overlay);
+  // the modal itself only closes on Save or Cancel.
   const handleSelectStatus = (value: StatusValue) : void => {
     if (!detailTargetUuid) {
       return;
     }
-
-    setDetailTargetUuid(null);
 
     // Same guard as the click path: Hard Limit resets colored children.
     if (value === 1 && hasDefinedDescendants(practices, detailTargetUuid)) {
@@ -198,6 +199,7 @@ const App = () : JSX.Element => {
             <h2 className="faq-title">{t("faq.how_to_use")}</h2>
             <p>{t("faq.how_to_use_content_1")}</p>
             <p>{t("faq.how_to_use_content_2")}</p>
+            <UsageTips></UsageTips>
             <h2 className="faq-title">{t("faq.safety")}</h2>
             <p><Trans i18nKey="faq.safety_content"></Trans></p>
           </div>

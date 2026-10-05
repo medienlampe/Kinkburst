@@ -269,4 +269,23 @@ describe("App", () => {
     expect(detailModal()?.hasAttribute("open")).toBe(false);
     expect(label().endsWith("*")).toBe(false);
   });
+
+  it("keeps the detail modal open when switching the status (applied live)", async () => {
+    await renderLoadedApp();
+
+    const group = document.querySelectorAll("path[data-status]")[2].closest("g")!;
+    fireEvent.contextMenu(group, { button: 2 });
+    expect(detailModal()?.hasAttribute("open")).toBe(true);
+
+    await screen.findByLabelText("Context / notes");
+    fireEvent.click(screen.getByRole("button", { name: "Desired" }));
+
+    // The status applies immediately, but the overlay stays open…
+    expect(detailModal()?.hasAttribute("open")).toBe(true);
+    expect(group.querySelector("path")?.getAttribute("data-status")).toBe("4");
+
+    // …until Save (or Cancel) closes it.
+    fireEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(detailModal()?.hasAttribute("open")).toBe(false);
+  });
 });

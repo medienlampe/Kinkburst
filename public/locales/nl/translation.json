@@ -120,6 +120,13 @@
   "legend": {
     "title": "Legenda"
   },
+  "usage_tips": {
+    "title": "Tips",
+    "rotate": "Sleep aan het wiel om het te draaien.",
+    "right_click": "Klik met de rechtermuisknop op een veld om de context-overlay te openen.",
+    "shift": "Houd Shift ingedrukt tijdens klikken om de statuswisselomloop om te keren.",
+    "long_press": "Houd lang op een veld gedrukt om het contextmenu te openen."
+  },
   "detail": {
     "title": "Praktijkdetails",
     "status_label": "Status",
