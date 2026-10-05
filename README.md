@@ -20,11 +20,11 @@ A kink-flavoured take on the [Relationship Anarchy Smorgasbord](https://github.c
 
 Kinkburst shows which practices are welcome for the people in your dynamic, organized as a
 rotating tree of arbitrary depth: top-level **categories** (e.g. *Physical*, *Psychological*,
-*Social*), their **play areas** (e.g. *Bondage*, *Impact Play*, *Toys*), and nested
+*Social*), their **play areas** (e.g. *Bondage*, *Impact Play*, *Toys*) and nested
 **practices** (e.g. *Whip*, *Living Buffet*).
 
 It is a single-page app with no backend: your board lives entirely in your browser
-(`localStorage`), and the whole thing runs on [React](https://react.dev/),
+(`localStorage`) and the whole thing runs on [React](https://react.dev/),
 [d3](https://d3js.org/) and [Pico CSS](https://picocss.com/).
 
 ## How it works
@@ -55,14 +55,14 @@ Each practice ranges from 0 to 4:
 | Value | Status      | Color                     | Meaning                                                                                                   |
 | ----- | ----------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
 | 0     | Not Defined | near-black.               | Default state — no consent has been created about this yet.                                               |
-| 1     | Hard Limit  | muted brick red (#a64a3f) | Must not be part of the planned session or dynamic.                                                       |
+| 1     | Hard Limit  | muted brick red           | Must not be part of the planned session or dynamic.                                                       |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.                             |
-| 3     | Can         | vibrant turquoise (#00bfa5) | Okay for the people attending, but not their favourite.                                                   |
-| 4     | Desired     | vibrant lime green (#a3d147) | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
+| 3     | Can         | vibrant turquoise         | Okay for the people attending, but not their favourite.                                                   |
+| 4     | Desired     | vibrant lime green        | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
 
 ## Export & Import
 
-Different from the original smorgasbord, Kinkburst exchanges data in a **human-readable markdown format** instead of JSON. The first two levels of the hierarchy are headings (`##` and `###`), deeper levels are unordered lists indented two spaces per level — the status in brackets marks the value, and free text after an item is stored as context:
+Different from the original smorgasbord, Kinkburst exchanges data in a **human-readable markdown format** instead of JSON. The first two levels of the hierarchy are headings (`##` and `###`), deeper levels are unordered lists indented two spaces per level — the status in brackets marks the value and free text after an item is stored as context:
 
 ```markdown
 # Kinkburst (for Gerald and Yennefer) - Deutsch
@@ -86,9 +86,9 @@ In addition, you can **download the board as an image** and **reset it** to the 
 
 ## Languages
 
-The interface ships in **English, Spanish, German and Dutch** — switch anytime via the footer; your choice is remembered.
+The interface ships in **English and German** (Spanish and Dutch are currently disabled and need review) — switch anytime via the footer; your choice is remembered.
 
-Kinkburst also works great on phones and tablets: taps cycle the status, a long press opens the details overlay (where you can also set any status directly via the swatches — the touch equivalent of Shift-clicking), vertical swipes scroll the page (the wheel itself only rotates with a mouse drag), and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
+Kinkburst also works great on phones and tablets: taps cycle the status, a long press opens the details overlay (where you can also set any status directly via the swatches — the touch equivalent of Shift-clicking), vertical swipes scroll the page (the wheel itself only rotates with a mouse drag) and zooming uses the browser's native pinch zoom. Light and dark mode follow your OS preference automatically.
 
 ## Quick Start
 
