@@ -143,6 +143,11 @@
     "confirm": "Ja, zurücksetzen",
     "cancel": "Nein, abbrechen"
   },
+  "hard_limit_confirm": {
+    "content": "{{name}} als Hard Limit zu setzen setzt alle darunterliegenden Einträge auf Unbesprochen zurück. OK?",
+    "confirm": "Ja, Hard Limit",
+    "cancel": "Nein, abbrechen"
+  },
   "import": {
     "error": "Die Datei konnte nicht als Kinkburst-Markdown-Export gelesen werden."
   },

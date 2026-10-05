@@ -143,6 +143,11 @@
     "confirm": "Sí, reiniciar",
     "cancel": "No, cancelar"
   },
+  "hard_limit_confirm": {
+    "content": "Marcar {{name}} como Hard Limit restablecerá todos sus elementos a No definido. ¿OK?",
+    "confirm": "Sí, hard limit",
+    "cancel": "No, cancelar"
+  },
   "import": {
     "error": "No se pudo leer ese archivo como exportación markdown de Kinkburst."
   },

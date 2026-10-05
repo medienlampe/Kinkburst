@@ -52,6 +52,19 @@ describe("Smorgasbord taps", () => {
     tap(firstSlicePath(), 102, 101);
     expect(onClick).toHaveBeenCalledTimes(2);
   });
+
+  it("passes shiftKey through so Shift-clicks cycle upwards", async () => {
+    const onClick = vi.fn();
+    await renderBoard(onClick);
+
+    tap(firstSlicePath(), 100, 100);
+    expect(onClick).toHaveBeenLastCalledWith(expect.any(String), false);
+
+    const group = firstSlicePath().closest("g")!;
+    fireEvent.pointerDown(group, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.pointerUp(group, { button: 0, clientX: 100, clientY: 100, shiftKey: true });
+    expect(onClick).toHaveBeenLastCalledWith(expect.any(String), true);
+  });
 });
 
 describe("Smorgasbord edge cases", () => {

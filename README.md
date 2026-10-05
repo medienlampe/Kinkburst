@@ -29,7 +29,8 @@ It is a single-page app with no backend: your board lives entirely in your brows
 
 ## How it works
 
-- **Click a field** to cycle its status from 0 to 4 — the field and all of its parents update their color, so statuses are inherited top-down and bottom-up, just like in the original smorgasbord.
+- **Click a field** to cycle its status from 0 to 4 — the field and all of its parents update their color, so statuses are inherited top-down and bottom-up, just like in the original smorgasbord. Hold **Shift** while clicking to cycle the other way (upwards instead of downwards).
+- **Setting a field to Hard Limit** asks for confirmation first (only if any of its children are already colored): it resets all of the field's children back to Not Defined, so only the clicked field turns red instead of the whole subtree.
 - **Right-click a field** (long press on touch devices) to add details or context for it. Fields with context get an asterisk (`*`) appended to their title in the scale.
 - The default dataset ships with a broad set of practices — and you can **add, remove or rename** items at any depth right in the UI.
 - **People**: add the people the board is for; they appear in the title, e.g. *Kinkburst (for Person A, Person B and Person C)*. One person by default, more can be added as needed.
@@ -54,10 +55,10 @@ Each practice ranges from 0 to 4:
 | Value | Status      | Color                     | Meaning                                                                                                   |
 | ----- | ----------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
 | 0     | Not Defined | near-black.               | Default state — no consent has been created about this yet.                                               |
-| 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                                       |
+| 1     | Hard Limit  | muted brick red (#a64a3f) | Must not be part of the planned session or dynamic.                                                       |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.                             |
-| 3     | Can         | pale solarized green      | Okay for the people attending, but not their favourite.                                                   |
-| 4     | Desired     | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
+| 3     | Can         | vibrant turquoise (#00bfa5) | Okay for the people attending, but not their favourite.                                                   |
+| 4     | Desired     | vibrant lime green (#a3d147) | Gives pleasure and is very welcome to be part of a scene or dynamic.                                       |
 
 ## Export & Import
 

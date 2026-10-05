@@ -9,7 +9,9 @@ import { useAtomValue } from "jotai";
 import { padding, diameter, radius, STATUSES } from "../../constants";
 
 interface SmorgasbordProps {
-  onElementClick: (uuid: string) => void;
+  // `cycleUp` is true when the user holds Shift while clicking: the status
+  // then cycles upwards (0 → 1 → … → 4) instead of downwards.
+  onElementClick: (uuid: string, cycleUp?: boolean) => void;
   onElementRightClick: (uuid: string) => void;
 }
 
@@ -179,7 +181,7 @@ const Smorgasbord = ({ onElementClick, onElementRightClick } : SmorgasbordProps)
     if (d && d.depth && e.button === 0
       && dragStart.x !== null && dragStart.y !== null
       && Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y) <= DRAG_THRESHOLD_PX) {
-      onElementClick(d.data.uuid);
+      onElementClick(d.data.uuid, e.shiftKey);
     }
 
     setDragSubject(null);

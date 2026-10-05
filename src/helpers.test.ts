@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyClick, boardTitle, findAllDescendants, parseStoredPersons, parseStoredPractices } from "./helpers";
+import { applyClick, boardTitle, findAllDescendants, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
 import type { StatusValue } from "./constants";
 import type { Person, Practice } from "./interfaces";
 
@@ -36,6 +36,47 @@ describe("findAllDescendants", () => {
     expect(findAllDescendants(tree(), "b")).toEqual(["c", "d"]);
     expect(findAllDescendants(tree(), "a")).toEqual(["b", "e", "c", "d"]);
     expect(findAllDescendants(tree(), "c")).toEqual([]);
+  });
+});
+
+describe("hasDefinedDescendants", () => {
+  it("is false for leaves and when all descendants are Not Defined", () => {
+    expect(hasDefinedDescendants(tree(), "c")).toBe(false); // leaf
+
+    const allZero = withValues({ b: 0, c: 0, d: 0, e: 0 });
+    expect(hasDefinedDescendants(allZero, "b")).toBe(false);
+    expect(hasDefinedDescendants(allZero, "a")).toBe(false);
+  });
+
+  it("is true when any descendant has a defined status", () => {
+    const practices = withValues({ c: 2, d: 0 });
+
+    expect(hasDefinedDescendants(practices, "b")).toBe(true);
+    expect(hasDefinedDescendants(practices, "a")).toBe(true); // transitively
+    expect(hasDefinedDescendants(practices, "c")).toBe(false);
+  });
+});
+
+describe("nextStatus", () => {
+  it("cycles downwards by default, wrapping from Not Defined to Desired", () => {
+    expect(nextStatus(0, false)).toBe(4);
+    expect(nextStatus(1, false)).toBe(0);
+    expect(nextStatus(2, false)).toBe(1);
+    expect(nextStatus(3, false)).toBe(2);
+    expect(nextStatus(4, false)).toBe(3);
+  });
+
+  it("cycles upwards when Shift is held, wrapping from Desired to Not Defined", () => {
+    expect(nextStatus(0, true)).toBe(1);
+    expect(nextStatus(1, true)).toBe(2);
+    expect(nextStatus(2, true)).toBe(3);
+    expect(nextStatus(3, true)).toBe(4);
+    expect(nextStatus(4, true)).toBe(0);
+  });
+
+  it("treats a missing value as Not Defined", () => {
+    expect(nextStatus(undefined, false)).toBe(4);
+    expect(nextStatus(undefined, true)).toBe(1);
   });
 });
 
@@ -80,14 +121,42 @@ describe("applyClick", () => {
     }
   });
 
-  it("propagates Hard Limit to all descendants and raises Not Defined ancestors", () => {
-    let practices = withValues({ b: 2 }); // b=2, c=4, d=4, a=0
+  it("cycles upwards through all statuses when Shift is held", () => {
+    let practices = withValues({ c: 0 });
+
+    const expected = [1, 2, 3, 4, 0];
+    for (const status of expected) {
+      practices = applyClick(practices, "c", true);
+      expect(valueOf(practices, "c")).toBe(status);
+    }
+  });
+
+  it("resets colored descendants when a field becomes Hard Limit via Shift as well", () => {
+    const practices = withValues({ c: 4, d: 2 }); // b=0 (Not Defined), children colored
+
+    const updated = applyClick(practices, "b", true); // b: 0 -> 1 (Hard Limit)
+    expect(valueOf(updated, "b")).toBe(1);
+    expect(valueOf(updated, "c")).toBe(0);
+    expect(valueOf(updated, "d")).toBe(0);
+  });
+
+  it("resets all descendants when a field becomes Hard Limit and raises Not Defined ancestors", () => {
+    let practices = withValues({ b: 2, c: 4, d: 4 }); // b=2, c/d Desired, a=0
     practices = applyClick(practices, "b"); // b: 2 -> 1 (Hard Limit)
 
     expect(valueOf(practices, "b")).toBe(1);
-    expect(valueOf(practices, "c")).toBe(1); // was positive (4) -> Hard Limit
-    expect(valueOf(practices, "d")).toBe(1); // was positive (5) -> Hard Limit
+    expect(valueOf(practices, "c")).toBe(0); // reset to Not Defined — only the clicked field is red
+    expect(valueOf(practices, "d")).toBe(0); // reset to Not Defined
     expect(valueOf(practices, "a")).toBe(1); // a hard-limit field may not sit under Not Defined
+  });
+
+  it("resets descendants that were themselves Hard Limit", () => {
+    const practices = withValues({ b: 2, c: 1, d: 0 }); // a child already marked Hard Limit
+
+    const updated = applyClick(practices, "b"); // b: 2 -> 1 (Hard Limit)
+    expect(valueOf(updated, "b")).toBe(1);
+    expect(valueOf(updated, "c")).toBe(0); // back to Not Defined
+    expect(valueOf(updated, "d")).toBe(0); // unchanged
   });
 
   it("propagates Soft Limit to descendants that are currently positive and raises lower ancestors", () => {

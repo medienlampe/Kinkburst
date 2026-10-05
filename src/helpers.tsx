@@ -13,6 +13,22 @@ export const findAllDescendants = (practices: Practice[], practiceUuid: string):
   return children.concat(descendants);
 }
 
+// True if any descendant of the given practice carries a defined status
+// (value > 0). Used to decide whether setting the field to Hard Limit would
+// actually reset anything — an all-Not-Defined subtree needs no warning.
+export const hasDefinedDescendants = (practices: Practice[], practiceUuid: string): boolean => {
+  const descendantUuids = new Set(findAllDescendants(practices, practiceUuid));
+  return practices.some(practice => descendantUuids.has(practice.uuid) && (practice.value ?? 0) > 0);
+}
+
+// The status a click produces from the current value: downwards by default
+// (0 → 4 → … → 1 → 0), upwards when `cycleUp` is set (Shift held, 0 → 1 → …).
+// Shared by applyClick and the UI so both can never disagree.
+export const nextStatus = (value: number | undefined, cycleUp: boolean): StatusValue => {
+  const delta = cycleUp ? 1 : -1;
+  return (((value ?? 0) + delta + STATUS_COUNT) % STATUS_COUNT) as StatusValue;
+}
+
 // The board title, e.g. "Kinkburst (for Person A, Person B and Person C)".
 // With fewer than two named persons the parenthetical is omitted (see
 // docs/markdown-format.md, rule 1). The preposition and conjunction are
@@ -36,10 +52,13 @@ export const boardTitle = (persons: Person[], lng?: string): string => {
 // Applies a click on the field with the given uuid to the flat practice list
 // and returns the updated list. The clicked field cycles through all statuses
 // downwards (0 → 4 → … → 1 → 0, i.e. from Not Defined straight to Desired and
-// back down through the scale) and the new status propagates so that no field
-// is ever higher than one of its parents:
+// back down through the scale); with `cycleUp` (Shift held) it cycles upwards
+// instead (0 → 1 → … → 4 → 0). The new status propagates so that no field is
+// ever higher than one of its parents:
 // - Not Defined (0, the wrap-around case) resets all descendants to Not Defined,
-// - Hard Limit (1) sets all descendants to Hard Limit,
+// - Hard Limit (1) resets all descendants to Not Defined — only the clicked
+//   field itself turns red, so a hard limit does not visually dominate the
+//   whole subtree (the caller asks for confirmation first, see App),
 // - Soft Limit (2) / Can / Desired (3/4) lower any descendant that
 //   exceeds the new value (e.g. a positive child of a newly soft-limited
 //   category),
@@ -122,7 +141,7 @@ export const parseStoredPersons = (raw: string | null): Person[] | undefined => 
   return people as Person[];
 };
 
-export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
+export const applyClick = (practices: Practice[], uuid: string, cycleUp = false): Practice[] => {
   if (!practices || practices.length === 0) {
     return practices;
   }
@@ -138,7 +157,7 @@ export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
     return practices;
   }
 
-  const newValue = (((target.data.value ?? 0) - 1 + STATUS_COUNT) % STATUS_COUNT) as StatusValue;
+  const newValue = nextStatus(target.data.value, cycleUp);
   const descendantUuids = new Set(target.descendants().map(node => node.data.uuid));
   const ancestorUuids = new Set(
     target.ancestors()
@@ -156,9 +175,10 @@ export const applyClick = (practices: Practice[], uuid: string): Practice[] => {
       if (newValue === 0) {
         return { ...practice, value: newValue };
       }
-      // Hard limit? Everything below it is a hard limit as well.
+      // Hard limit? Only the clicked field is red — everything below it goes
+      // back to Not Defined so the user can mark individual children again.
       if (newValue === 1) {
-        return { ...practice, value: newValue };
+        return { ...practice, value: 0 };
       }
       // A field may never exceed its parents — clamp the child.
       if ((practice.value ?? 0) > newValue) {

@@ -15,14 +15,16 @@ export interface StatusDefinition {
   color: string,
 }
 
-// Colors are the Solarized palette (base colors plus pale/light variants of
-// solarized green for the welcome levels).
+// Colors are the Solarized palette, tuned for harmony and contrast: a muted
+// brick red for Hard Limit (prominent without shouting), a vibrant turquoise
+// for Okay and a vibrant lime green for Desired so the two welcome levels
+// read clearly apart from each other and from the yellow.
 export const STATUSES: Record<StatusValue, StatusDefinition> = {
   0: { value: 0, label: "Not Defined", color: "#111" }, // near-black
-  1: { value: 1, label: "Hard Limit", color: "#dc322f" }, // solarized red
+  1: { value: 1, label: "Hard Limit", color: "#a64a3f" }, // muted brick red
   2: { value: 2, label: "Soft Limit", color: "#b58900" }, // solarized yellow
-  3: { value: 3, label: "Okay", color: "#c5d47e" }, // pale solarized green
-  4: { value: 4, label: "Desired", color: "#a6be40" }, // light solarized green
+  3: { value: 3, label: "Okay", color: "#00bfa5" }, // vibrant turquoise
+  4: { value: 4, label: "Desired", color: "#a3d147" }, // vibrant lime green
 };
 
 export const STATUS_BY_LABEL: Record<string, StatusValue> = Object.fromEntries(

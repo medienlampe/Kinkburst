@@ -17,9 +17,13 @@ levels, unordered lists below that).
 
 The full product requirements live in [docs/Outline.md](docs/Outline.md). Key behaviors:
 
-- **Click** a field to cycle its status (0 → 4); the field and all of its ancestors update their
-  color — same inheritance model as the original smorgasbord, statuses propagate bottom-up and
-  top-down (`applyClick` in `src/helpers.tsx`).
+- **Click** a field to cycle its status (0 → 4); holding **Shift** cycles it upwards instead
+  (0 → 1 → … → 4). The field and all of its ancestors update their color — same inheritance model
+  as the original smorgasbord, statuses propagate bottom-up and top-down (`applyClick` in
+  `src/helpers.tsx`). Setting a field to Hard Limit asks for confirmation first
+  (`HardLimitConfirmationModal`, only when it has at least one colored descendant via
+  `hasDefinedDescendants`) and resets all descendants to Not Defined — only the clicked field turns
+  red, so hard limits don't visually dominate the whole subtree.
 - **Right-click** any field (long press on touch devices) opens an overlay to add details/context.
   Fields with context get an asterisk (`*`) appended to their title in the scale.
 - Practices are pre-defined fixtures but fully editable in the UI: add, remove, rename.
@@ -39,10 +43,10 @@ Each practice ranges from 0 to 4 (five statuses; defined in `docs/Outline.md`). 
 | Value | Label       | Color                     | Meaning                                                                              |
 | ----- | ----------- | ------------------------- | ------------------------------------------------------------------------------------ |
 | 0     | Not Defined | near-black (#111)         | Default state — no consent has been created about this yet.                          |
-| 1     | Hard Limit  | solarized red             | Must not be part of the planned session or dynamic.                                  |
+| 1     | Hard Limit  | muted brick red (#a64a3f) | Must not be part of the planned session or dynamic.                                  |
 | 2     | Soft Limit  | solarized yellow          | Can be done, but generally to be avoided; may apply in a "service" dimension.        |
-| 3     | Okay        | pale solarized green      | Okay for the people attending, but not their favourite.                              |
-| 4     | Desired     | light solarized green     | Gives pleasure and is very welcome to be part of a scene or dynamic.                 |
+| 3     | Okay        | vibrant turquoise (#00bfa5) | Okay for the people attending, but not their favourite.                              |
+| 4     | Desired     | vibrant lime green (#a3d147) | Gives pleasure and is very welcome to be part of a scene or dynamic.                 |
 
 ## Markdown exchange format
 

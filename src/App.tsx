@@ -16,13 +16,14 @@ import ResetButton from "./components/ResetButton/ResetButton";
 import EditButton from "./components/EditButton/EditButton";
 import EditModal from "./components/EditModal/EditModal";
 import ResetConfirmationModal from "./components/ResetConfirmationModal/ResetConfirmationModal";
+import HardLimitConfirmationModal from "./components/HardLimitConfirmationModal/HardLimitConfirmationModal";
 import PracticeDetailModal from "./components/PracticeDetailModal/PracticeDetailModal";
 import PersonsBar from "./components/PersonsBar/PersonsBar";
 import Legend from "./components/Legend/Legend";
 import { practicesAtom } from "./states/practices.atom";
 import { personsAtom, createDefaultPersons } from "./states/persons.atom";
 import type { Person, Practice } from "./interfaces";
-import { applyClick, parseStoredPersons, parseStoredPractices } from "./helpers";
+import { applyClick, hasDefinedDescendants, nextStatus, parseStoredPersons, parseStoredPractices } from "./helpers";
 import { BOARD_NAME } from "./constants";
 
 const App = () : JSX.Element => {
@@ -32,6 +33,7 @@ const App = () : JSX.Element => {
   const [persons, setPersons] = useAtom(personsAtom);
 
   const [resetConfirmationModalActive, setResetConfirmationModalActive] = useState<boolean>(false);
+  const [hardLimitTargetUuid, setHardLimitTargetUuid] = useState<string | null>(null);
   const [editModalActive, setEditModalActive] = useState<boolean>(false);
   const [detailTargetUuid, setDetailTargetUuid] = useState<string | null>(null);
   const [detailDraft, setDetailDraft] = useState<string>("");
@@ -101,9 +103,26 @@ const App = () : JSX.Element => {
     setEditModalActive(!editModalActive);
   }
 
-  const handleElementClick = (uuid: string) : void => {
-    setPractices(applyClick(practices, uuid));
+  const handleElementClick = (uuid: string, cycleUp = false) : void => {
+    const target = practices.find(practice => practice.uuid === uuid);
+    if (!target || target.parentUuid === "") {
+      return;
+    }
+
+    // Setting a field to Hard Limit resets all of its children — ask first,
+    // but only if that would actually change something (any colored child).
+    if (nextStatus(target.value, cycleUp) === 1 && hasDefinedDescendants(practices, uuid)) {
+      setHardLimitTargetUuid(uuid);
+      return;
+    }
+
+    setPractices(applyClick(practices, uuid, cycleUp));
   }
+
+  const hardLimitTarget = practices.find(practice => practice.uuid === hardLimitTargetUuid) ?? null;
+  const hardLimitTargetName = hardLimitTarget
+    ? (hardLimitTarget.key ? t("practices." + hardLimitTarget.key) : (hardLimitTarget.name ?? ""))
+    : "";
 
   const handleElementRightClick = (uuid: string) : void => {
     const target = practices.find(practice => practice.uuid === uuid);
@@ -197,6 +216,17 @@ const App = () : JSX.Element => {
         onReset={() : void => { resetBoard(); setResetConfirmationModalActive(false); }}
         onCancel={() : void => { setResetConfirmationModalActive(false); }}
       ></ResetConfirmationModal>
+      <HardLimitConfirmationModal
+        isActive={hardLimitTarget !== null}
+        practiceName={hardLimitTargetName}
+        onConfirm={() : void => {
+          if (hardLimitTargetUuid) {
+            setPractices(applyClick(practices, hardLimitTargetUuid));
+          }
+          setHardLimitTargetUuid(null);
+        }}
+        onCancel={() : void => { setHardLimitTargetUuid(null); }}
+      ></HardLimitConfirmationModal>
       <EditModal
         isActive={editModalActive}
         onClose={toggleEditMode}></EditModal>

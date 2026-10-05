@@ -143,6 +143,11 @@
     "confirm": "Yes, reset",
     "cancel": "No, cancel"
   },
+  "hard_limit_confirm": {
+    "content": "Setting {{name}} to Hard Limit will reset all of its children to Not Defined. OK?",
+    "confirm": "Yes, hard limit",
+    "cancel": "No, cancel"
+  },
   "import": {
     "error": "Could not read that file as a Kinkburst markdown export."
   },
